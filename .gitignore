@@ -1,0 +1,5 @@
+composer.lock
+OpenShare.komodoproject
+cache/*
+config/config.php
+vendor/*
