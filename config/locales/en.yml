@@ -1,0 +1,56 @@
+# Nav
+Home: Home
+Upload file: Upload file
+Download file: Download file
+
+# Homepage
+homepage_description: OpenShareFileFile is an application to allow you share file
+
+# Upload
+Add a file: Add a file
+Protect by password: Protect the download of the files by a password
+Password: Password
+Crypt files in the server (the files will be crypt with your password): Crypt files in the server (the files will be crypt with your password)
+Send the download link by email: Send the download link by email
+Email: Email
+Subject: Subject
+default_subject: Some files wait you in OpenShareFile
+Message (the download link will be add at the end of the message): Message (the download link will be add at the end of the message)
+default_message: |
+    Hi,
+    
+    I send you some files.
+    You can download it in :
+Upload in progress: Upload in progress
+Drop your files here: Drop your files here
+Or select a file: Or select a file
+Send file: Send file
+Send files: Send files
+Options: Options
+List of files to send: List of files to send
+
+# Upload JS
+Error while adding files: Error while adding files
+You can add only %max_file% files: You can add only %max_file% files
+
+# Upload success
+Informations: Informations
+upload_success_description: ""
+"{1} The file is uploaded. You can download it in :|]1,Inf] The files are uploaded. You can download it in :": "{1} The file is uploaded. You can download it in :|]1,Inf] The files are uploaded. You can download it in :"
+Return to homepage: Return to homepage
+
+# Sizes
+size_byte: B
+size_kbyte: KB
+size_mbyte: MB
+size_gbyte: GB
+size_tbyte: TB
+
+# Download
+Download: Download
+
+# Modal
+Close: Close
+
+# Error
+An error occured: An error occured

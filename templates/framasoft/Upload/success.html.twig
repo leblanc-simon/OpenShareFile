@@ -1,0 +1,47 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}OpenShareFileFile - {{ "Upload file"|trans }}{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .upload-success:after {
+            content: "{{ "Informations"|trans|e('css') }}";
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="block-detail upload-success">
+        <p>
+            {% transchoice files|length %}
+            {1} The file is uploaded. You can download it in :|]1,Inf] The files are uploaded. You can download it in :
+            {% endtranschoice %}
+        </p>
+        <p>
+            {{ "upload_success_description"|trans }}
+        </p>
+        <div class="download-link">
+            <input type="text" value="{{ url('download_confirm', { slug: upload.getSlug }) }}" />
+        </div>
+        
+        <a href="{{ url('homepage') }}" class="btn btn-primary pull-right return">{{ "Return to homepage"|trans }}</a>
+        
+        <div class="clear"></div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.download-link input').focus(function(){
+                $(this).select();
+            });
+            
+            $('.download-link input').mouseup(function(){
+                return false;
+            });
+            
+            $('.download-link input').focus();
+        });
+    </script>
+{% endblock %}

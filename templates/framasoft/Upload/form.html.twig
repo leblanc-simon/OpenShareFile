@@ -1,0 +1,121 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}OpenShareFileFile - {{ "Upload file"|trans }}{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ css('mime-sprite.min.css') }}" rel="stylesheet">
+    <style>
+        .list-files:after {
+            content: "{{ "List of files to send"|trans|e('css') }}";
+        }
+        .options:after {
+            content: "{{ "Options"|trans|e('css') }}";
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<form id="upload-form" class="form-inline" action="{{ url('upload_submit') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_errors(form) }}
+    
+    <div class="get-file">
+        <div class="drop well">{{ "Drop your files here"|trans }}</div>
+        <div class="or">{{ "Or select a file"|trans }}</div>
+        <div class="file">
+            {{ form_errors(form.file) }}
+            {{ form_widget(form.file)|replace({"form[file]": "form[file][]"})|raw }}
+        </div>
+    </div>
+    
+    <div class="row details">
+        <div class="span8 block-detail list-files"></div>
+        <div class="span3 btn-upload">
+            <button type="submit" class="btn btn-primary">{{ "Send files"|trans }}</button>
+        </div>
+    </div>
+    
+    <div class="block-detail options">
+        <div class="row">
+            <div class="span5 send-by-mail control-group">
+                {{ form_errors(form.send_by_mail) }}
+                {{ form_widget(form.send_by_mail) }}
+                {{ form_label(form.send_by_mail) }}
+            </div>
+        </div>
+        <div class="row emails">
+            <div class="span6">
+                {% for indice in '0'..get_config('max_email') - 1 %}
+                    {% set name = 'email_' ~ indice %}
+                <div class="control-group">
+                    {{ form_errors(attribute(form, name)) }}
+                    {{ form_label(attribute(form, name)) }}
+                    {{ form_widget(attribute(form, name)) }}
+                </div>
+                {% endfor %}
+            </div>
+            <div class="span5">
+                <div class="control-group">
+                    {{ form_errors(form.email_subject) }}
+                    {{ form_label(form.email_subject) }}
+                    {{ form_widget(form.email_subject) }}
+                </div>
+                <div class="control-group">
+                    {{ form_errors(form.email_message) }}
+                    {{ form_label(form.email_message) }}
+                    {{ form_widget(form.email_message) }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span12 protect control-group">
+                {{ form_errors(form.protect) }}
+                {{ form_widget(form.protect) }}
+                {{ form_label(form.protect) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6 password control-group">
+                {{ form_errors(form.password) }}
+                {{ form_label(form.password) }}
+                {{ form_widget(form.password) }}
+            </div>
+        </div>
+        {% if get_config('allow_crypt') %}
+        <div class="row">
+            <div class="span12 control-group">
+                {{ form_errors(form.crypt) }}
+                {{ form_widget(form.crypt) }}
+                {{ form_label(form.crypt) }}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    {{ form_rest(form) }}
+</form>
+
+{% include "_includes/modal.info.html.twig" %}
+{% include "_includes/upload.html.twig" %}
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        var url_upload = '{{ url('upload_submit')|escape('js') }}';
+        var data_to_upload = null;
+        var max_file = {{ get_config('max_file')|escape('js') }};
+        
+        var js_max_file_error_title = '{{ "Error while adding files"|trans|escape('js') }}';
+        var js_max_file_error_message = '{{ "You can add only %max_file% files"|trans({ "%max_file%": get_config('max_file') })|escape('js') }}';
+        var js_human_sizes = [
+            '{{ "size_byte"|trans|escape('js') }}',
+            '{{ "size_kbyte"|trans|escape('js') }}',
+            '{{ "size_mbyte"|trans|escape('js') }}',
+            '{{ "size_gbyte"|trans|escape('js') }}',
+            '{{ "size_tbyte"|trans|escape('js') }}'
+        ];
+    </script>
+    <script src="{{ js('jquery.file.upload/vendor/jquery.ui.widget.js') }}"></script>
+    <script src="{{ js('jquery.file.upload/jquery.iframe-transport.js') }}"></script>
+    <script src="{{ js('jquery.file.upload/jquery.fileupload.js') }}"></script>
+    <script src="{{ js('main.upload.js') }}"></script>
+{% endblock %}

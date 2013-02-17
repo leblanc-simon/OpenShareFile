@@ -1,0 +1,38 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}OpenShareFileFile - {{ "Download" }}{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .download:after {
+            content: "{{ "Download"|trans|e('css') }}";
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="block-detail download">
+        
+        <div class="">
+            <form action="{{ url('download_submit') }}" method="post">
+                {% for file in files %}
+                <div class="file">
+                    <button type="submit" class="btn" name="form[file_{{ file.slug }}]" value="1">
+                        {{ file.filename }}
+                    </button>
+                </div>
+                {% endfor %}
+                {{ form_widget(form.slug) }}
+                {{ form_widget(form._token) }}
+                
+                {% if upload.passwd != '' %}
+                <div class="passwd">
+                    {{ form_errors(form.password) }}
+                    {{ form_label(form.password) }}
+                    {{ form_widget(form.password) }}
+                </div>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+{% endblock %}

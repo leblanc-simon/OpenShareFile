@@ -1,0 +1,56 @@
+# Nav
+Home: Accueil
+Upload file: Envoyer un fichier
+Download file: Télécharger un fichier
+
+# Homepage
+homepage_description: OpenShareFileFile est une application qui vous permet de partager des fichiers
+
+# Upload
+Add a file: Ajouter un fichier
+Protect by password: Protéger le téléchargement des fichiers par un mot de passe
+Password: Mot de passe
+Crypt files in the server (the files will be crypt with your password): Chiffrer les fichiers sur le serveur (les fichiers seront chiffrés avec votre mot de passe)
+Send the download link by email: Envoyer le lien de téléchargement par e-mail
+Email: Adresse e-mail
+Subject: Objet
+default_subject: Des fichiers vous attendent sur OpenShareFile
+Message (the download link will be add at the end of the message): Message (le lien de téléchargement sera ajouté à la fin du message)
+default_message: |
+    Salut,
+    
+    Je t'ai envoyé des fichiers
+    Tu peux les télcharger ici :
+Upload in progress: Téléchargement en cours
+Drop your files here: Glisser et déposer vos fichiers ici
+Or select a file: Ou sélectionnez un fichier
+Send file: Envoyer le fichier
+Send files: Envoyer les fichiers
+Options: Options
+List of files to send: Liste des fichiers à envoyer
+
+# Upload JS
+Error while adding files: Erreur lors de l'ajout des fichiers
+You can add only %max_file% files: Vous ne pouvez ajouter que %max_file% fichiers
+
+# Upload success
+Informations: Informations
+upload_success_description: ""
+"{1} The file is uploaded. You can download it in :|]1,Inf] The files are uploaded. You can download it in :": "{1} Le fichier a été envoyé. Vous pouvez le télécharger ici :|]1,Inf] Les fichiers ont été envoyés. Vous pouvez les télécharger ici :"
+Return to homepage: Retour à la page d'acceuil
+
+# Sizes
+size_byte: octets
+size_kbyte: Ko
+size_mbyte: Mo
+size_gbyte: Go
+size_tbyte: To
+
+# Download
+Download: Téléchargement
+
+# Modal
+Close: Fermer
+
+# Error
+An error occured: Une erreur est survenue

@@ -1,0 +1,14 @@
+- Envoi des mails
+- Amélioration de l'interface de téléchargement
+- Amélioration de la gestion des erreurs (HTTP Status code)
+- Renommer theme framasoft en default
+- Page About
+- Page d'accueil à revoir
+- Reprise du download (<http://programmation-web.net/2012/04/reprendre-le-telechargement-dun-fichier-en-php/>)
+- Chiffrement des données
+- Gestion du cache via le fichier de configuration
+- Test avec une base de données SQLite
+- Reprise de l'upload (chunked)
+- Gestion des utilisateurs ???
+- Procédure d'installation ???
+- Mise en place de l'API ???

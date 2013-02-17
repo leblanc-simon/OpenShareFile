@@ -1,0 +1,114 @@
+body {
+    padding: 40px 0;
+}
+
+footer {
+    font-size: 0.8em;
+    text-align: center;
+    margin-top: 2em;
+}
+
+.clear {
+    clear: both;
+}
+
+#upload-form {
+    margin-top: 1em;
+    text-align: center;
+}
+
+.options {
+    margin-bottom: 2em;
+}
+
+.details {
+}
+
+.upload-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #000;
+    z-index: 1040;
+    opacity: 0.8;
+    display: none;
+}
+
+.bar {
+    text-align: center;
+}
+
+.get-file {
+    text-align: center;
+}
+
+.drop {
+    width: 880px;
+    height: 3em;
+    border: 0.4em dashed #e1e1e8;
+    text-align: center;
+    line-height: 3em;
+    font-size: 2em;
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+         -o-box-shadow: none;
+            box-shadow: none;
+}
+
+.block-detail {
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 4px 4px 4px;
+    padding: 39px 19px 14px;
+    position: relative;
+    text-align: left;
+    margin-top: 2em;
+}
+
+.block-detail:after {
+    background-color: #F5F5F5;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 0 4px 0;
+    color: #9DA0A4;
+    font-size: 12px;
+    font-weight: bold;
+    left: -1px;
+    padding: 3px 7px;
+    position: absolute;
+    top: -1px;
+}
+
+.btn-upload {
+    margin-top: 2em;
+}
+
+.emails label {
+    display: block;
+}
+
+.emails input, .emails textarea {
+    width:350px;
+}
+
+.emails textarea {
+    height: 200px;
+}
+
+.file-empty {
+    margin-right: 1em;
+}
+
+.delete-file {
+    margin-left: 1em;
+    cursor: pointer;
+}
+
+.download-link input {
+    width: 80%;
+}
+
+.return {
+    margin-top: 20px;
+}
