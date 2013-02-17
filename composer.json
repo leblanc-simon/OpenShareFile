@@ -1,8 +1,22 @@
 {
+    "name": "opensharefile/opensharefile",
+    "description": "Share file via a website (like demo.ovh.net or dl.free.fr)",
+    "version": "1.0.0-dev",
+    "homepage": "http://opensharefile.leblanc-simon.fr/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Simon Leblanc",
+            "email": "contact@leblanc-simon.eu",
+            "homepage": "http://www.leblanc-simon.fr",
+            "role": "Developer"
+        }
+    ],
+    
     "require": {
         "silex/silex": "1.0.*",
         
-        "twig/twig": ">=1.8,<2.0-dev",
+        "twig/twig": ">=1.9,<2.0-dev",
         
         "symfony/form": "2.1.*",
         "symfony/validator": "2.1.*",
@@ -15,5 +29,6 @@
         
         "swiftmailer/swiftmailer": ">=4.1.2,<4.2-dev"
     },
+    
     "minimum-stability": "dev"
 }
