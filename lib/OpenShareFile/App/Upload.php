@@ -11,6 +11,14 @@ use OpenShareFile\Utils\Passwd;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+/**
+ * Upload controler
+ *
+ * @package     OpenShareFile\App
+ * @version     1.0.0
+ * @license     http://opensource.org/licenses/MIT  MIT
+ * @author      Simon Leblanc <contact@leblanc-simon.eu>
+ */
 class Upload extends App
 {
     /**
@@ -117,6 +125,7 @@ class Upload extends App
      * Success uploaded file action
      *
      * @return  Response
+     * @throws  OpenShareFile\Core\Exception\Error404   If the upload slug in session is invalid (not exists in database)
      * @access  public
      */
     public function successAction()
@@ -137,6 +146,8 @@ class Upload extends App
      * @param   array           $data           the form datas
      * @param   string          $upload_slug    the slug of the Upload object related with File object (null for create a new Upload object)
      * @return  string                          the slug of the Upload object related with File object
+     * @throws  OpenShareFile\Core\Exception\Exception  Error while writing into database
+     * @throws  OpenShareFile\Core\Exception\Exception  Error while get Upload object
      * @access  private
      */
     private function processFile(UploadedFile $upload_file, array $data, $upload_slug = null)
@@ -167,7 +178,7 @@ class Upload extends App
             } else {
                 $upload = new DBUpload($upload_slug);
                 if ($upload->getId() === 0) {
-                    throw new \Exception($this->app['translator']->trans('An error occured'));
+                    throw new Exception\Exception($this->app['translator']->trans('An error occured'));
                 }
             }
             

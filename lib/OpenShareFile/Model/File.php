@@ -2,6 +2,16 @@
 
 namespace OpenShareFile\Model;
 
+
+/**
+ * File model class
+ *
+ * @package     OpenShareFile\Model
+ * @abstract
+ * @version     1.0.0
+ * @license     http://opensource.org/licenses/MIT  MIT
+ * @author      Simon Leblanc <contact@leblanc-simon.eu>
+ */
 class File extends Db
 {
     private $id = 0;
@@ -21,6 +31,12 @@ class File extends Db
     }
     
     
+    /**
+     * Populate the object in loading a record identify by slug
+     *
+     * @param   string  $slug   the search slug
+     * @access  public
+     */
     public function get($slug)
     {
         $sql = 'SELECT * FROM file WHERE slug = :slug AND is_deleted = :is_deleted';
@@ -40,6 +56,13 @@ class File extends Db
     }
     
     
+    /**
+     * Populate the object the an array
+     *
+     * @param   array   $row    the array to use for populate object
+     * @return  $this   for chained method
+     * @access  public
+     */
     public function populate($row)
     {
         $this->setId($row['id']);
@@ -55,6 +78,12 @@ class File extends Db
     }
     
     
+    /**
+     * Save the object in the database
+     * 
+     * @return  $this   for chained method
+     * @access  public
+     */
     public function save()
     {
         $sql  = 'INSERT INTO file (upload_id, slug, file, filename, filesize, created_at, is_deleted) VALUES ';
@@ -76,6 +105,12 @@ class File extends Db
     }
     
     
+    /**
+     * Generate a uniq slug
+     *
+     * @return  string  the slug generated
+     * @access  public
+     */
     public function generateSlug()
     {
         $this->setSlug(sha1(uniqid($this->getFilename(), true).rand(0, 9999999).$this->getFilename()));
@@ -84,8 +119,16 @@ class File extends Db
     }
     
     
+    /**
+     * Generate the path of the file
+     * 
+     * @return  string  the path of the file generated
+     * @access  public
+     */
     public function generateFile()
     {
+        // some filesystem doesn't support a directory with many file
+        // store file in three subfolder level
         $path  = DIRECTORY_SEPARATOR.substr($this->slug, 0, 1).DIRECTORY_SEPARATOR.substr($this->slug, 1, 1).DIRECTORY_SEPARATOR.substr($this->slug, 2, 1);
         $path .= DIRECTORY_SEPARATOR.substr($this->slug, 3);
         

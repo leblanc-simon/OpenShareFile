@@ -5,13 +5,38 @@ namespace OpenShareFile\Extension\Swift;
 use OpenShareFile\Core\Config;
 use OpenShareFile\Core\Exception;
 
+
+/**
+ * Send mail class
+ *
+ * @package     OpenShareFile\Extension\Swift
+ * @version     1.0.0
+ * @license     http://opensource.org/licenses/MIT  MIT
+ * @author      Simon Leblanc <contact@leblanc-simon.eu>
+ */
 class Send
 {
+    /**
+     * Silex Application object
+     *
+     * @access  private
+     */
     private $app = null;
-    private $message = null;
     
     /**
+     * The \Swift_Message object
      *
+     * @access  private
+     */
+    private $message = null;
+    
+    
+    /**
+     * Constructor of the class
+     *
+     * @param   \Silex\Application  $app    The Silex application object
+     * @throws  OpenShareFile\Core\Exception\Exception  if the mailer isn't defined
+     * @access  public
      */
     public function __construct(\Silex\Application $app)
     {
@@ -25,7 +50,12 @@ class Send
     
     
     /**
+     * Set the subject of the mail
      *
+     * @param   string  $v  the subject of the mail
+     * @throws  OpenShareFile\Core\Exception\Exception  if the subject isn't a string
+     * @return  $this   for chained method
+     * @access  public
      */
     public function setSubject($v)
     {
@@ -39,7 +69,12 @@ class Send
     
     
     /**
+     * Set the sender of the mail
      *
+     * @param   string|array  $v  the sender of the mail
+     * @throws  OpenShareFile\Core\Exception\Exception  if the sender isn't a string or an array
+     * @return  $this   for chained method
+     * @access  public
      */
     public function setFrom($v)
     {
@@ -57,7 +92,12 @@ class Send
     
     
     /**
+     * Set the recipient(s) of the mail
      *
+     * @param   string  $v  the recipient(s) of the mail
+     * @throws  OpenShareFile\Core\Exception\Exception  if the recipient(s) isn't a string or an array
+     * @return  $this   for chained method
+     * @access  public
      */
     public function setTo($v)
     {
@@ -75,7 +115,12 @@ class Send
     
     
     /**
+     * Set the body of the mail
      *
+     * @param   string  $v  the body of the mail
+     * @throws  OpenShareFile\Core\Exception\Exception  if the body isn't a string
+     * @return  $this   for chained method
+     * @access  public
      */
     public function setBody($v)
     {
@@ -89,14 +134,23 @@ class Send
     
     
     /**
+     * Send the mail
      *
+     * @return  bool    true if it's ok, false else
+     * @access  public
      */
     public function send()
     {
-        $this->app['mailer']->send($this->message);
+        return $this->app['mailer']->send($this->message);
     }
     
     
+    /**
+     * Get the message object
+     *
+     * @return  \Swift_Message  the message object
+     * @access  private
+     */ 
     private function getMessage()
     {
         if ($this->message === null) {
@@ -108,7 +162,10 @@ class Send
     
     
     /**
+     * Configure the transport of the mail according to the configuration
      *
+     * @throws  OpenShareFile\Core\Exception\Exception  if the value of transport in configuration isn't valid
+     * @access  protected
      */
     protected function configureTransport()
     {
@@ -135,12 +192,24 @@ class Send
     }
     
     
+    /**
+     * Configure the transport with \Swift_NullTransport
+     *
+     * @return  \Swift_NullTransport
+     * @access  private
+     */
     private function configureTransportNull()
     {
         return \Swift_NullTransport::newInstance();
     }
     
     
+    /**
+     * Configure the transport with \Swift_MailTransport
+     *
+     * @return  \Swift_MailTransport
+     * @access  private
+     */
     private function configureTransportMail()
     {
         $options = Config::get('swiftmailer_options', array());
@@ -155,6 +224,12 @@ class Send
     }
     
     
+    /**
+     * Configure the transport with \Swift_Transport_EsmtpTransport
+     *
+     * @return  \Swift_Transport_EsmtpTransport
+     * @access  private
+     */
     private function configureTransportSmtp()
     {
         $transport = new \Swift_Transport_EsmtpTransport(
@@ -184,6 +259,12 @@ class Send
     }
     
     
+    /**
+     * Configure the transport with \Swift_SendmailTransport
+     *
+     * @return  \Swift_SendmailTransport
+     * @access  private
+     */
     private function configureTransportSendmail()
     {
         $options = Config::get('swiftmailer_options', array());

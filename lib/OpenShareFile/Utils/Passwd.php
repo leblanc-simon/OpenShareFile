@@ -7,6 +7,7 @@ namespace OpenShareFile\Utils;
  * Adapt to use SHA512 for old PHP version (PHP 5.3.0 >= v <= PHP 5.3.7)
  *
  * @author Anthony Ferrara <ircmaxell@php.net>
+ * @package     OpenShareFile\Utils
  * @license http://www.opensource.org/licenses/mit-license.html MIT License
  * @see https://github.com/ircmaxell/password_compat/blob/master/lib/password.php
  */

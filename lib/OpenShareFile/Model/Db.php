@@ -4,11 +4,42 @@ namespace OpenShareFile\Model;
 
 use OpenShareFile\Core\Config;
 
+
+/**
+ * Database abtracted class
+ *
+ * @package     OpenShareFile\Model
+ * @abstract
+ * @version     1.0.0
+ * @license     http://opensource.org/licenses/MIT  MIT
+ * @author      Simon Leblanc <contact@leblanc-simon.eu>
+ */
 abstract class Db
 {
+    /**
+     * The \PDO object
+     *
+     * @access  private
+     * @static
+     */
     static private $conn = null;
+    
+    /**
+     * The number of transaction open
+     *
+     * @access  private
+     * @static
+     */
     static private $transactions = 0;
     
+    
+    /**
+     * Get the \PDO connection
+     *
+     * @return  \PDO    the \PDO connection
+     * @access  protected
+     * @static
+     */
     static protected function getConn()
     {
         if (self::$conn === null) {
@@ -20,6 +51,14 @@ abstract class Db
     }
     
     
+    /**
+     * Initialize a query
+     *
+     * @param   string  $sql    the sql query
+     * @param   array   $params the parameters to use with the query
+     * @return  \PDOStatement   the prepared statement
+     * @access  protected
+     */
     protected function loadSql($sql, $params = array())
     {
         $stmt = self::getConn()->prepare((string)$sql);
@@ -34,6 +73,11 @@ abstract class Db
     }
     
     
+    /**
+     * Begin a SQL transaction
+     *
+     * @access  public
+     */
     public function beginTransaction()
     {
         if (self::$transactions === 0) {
@@ -44,6 +88,11 @@ abstract class Db
     }
     
     
+    /**
+     * Commit a SQL transaction
+     *
+     * @access  public
+     */
     public function commit()
     {
         self::$transactions--;
@@ -54,6 +103,11 @@ abstract class Db
     }
     
     
+    /**
+     * Rollback a SQL transaction
+     *
+     * @access  public
+     */
     public function rollback()
     {
         self::$transactions--;
@@ -64,6 +118,12 @@ abstract class Db
     }
     
     
+    /**
+     * Get the last inserted ID
+     *
+     * @return  int     The last inserted ID
+     * @access  public
+     */
     public function lastInsertId()
     {
         return self::getConn()->lastInsertId();

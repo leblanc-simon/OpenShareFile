@@ -2,6 +2,16 @@
 
 namespace OpenShareFile\Model;
 
+
+/**
+ * Upload model class
+ *
+ * @package     OpenShareFile\Model
+ * @abstract
+ * @version     1.0.0
+ * @license     http://opensource.org/licenses/MIT  MIT
+ * @author      Simon Leblanc <contact@leblanc-simon.eu>
+ */
 class Upload extends Db
 {
     private $id = 0;
@@ -20,6 +30,12 @@ class Upload extends Db
     }
     
     
+    /**
+     * Populate the object in loading a record identify by slug
+     *
+     * @param   string  $slug   the search slug
+     * @access  public
+     */
     public function get($slug)
     {
         $sql = 'SELECT * FROM upload WHERE slug = :slug AND is_deleted = :is_deleted';
@@ -45,6 +61,12 @@ class Upload extends Db
     }
     
     
+    /**
+     * Get all files associated with the upload
+     *
+     * @return  array<File>     all files associated with the upload
+     * @access  public
+     */
     public function getFiles()
     {
         $sql = 'SELECT * FROM file WHERE upload_id = :upload_id AND is_deleted = :is_deleted';
@@ -69,6 +91,12 @@ class Upload extends Db
     }
     
     
+    /**
+     * Save the object in the database
+     * 
+     * @return  $this   for chained method
+     * @access  public
+     */
     public function save()
     {
         $sql  = 'INSERT INTO upload (slug, lifetime, passwd, crypt, created_at, is_deleted) VALUES ';
@@ -89,6 +117,12 @@ class Upload extends Db
     }
     
     
+    /**
+     * Generate a uniq slug
+     *
+     * @return  string  the slug generated
+     * @access  public
+     */
     public function generateSlug()
     {
         $this->setSlug(sha1(uniqid(rand(0, 9999999), true).rand(0, 9999999).rand(0, 9999999)));

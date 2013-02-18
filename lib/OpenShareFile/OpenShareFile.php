@@ -4,11 +4,40 @@ namespace OpenShareFile;
 
 use OpenShareFile\Core\Exception;
 
+
+/**
+ * Application class
+ *
+ * @package     OpenShareFile
+ * @version     1.0.0
+ * @license     http://opensource.org/licenses/MIT  MIT
+ * @author      Simon Leblanc <contact@leblanc-simon.eu>
+ */
 class OpenShareFile
 {
+    /**
+     * Silex Application object
+     *
+     * @access  private
+     * @static
+     */
     static private $app = null;
+    
+    /**
+     * The array of the routing
+     *
+     * @access  private
+     * @static
+     */
     static private $routing = array();
     
+    
+    /**
+     * Run the application
+     *
+     * @access  public
+     * @static
+     */
     static public function run()
     {
         // get required files
@@ -55,6 +84,12 @@ class OpenShareFile
     }
     
     
+    /**
+     * Load required files
+     *
+     * @access  private
+     * @static
+     */
     static private function getRequired()
     {
         // OpenShareFile autoload
@@ -73,6 +108,13 @@ class OpenShareFile
     }
     
     
+    /**
+     * Get the Silex Application
+     *
+     * @return  \Silex\Application  the Silex Application object to use
+     * @access  private
+     * @static
+     */
     static private function getApp()
     {
         if (self::$app === null) {
@@ -83,6 +125,14 @@ class OpenShareFile
     }
     
     
+    /**
+     * Check the required data to launch the application
+     *
+     * @param   array   $datas  the datas to check
+     * @throws  \InvalidArgumentException   If a data is missing
+     * @access  private
+     * @static
+     */
     static private function checkDatas($datas)
     {
         if (isset($datas['class']) === false) {
@@ -99,6 +149,12 @@ class OpenShareFile
     }
     
     
+    /**
+     * Register somes providers
+     *
+     * @access  private
+     * @static
+     */
     static private function registerProviders()
     {
         self::registerUrlGenerator();
@@ -110,18 +166,36 @@ class OpenShareFile
     }
     
     
+    /**
+     * Register URLGenerator provider
+     *
+     * @access  private
+     * @static
+     */
     static private function registerUrlGenerator()
     {
         self::getApp()->register(new \Silex\Provider\UrlGeneratorServiceProvider());
     }
     
     
+    /**
+     * Register Session provider
+     *
+     * @access  private
+     * @static
+     */
     static private function registerSession()
     {
         self::getApp()->register(new \Silex\Provider\SessionServiceProvider());
     }
     
     
+    /**
+     * Register Translation provider
+     *
+     * @access  private
+     * @static
+     */
     static private function registerTranslation()
     {
         self::getApp()->register(new \Silex\Provider\TranslationServiceProvider(), array(
@@ -150,6 +224,12 @@ class OpenShareFile
     }
     
     
+    /**
+     * Register Twig provider
+     *
+     * @access  private
+     * @static
+     */
     static private function registerTwig()
     {
         self::getApp()->register(new \Silex\Provider\TwigServiceProvider(), array(
@@ -168,6 +248,12 @@ class OpenShareFile
     }
     
     
+    /**
+     * Register Forms provider
+     *
+     * @access  private
+     * @static
+     */
     static private function registerForms()
     {
         self::getApp()->register(new \Silex\Provider\FormServiceProvider(), array(
@@ -178,6 +264,12 @@ class OpenShareFile
     }
     
     
+    /**
+     * Register SwiftMailer provider
+     *
+     * @access  private
+     * @static
+     */
     static private function registerSwift()
     {
         self::getApp()->register(new \Silex\Provider\SwiftmailerServiceProvider());
