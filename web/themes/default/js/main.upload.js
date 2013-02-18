@@ -172,7 +172,7 @@ $(document).ready(function(){
         
         if (data_to_upload != null && data_to_upload.files.length > 0) {
             var form_data = {};
-            $('#upload-form').find('input').each(function(){
+            $('#upload-form').find('input, textarea').each(function(){
                 if ($(this).attr('type') == 'checkbox' && this.checked == false) {
                     return;
                 }

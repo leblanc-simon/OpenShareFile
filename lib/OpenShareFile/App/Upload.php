@@ -4,6 +4,7 @@ namespace OpenShareFile\App;
 
 use OpenShareFile\Core\Config;
 use OpenShareFile\Core\Exception;
+use OpenShareFile\Extension\Swift;
 use OpenShareFile\Model\File as DBFile;
 use OpenShareFile\Model\Upload as DBUpload;
 use OpenShareFile\Utils\Passwd;
@@ -97,10 +98,11 @@ class Upload extends App
                     
                     $this->app['session']->set('slug_upload', $upload_slug);
                     
+                    $this->sendEmails($data, $upload_slug);
+                    
                     return $this->app->json(array('success' => true, 'url' => $this->app['url_generator']->generate('upload_success')));
                     
                 } catch (\Exception $e) {
-                    var_dump($_FILES);
                     return $this->app->json(array('success' => false, 'message' => $e->getMessage()), 500);
                 }
             }
@@ -228,6 +230,29 @@ class Upload extends App
      */
     private function sendEmail($data, $email, $upload_slug)
     {
+        $mail = new Swift\Send($this->app);
         
+        $from = Config::get('email_from');
+        $to = trim($email);
+        $subject = (isset($data['email_subject']) === true ? trim($data['email_subject']) : null);
+        $message = (isset($data['email_message']) === true ? trim($data['email_message']) : null);
+        
+        // Check values which use to send mail
+        if (empty($from) === true || empty($to) === true
+            || empty($subject) === true || empty($message) === true
+        ) {
+            return false;
+        }
+        
+        // Check if email address is valid
+        if (filter_var($to, FILTER_VALIDATE_EMAIL) === false) {
+            return false;
+        }
+        
+        return $mail->setTo($to)
+                ->setFrom($from)
+                ->setSubject($subject)
+                ->setBody($message."\n".$this->app['url_generator']->generate('download_confirm', array('slug' => $upload_slug), \Symfony\Component\Routing\Generator\UrlGenerator::ABSOLUTE_URL))
+                ->send();
     }
 }

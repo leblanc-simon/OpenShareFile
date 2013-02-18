@@ -35,6 +35,9 @@ class OpenShareFile
                         
                         return $controler->$method_name();
                     } catch (Exception\Exception $e) {
+                        if (Core\Config::get('debug', false) === true) {
+                            throw $e;
+                        }
                         $template = '_exception'.DIRECTORY_SEPARATOR.strtolower(str_replace('OpenShareFile\\Core\\Exception', '', get_class($e))).'.html.twig';
                         return $app['twig']->render($template, array('exception' => $e));
                     }
@@ -103,6 +106,7 @@ class OpenShareFile
         self::registerTranslation();
         self::registerTwig();
         self::registerForms();
+        self::registerSwift();
     }
     
     
@@ -171,5 +175,11 @@ class OpenShareFile
         ));
         
         self::getApp()->register(new \Silex\Provider\ValidatorServiceProvider());
+    }
+    
+    
+    static private function registerSwift()
+    {
+        self::getApp()->register(new \Silex\Provider\SwiftmailerServiceProvider());
     }
 }
