@@ -1,0 +1,1960 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project version="2.0.0a3" title="">
+  <file path="OpenShareFile/App/Download.php" hash="92fa184d33a10ed0f8060210721df1b7" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file OpenShareFile/App/Download.php</error>
+    </parse_markers>
+    <namespace-alias name="Config">OpenShareFile\Core\Config</namespace-alias>
+    <namespace-alias name="Exception">OpenShareFile\Core\Exception</namespace-alias>
+    <namespace-alias name="DBFile">OpenShareFile\Model\File</namespace-alias>
+    <namespace-alias name="DBUpload">OpenShareFile\Model\Upload</namespace-alias>
+    <namespace-alias name="Passwd">OpenShareFile\Utils\Passwd</namespace-alias>
+    <namespace-alias name="Response">Symfony\Component\HttpFoundation\Response</namespace-alias>
+    <class final="false" abstract="false" namespace="OpenShareFile\App" line="21" package="OpenShareFile\App">
+      <name>Download</name>
+      <full_name>\OpenShareFile\App\Download</full_name>
+      <extends>\OpenShareFile\App\App</extends>
+      <docblock line="13">
+        <description><![CDATA[Download controler]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="13" name="package" description="OpenShareFile\App"/>
+        <tag line="13" name="version" description="1.0.0"/>
+        <tag line="13" name="license" description="http://opensource.org/licenses/MIT  MIT"/>
+        <tag line="13" name="author" description="Simon Leblanc &lt;contact@leblanc-simon.eu&gt;"/>
+      </docblock>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\App" line="32" package="">
+        <name>defaultAction</name>
+        <type>function</type>
+        <docblock line="23">
+          <description><![CDATA[Download file action]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="23" name="return" description="" type="\Symfony\Component\HttpFoundation\Response">
+            <type by_reference="false">\Symfony\Component\HttpFoundation\Response</type>
+          </tag>
+          <tag line="23" name="throws" description="Error while retrieving Upload object" type="\OpenShareFile\Core\Exception\Error404">
+            <type by_reference="false">\OpenShareFile\Core\Exception\Error404</type>
+          </tag>
+          <tag line="23" name="throws" description="Password for download are wrong" type="\OpenShareFile\Core\Exception\Security">
+            <type by_reference="false">\OpenShareFile\Core\Exception\Security</type>
+          </tag>
+          <tag line="23" name="throws" description="Error while reading file to download" type="\OpenShareFile\Core\Exception\Exception">
+            <type by_reference="false">\OpenShareFile\Core\Exception\Exception</type>
+          </tag>
+          <tag line="23" name="access" description="public"/>
+        </docblock>
+      </method>
+    </class>
+  </file>
+  <file path="OpenShareFile/App/Upload.php" hash="bdd954c37a975363beba667ba1749dca" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file OpenShareFile/App/Upload.php</error>
+    </parse_markers>
+    <namespace-alias name="Config">OpenShareFile\Core\Config</namespace-alias>
+    <namespace-alias name="Exception">OpenShareFile\Core\Exception</namespace-alias>
+    <namespace-alias name="Swift">OpenShareFile\Extension\Swift</namespace-alias>
+    <namespace-alias name="DBFile">OpenShareFile\Model\File</namespace-alias>
+    <namespace-alias name="DBUpload">OpenShareFile\Model\Upload</namespace-alias>
+    <namespace-alias name="Passwd">OpenShareFile\Utils\Passwd</namespace-alias>
+    <namespace-alias name="UploadedFile">Symfony\Component\HttpFoundation\File\UploadedFile</namespace-alias>
+    <class final="false" abstract="false" namespace="OpenShareFile\App" line="22" package="OpenShareFile\App">
+      <name>Upload</name>
+      <full_name>\OpenShareFile\App\Upload</full_name>
+      <extends>\OpenShareFile\App\App</extends>
+      <docblock line="14">
+        <description><![CDATA[Upload controler]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="14" name="package" description="OpenShareFile\App"/>
+        <tag line="14" name="version" description="1.0.0"/>
+        <tag line="14" name="license" description="http://opensource.org/licenses/MIT  MIT"/>
+        <tag line="14" name="author" description="Simon Leblanc &lt;contact@leblanc-simon.eu&gt;"/>
+      </docblock>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\App" line="30" package="">
+        <name>formAction</name>
+        <type>function</type>
+        <docblock line="24">
+          <description><![CDATA[Upload form action]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="24" name="return" description="" type="\OpenShareFile\App\Response">
+            <type by_reference="false">\OpenShareFile\App\Response</type>
+          </tag>
+          <tag line="24" name="access" description="public"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\App" line="131" package="">
+        <name>successAction</name>
+        <type>function</type>
+        <docblock line="124">
+          <description><![CDATA[Success uploaded file action]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="124" name="return" description="" type="\OpenShareFile\App\Response">
+            <type by_reference="false">\OpenShareFile\App\Response</type>
+          </tag>
+          <tag line="124" name="throws" description="If the upload slug in session is invalid (not exists in database)" type="\OpenShareFile\Core\Exception\Error404">
+            <type by_reference="false">\OpenShareFile\Core\Exception\Error404</type>
+          </tag>
+          <tag line="124" name="access" description="public"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="OpenShareFile\App" line="153" package="">
+        <name>processFile</name>
+        <type>function</type>
+        <docblock line="142">
+          <description><![CDATA[Process the save of uploaded file]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="142" name="param" description="the file to process" type="\Symfony\Component\HttpFoundation\File\UploadedFile" variable="$upload_file">
+            <type by_reference="false">\Symfony\Component\HttpFoundation\File\UploadedFile</type>
+          </tag>
+          <tag line="142" name="param" description="the form datas" type="array" variable="$data">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="142" name="param" description="the slug of the Upload object related with File object (null for create a new Upload object)" type="string" variable="$upload_slug">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="142" name="return" description="the slug of the Upload object related with File object" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="142" name="throws" description="Error while writing into database" type="\OpenShareFile\Core\Exception\Exception">
+            <type by_reference="false">\OpenShareFile\Core\Exception\Exception</type>
+          </tag>
+          <tag line="142" name="throws" description="Error while get Upload object" type="\OpenShareFile\Core\Exception\Exception">
+            <type by_reference="false">\OpenShareFile\Core\Exception\Exception</type>
+          </tag>
+          <tag line="142" name="access" description="private"/>
+        </docblock>
+        <argument line="153">
+          <name>$upload_file</name>
+          <default><![CDATA[]]></default>
+          <type>\Symfony\Component\HttpFoundation\File\UploadedFile</type>
+        </argument>
+        <argument line="153">
+          <name>$data</name>
+          <default><![CDATA[]]></default>
+          <type>array</type>
+        </argument>
+        <argument line="153">
+          <name>$upload_slug</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="OpenShareFile\App" line="219" package="">
+        <name>sendEmails</name>
+        <type>function</type>
+        <docblock line="211">
+          <description><![CDATA[Send emails with the download link]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="211" name="param" description="the form datas" type="array" variable="$data">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="211" name="param" description="the slug of the Upload object" type="string" variable="$upload_slug">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="211" name="return" description="true if the emails are send, false else" type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+          <tag line="211" name="access" description="private"/>
+        </docblock>
+        <argument line="219">
+          <name>$data</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="219">
+          <name>$upload_slug</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="OpenShareFile\App" line="242" package="">
+        <name>sendEmail</name>
+        <type>function</type>
+        <docblock line="233">
+          <description><![CDATA[Send email with the download link]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="233" name="param" description="the form datas" type="array" variable="$data">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="233" name="param" description="the email address to send the mail" type="string" variable="$email">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="233" name="param" description="the slug of the Upload object" type="string" variable="$upload_slug">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="233" name="return" description="true if the emails are send, false else" type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+          <tag line="233" name="access" description="private"/>
+        </docblock>
+        <argument line="242">
+          <name>$data</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="242">
+          <name>$email</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="242">
+          <name>$upload_slug</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <file path="OpenShareFile/App/Api.php" hash="d41d8cd98f00b204e9800998ecf8427e" package="Default">
+    <parse_markers>
+      <error line="0" code="50007">No page-level DocBlock was found in file OpenShareFile/App/Api.php</error>
+    </parse_markers>
+  </file>
+  <file path="OpenShareFile/App/Mail.php" hash="d41d8cd98f00b204e9800998ecf8427e" package="Default">
+    <parse_markers>
+      <error line="0" code="50007">No page-level DocBlock was found in file OpenShareFile/App/Mail.php</error>
+    </parse_markers>
+  </file>
+  <file path="OpenShareFile/App/App.php" hash="99d95083d892ba4b4900e0abed9bae87" package="Default">
+    <parse_markers>
+      <critical line="46" code="50019">No short description for property $content_file</critical>
+      <error line="1" code="50007">No page-level DocBlock was found in file OpenShareFile/App/App.php</error>
+    </parse_markers>
+    <namespace-alias name="Config">OpenShareFile\Core\Config</namespace-alias>
+    <class final="false" abstract="true" namespace="OpenShareFile\App" line="16" package="OpenShareFile\App">
+      <name>App</name>
+      <full_name>\OpenShareFile\App\App</full_name>
+      <extends/>
+      <docblock line="7">
+        <description><![CDATA[Base controler class]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="7" name="package" description="OpenShareFile\App"/>
+        <tag line="7" name="abstract" description=""/>
+        <tag line="7" name="version" description="1.0.0"/>
+        <tag line="7" name="license" description="http://opensource.org/licenses/MIT  MIT"/>
+        <tag line="7" name="author" description="Simon Leblanc &lt;contact@leblanc-simon.eu&gt;"/>
+      </docblock>
+      <property final="false" static="false" visibility="protected" line="23" package="Default">
+        <name>$app</name>
+        <default><![CDATA[null]]></default>
+        <docblock line="18">
+          <description><![CDATA[Silex Application object]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="18" name="access" description="protected"/>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="30" package="Default">
+        <name>$page_title</name>
+        <default><![CDATA['']]></default>
+        <docblock line="25">
+          <description><![CDATA[The title markup of the page]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="25" name="access" description="public"/>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="37" package="Default">
+        <name>$theme_url</name>
+        <default><![CDATA['']]></default>
+        <docblock line="32">
+          <description><![CDATA[The public URL's theme to use (JS, CSS, image, ...)]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="32" name="param" description="public" type="" variable=""/>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="44" package="Default">
+        <name>$theme_path</name>
+        <default><![CDATA['']]></default>
+        <docblock line="39">
+          <description><![CDATA[The path where is the template file (twig file)]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="39" name="param" description="public" type="" variable=""/>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="public" line="49" package="Default">
+        <name>$content_file</name>
+        <default><![CDATA['']]></default>
+        <docblock line="46">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\App" line="58" package="">
+        <name>__construct</name>
+        <type>function</type>
+        <docblock line="52">
+          <description><![CDATA[Controler construtor]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="52" name="param" description="the silex application object" type="\Silex\Application" variable="$app">
+            <type by_reference="false">\Silex\Application</type>
+          </tag>
+          <tag line="52" name="access" description="public"/>
+        </docblock>
+        <argument line="58">
+          <name>$app</name>
+          <default><![CDATA[]]></default>
+          <type>\Silex\Application</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="OpenShareFile\App" line="72" package="">
+        <name>render</name>
+        <type>function</type>
+        <docblock line="64">
+          <description><![CDATA[Render the twig template for the action]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="64" name="param" description="the name of the template" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="64" name="param" description="the parameters to use with the template" type="array" variable="$params">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="64" name="return" description="the response to send to the client" type="\OpenShareFile\App\Response">
+            <type by_reference="false">\OpenShareFile\App\Response</type>
+          </tag>
+          <tag line="64" name="access" description="protected"/>
+        </docblock>
+        <argument line="72">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="72">
+          <name>$params</name>
+          <default><![CDATA[array()]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="OpenShareFile\App" line="84" package="">
+        <name>getClassname</name>
+        <type>function</type>
+        <docblock line="78">
+          <description><![CDATA[Get the class name without namespace]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="78" name="return" description="the class name without namespace" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="78" name="access" description="private"/>
+        </docblock>
+      </method>
+    </class>
+  </file>
+  <file path="OpenShareFile/App/Index.php" hash="636877024de6de8aae0f33c75e27a6ef" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file OpenShareFile/App/Index.php</error>
+    </parse_markers>
+    <class final="false" abstract="false" namespace="OpenShareFile\App" line="13" package="OpenShareFile\App">
+      <name>Index</name>
+      <full_name>\OpenShareFile\App\Index</full_name>
+      <extends>\OpenShareFile\App\App</extends>
+      <docblock line="5">
+        <description><![CDATA[Index controler]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="5" name="package" description="OpenShareFile\App"/>
+        <tag line="5" name="version" description="1.0.0"/>
+        <tag line="5" name="license" description="http://opensource.org/licenses/MIT  MIT"/>
+        <tag line="5" name="author" description="Simon Leblanc &lt;contact@leblanc-simon.eu&gt;"/>
+      </docblock>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\App" line="21" package="">
+        <name>defaultAction</name>
+        <type>function</type>
+        <docblock line="15">
+          <description><![CDATA[Homepage action]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="15" name="return" description="" type="\OpenShareFile\App\Response">
+            <type by_reference="false">\OpenShareFile\App\Response</type>
+          </tag>
+          <tag line="15" name="access" description="public"/>
+        </docblock>
+      </method>
+    </class>
+  </file>
+  <file path="OpenShareFile/Model/Upload.php" hash="4176d7880908d5a70193961cbbc4ac65" package="Default">
+    <parse_markers>
+      <error line="17" code="50018">No DocBlock was found for property $id</error>
+      <error line="18" code="50018">No DocBlock was found for property $slug</error>
+      <error line="19" code="50018">No DocBlock was found for property $lifetime</error>
+      <error line="20" code="50018">No DocBlock was found for property $passwd</error>
+      <error line="21" code="50018">No DocBlock was found for property $crypt</error>
+      <error line="22" code="50018">No DocBlock was found for property $created_at</error>
+      <error line="23" code="50018">No DocBlock was found for property $is_deleted</error>
+      <error line="25" code="50010">No DocBlock was found for method __construct()</error>
+      <error line="134" code="50010">No DocBlock was found for method getId()</error>
+      <error line="135" code="50010">No DocBlock was found for method getSlug()</error>
+      <error line="136" code="50010">No DocBlock was found for method getLifetime()</error>
+      <error line="137" code="50010">No DocBlock was found for method getPasswd()</error>
+      <error line="138" code="50010">No DocBlock was found for method getCrypt()</error>
+      <error line="139" code="50010">No DocBlock was found for method getCreatedAt()</error>
+      <error line="147" code="50010">No DocBlock was found for method getIsDeleted()</error>
+      <error line="149" code="50010">No DocBlock was found for method setId()</error>
+      <error line="158" code="50010">No DocBlock was found for method setSlug()</error>
+      <error line="167" code="50010">No DocBlock was found for method setLifetime()</error>
+      <error line="176" code="50010">No DocBlock was found for method setPasswd()</error>
+      <error line="185" code="50010">No DocBlock was found for method setCrypt()</error>
+      <error line="198" code="50010">No DocBlock was found for method setCreatedAt()</error>
+      <error line="213" code="50010">No DocBlock was found for method setIsDeleted()</error>
+      <error line="1" code="50007">No page-level DocBlock was found in file OpenShareFile/Model/Upload.php</error>
+    </parse_markers>
+    <class final="false" abstract="false" namespace="OpenShareFile\Model" line="15" package="OpenShareFile\Model">
+      <name>Upload</name>
+      <full_name>\OpenShareFile\Model\Upload</full_name>
+      <extends>\OpenShareFile\Model\Db</extends>
+      <docblock line="6">
+        <description><![CDATA[Upload model class]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="6" name="package" description="OpenShareFile\Model"/>
+        <tag line="6" name="abstract" description=""/>
+        <tag line="6" name="version" description="1.0.0"/>
+        <tag line="6" name="license" description="http://opensource.org/licenses/MIT  MIT"/>
+        <tag line="6" name="author" description="Simon Leblanc &lt;contact@leblanc-simon.eu&gt;"/>
+      </docblock>
+      <property final="false" static="false" visibility="private" line="17" package="Default">
+        <name>$id</name>
+        <default><![CDATA[0]]></default>
+      </property>
+      <property final="false" static="false" visibility="private" line="18" package="Default">
+        <name>$slug</name>
+        <default><![CDATA[null]]></default>
+      </property>
+      <property final="false" static="false" visibility="private" line="19" package="Default">
+        <name>$lifetime</name>
+        <default><![CDATA[0]]></default>
+      </property>
+      <property final="false" static="false" visibility="private" line="20" package="Default">
+        <name>$passwd</name>
+        <default><![CDATA[null]]></default>
+      </property>
+      <property final="false" static="false" visibility="private" line="21" package="Default">
+        <name>$crypt</name>
+        <default><![CDATA[false]]></default>
+      </property>
+      <property final="false" static="false" visibility="private" line="22" package="Default">
+        <name>$created_at</name>
+        <default><![CDATA['0000-00-00 00:00:00']]></default>
+      </property>
+      <property final="false" static="false" visibility="private" line="23" package="Default">
+        <name>$is_deleted</name>
+        <default><![CDATA[false]]></default>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="25" package="">
+        <name>__construct</name>
+        <type>function</type>
+        <argument line="25">
+          <name>$slug</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="39" package="">
+        <name>get</name>
+        <type>function</type>
+        <docblock line="33">
+          <description><![CDATA[Populate the object in loading a record identify by slug]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="33" name="param" description="the search slug" type="string" variable="$slug">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="33" name="access" description="public"/>
+        </docblock>
+        <argument line="39">
+          <name>$slug</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="70" package="">
+        <name>getFiles</name>
+        <type>function</type>
+        <docblock line="64">
+          <description><![CDATA[Get all files associated with the upload]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="64" name="return" description="all files associated with the upload" type="\OpenShareFile\Model\array&lt;File&gt;">
+            <type by_reference="false">\OpenShareFile\Model\array&lt;File&gt;</type>
+          </tag>
+          <tag line="64" name="access" description="public"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="100" package="">
+        <name>save</name>
+        <type>function</type>
+        <docblock line="94">
+          <description><![CDATA[Save the object in the database]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="94" name="return" description="for chained method" type="\OpenShareFile\Model\$this">
+            <type by_reference="false">\OpenShareFile\Model\$this</type>
+          </tag>
+          <tag line="94" name="access" description="public"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="126" package="">
+        <name>generateSlug</name>
+        <type>function</type>
+        <docblock line="120">
+          <description><![CDATA[Generate a uniq slug]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="120" name="return" description="the slug generated" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="120" name="access" description="public"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="134" package="">
+        <name>getId</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="135" package="">
+        <name>getSlug</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="136" package="">
+        <name>getLifetime</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="137" package="">
+        <name>getPasswd</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="138" package="">
+        <name>getCrypt</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="139" package="">
+        <name>getCreatedAt</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="147" package="">
+        <name>getIsDeleted</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="149" package="">
+        <name>setId</name>
+        <type>function</type>
+        <argument line="149">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="158" package="">
+        <name>setSlug</name>
+        <type>function</type>
+        <argument line="158">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="167" package="">
+        <name>setLifetime</name>
+        <type>function</type>
+        <argument line="167">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="176" package="">
+        <name>setPasswd</name>
+        <type>function</type>
+        <argument line="176">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="185" package="">
+        <name>setCrypt</name>
+        <type>function</type>
+        <argument line="185">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="198" package="">
+        <name>setCreatedAt</name>
+        <type>function</type>
+        <argument line="198">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="213" package="">
+        <name>setIsDeleted</name>
+        <type>function</type>
+        <argument line="213">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <file path="OpenShareFile/Model/File.php" hash="248427e4b8247848bdc6f801bf7a785b" package="Default">
+    <parse_markers>
+      <error line="17" code="50018">No DocBlock was found for property $id</error>
+      <error line="18" code="50018">No DocBlock was found for property $upload_id</error>
+      <error line="19" code="50018">No DocBlock was found for property $slug</error>
+      <error line="20" code="50018">No DocBlock was found for property $file</error>
+      <error line="21" code="50018">No DocBlock was found for property $filename</error>
+      <error line="22" code="50018">No DocBlock was found for property $filesize</error>
+      <error line="23" code="50018">No DocBlock was found for property $created_at</error>
+      <error line="24" code="50018">No DocBlock was found for property $is_deleted</error>
+      <error line="26" code="50010">No DocBlock was found for method __construct()</error>
+      <error line="141" code="50010">No DocBlock was found for method getId()</error>
+      <error line="142" code="50010">No DocBlock was found for method getUploadId()</error>
+      <error line="143" code="50010">No DocBlock was found for method getSlug()</error>
+      <error line="144" code="50010">No DocBlock was found for method getFile()</error>
+      <error line="145" code="50010">No DocBlock was found for method getFilename()</error>
+      <error line="146" code="50010">No DocBlock was found for method getFilesize()</error>
+      <error line="147" code="50010">No DocBlock was found for method getCreatedAt()</error>
+      <error line="155" code="50010">No DocBlock was found for method getIsDeleted()</error>
+      <error line="157" code="50010">No DocBlock was found for method setId()</error>
+      <error line="166" code="50010">No DocBlock was found for method setUploadId()</error>
+      <error line="175" code="50010">No DocBlock was found for method setSlug()</error>
+      <error line="184" code="50010">No DocBlock was found for method setFile()</error>
+      <error line="193" code="50010">No DocBlock was found for method setFilename()</error>
+      <error line="202" code="50010">No DocBlock was found for method setFilesize()</error>
+      <error line="211" code="50010">No DocBlock was found for method setCreatedAt()</error>
+      <error line="226" code="50010">No DocBlock was found for method setIsDeleted()</error>
+      <error line="1" code="50007">No page-level DocBlock was found in file OpenShareFile/Model/File.php</error>
+    </parse_markers>
+    <class final="false" abstract="false" namespace="OpenShareFile\Model" line="15" package="OpenShareFile\Model">
+      <name>File</name>
+      <full_name>\OpenShareFile\Model\File</full_name>
+      <extends>\OpenShareFile\Model\Db</extends>
+      <docblock line="6">
+        <description><![CDATA[File model class]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="6" name="package" description="OpenShareFile\Model"/>
+        <tag line="6" name="abstract" description=""/>
+        <tag line="6" name="version" description="1.0.0"/>
+        <tag line="6" name="license" description="http://opensource.org/licenses/MIT  MIT"/>
+        <tag line="6" name="author" description="Simon Leblanc &lt;contact@leblanc-simon.eu&gt;"/>
+      </docblock>
+      <property final="false" static="false" visibility="private" line="17" package="Default">
+        <name>$id</name>
+        <default><![CDATA[0]]></default>
+      </property>
+      <property final="false" static="false" visibility="private" line="18" package="Default">
+        <name>$upload_id</name>
+        <default><![CDATA[0]]></default>
+      </property>
+      <property final="false" static="false" visibility="private" line="19" package="Default">
+        <name>$slug</name>
+        <default><![CDATA[null]]></default>
+      </property>
+      <property final="false" static="false" visibility="private" line="20" package="Default">
+        <name>$file</name>
+        <default><![CDATA[null]]></default>
+      </property>
+      <property final="false" static="false" visibility="private" line="21" package="Default">
+        <name>$filename</name>
+        <default><![CDATA[null]]></default>
+      </property>
+      <property final="false" static="false" visibility="private" line="22" package="Default">
+        <name>$filesize</name>
+        <default><![CDATA[0]]></default>
+      </property>
+      <property final="false" static="false" visibility="private" line="23" package="Default">
+        <name>$created_at</name>
+        <default><![CDATA['0000-00-00 00:00:00']]></default>
+      </property>
+      <property final="false" static="false" visibility="private" line="24" package="Default">
+        <name>$is_deleted</name>
+        <default><![CDATA[false]]></default>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="26" package="">
+        <name>__construct</name>
+        <type>function</type>
+        <argument line="26">
+          <name>$slug</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="40" package="">
+        <name>get</name>
+        <type>function</type>
+        <docblock line="34">
+          <description><![CDATA[Populate the object in loading a record identify by slug]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="34" name="param" description="the search slug" type="string" variable="$slug">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="34" name="access" description="public"/>
+        </docblock>
+        <argument line="40">
+          <name>$slug</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="66" package="">
+        <name>populate</name>
+        <type>function</type>
+        <docblock line="59">
+          <description><![CDATA[Populate the object the an array]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="59" name="param" description="the array to use for populate object" type="array" variable="$row">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="59" name="return" description="for chained method" type="\OpenShareFile\Model\$this">
+            <type by_reference="false">\OpenShareFile\Model\$this</type>
+          </tag>
+          <tag line="59" name="access" description="public"/>
+        </docblock>
+        <argument line="66">
+          <name>$row</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="87" package="">
+        <name>save</name>
+        <type>function</type>
+        <docblock line="81">
+          <description><![CDATA[Save the object in the database]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="81" name="return" description="for chained method" type="\OpenShareFile\Model\$this">
+            <type by_reference="false">\OpenShareFile\Model\$this</type>
+          </tag>
+          <tag line="81" name="access" description="public"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="114" package="">
+        <name>generateSlug</name>
+        <type>function</type>
+        <docblock line="108">
+          <description><![CDATA[Generate a uniq slug]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="108" name="return" description="the slug generated" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="108" name="access" description="public"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="128" package="">
+        <name>generateFile</name>
+        <type>function</type>
+        <docblock line="122">
+          <description><![CDATA[Generate the path of the file]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="122" name="return" description="the path of the file generated" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="122" name="access" description="public"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="141" package="">
+        <name>getId</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="142" package="">
+        <name>getUploadId</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="143" package="">
+        <name>getSlug</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="144" package="">
+        <name>getFile</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="145" package="">
+        <name>getFilename</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="146" package="">
+        <name>getFilesize</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="147" package="">
+        <name>getCreatedAt</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="155" package="">
+        <name>getIsDeleted</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="157" package="">
+        <name>setId</name>
+        <type>function</type>
+        <argument line="157">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="166" package="">
+        <name>setUploadId</name>
+        <type>function</type>
+        <argument line="166">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="175" package="">
+        <name>setSlug</name>
+        <type>function</type>
+        <argument line="175">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="184" package="">
+        <name>setFile</name>
+        <type>function</type>
+        <argument line="184">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="193" package="">
+        <name>setFilename</name>
+        <type>function</type>
+        <argument line="193">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="202" package="">
+        <name>setFilesize</name>
+        <type>function</type>
+        <argument line="202">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="211" package="">
+        <name>setCreatedAt</name>
+        <type>function</type>
+        <argument line="211">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="226" package="">
+        <name>setIsDeleted</name>
+        <type>function</type>
+        <argument line="226">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <file path="OpenShareFile/Model/Db.php" hash="f78e05c003e2bc0fc3071fbb983770e9" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file OpenShareFile/Model/Db.php</error>
+    </parse_markers>
+    <namespace-alias name="Config">OpenShareFile\Core\Config</namespace-alias>
+    <class final="false" abstract="true" namespace="OpenShareFile\Model" line="17" package="OpenShareFile\Model">
+      <name>Db</name>
+      <full_name>\OpenShareFile\Model\Db</full_name>
+      <extends/>
+      <docblock line="8">
+        <description><![CDATA[Database abtracted class]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="8" name="package" description="OpenShareFile\Model"/>
+        <tag line="8" name="abstract" description=""/>
+        <tag line="8" name="version" description="1.0.0"/>
+        <tag line="8" name="license" description="http://opensource.org/licenses/MIT  MIT"/>
+        <tag line="8" name="author" description="Simon Leblanc &lt;contact@leblanc-simon.eu&gt;"/>
+      </docblock>
+      <property final="false" static="true" visibility="private" line="25" package="Default">
+        <name>$conn</name>
+        <default><![CDATA[null]]></default>
+        <docblock line="19">
+          <description><![CDATA[The \PDO object]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="19" name="access" description="private"/>
+          <tag line="19" name="static" description=""/>
+        </docblock>
+      </property>
+      <property final="false" static="true" visibility="private" line="33" package="Default">
+        <name>$transactions</name>
+        <default><![CDATA[0]]></default>
+        <docblock line="27">
+          <description><![CDATA[The number of transaction open]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="27" name="access" description="private"/>
+          <tag line="27" name="static" description=""/>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="true" visibility="protected" namespace="OpenShareFile\Model" line="43" package="">
+        <name>getConn</name>
+        <type>function</type>
+        <docblock line="36">
+          <description><![CDATA[Get the \PDO connection]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="36" name="return" description="the \PDO connection" type="\PDO">
+            <type by_reference="false">\PDO</type>
+          </tag>
+          <tag line="36" name="access" description="protected"/>
+          <tag line="36" name="static" description=""/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="OpenShareFile\Model" line="62" package="">
+        <name>loadSql</name>
+        <type>function</type>
+        <docblock line="54">
+          <description><![CDATA[Initialize a query]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="54" name="param" description="the sql query" type="string" variable="$sql">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="54" name="param" description="the parameters to use with the query" type="array" variable="$params">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="54" name="return" description="the prepared statement" type="\PDOStatement">
+            <type by_reference="false">\PDOStatement</type>
+          </tag>
+          <tag line="54" name="access" description="protected"/>
+        </docblock>
+        <argument line="62">
+          <name>$sql</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="62">
+          <name>$params</name>
+          <default><![CDATA[array()]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="81" package="">
+        <name>beginTransaction</name>
+        <type>function</type>
+        <docblock line="76">
+          <description><![CDATA[Begin a SQL transaction]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="76" name="access" description="public"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="96" package="">
+        <name>commit</name>
+        <type>function</type>
+        <docblock line="91">
+          <description><![CDATA[Commit a SQL transaction]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="91" name="access" description="public"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="111" package="">
+        <name>rollback</name>
+        <type>function</type>
+        <docblock line="106">
+          <description><![CDATA[Rollback a SQL transaction]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="106" name="access" description="public"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Model" line="127" package="">
+        <name>lastInsertId</name>
+        <type>function</type>
+        <docblock line="121">
+          <description><![CDATA[Get the last inserted ID]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="121" name="return" description="The last inserted ID" type="int">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="121" name="access" description="public"/>
+        </docblock>
+      </method>
+    </class>
+  </file>
+  <file path="OpenShareFile/Extension/Swift/Send.php" hash="71d68c073a8318b90c5354aeb71ff254" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file OpenShareFile/Extension/Swift/Send.php</error>
+    </parse_markers>
+    <namespace-alias name="Config">OpenShareFile\Core\Config</namespace-alias>
+    <namespace-alias name="Exception">OpenShareFile\Core\Exception</namespace-alias>
+    <class final="false" abstract="false" namespace="OpenShareFile\Extension\Swift" line="17" package="OpenShareFile\Extension\Swift">
+      <name>Send</name>
+      <full_name>\OpenShareFile\Extension\Swift\Send</full_name>
+      <extends/>
+      <docblock line="9">
+        <description><![CDATA[Send mail class]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="9" name="package" description="OpenShareFile\Extension\Swift"/>
+        <tag line="9" name="version" description="1.0.0"/>
+        <tag line="9" name="license" description="http://opensource.org/licenses/MIT  MIT"/>
+        <tag line="9" name="author" description="Simon Leblanc &lt;contact@leblanc-simon.eu&gt;"/>
+      </docblock>
+      <property final="false" static="false" visibility="private" line="24" package="Default">
+        <name>$app</name>
+        <default><![CDATA[null]]></default>
+        <docblock line="19">
+          <description><![CDATA[Silex Application object]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="19" name="access" description="private"/>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="private" line="31" package="Default">
+        <name>$message</name>
+        <default><![CDATA[null]]></default>
+        <docblock line="26">
+          <description><![CDATA[The \Swift_Message object]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="26" name="access" description="private"/>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Extension\Swift" line="41" package="">
+        <name>__construct</name>
+        <type>function</type>
+        <docblock line="34">
+          <description><![CDATA[Constructor of the class]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="34" name="param" description="The Silex application object" type="\Silex\Application" variable="$app">
+            <type by_reference="false">\Silex\Application</type>
+          </tag>
+          <tag line="34" name="throws" description="if the mailer isn't defined" type="\OpenShareFile\Core\Exception\Exception">
+            <type by_reference="false">\OpenShareFile\Core\Exception\Exception</type>
+          </tag>
+          <tag line="34" name="access" description="public"/>
+        </docblock>
+        <argument line="41">
+          <name>$app</name>
+          <default><![CDATA[]]></default>
+          <type>\Silex\Application</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Extension\Swift" line="60" package="">
+        <name>setSubject</name>
+        <type>function</type>
+        <docblock line="52">
+          <description><![CDATA[Set the subject of the mail]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="52" name="param" description="the subject of the mail" type="string" variable="$v">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="52" name="throws" description="if the subject isn't a string" type="\OpenShareFile\Core\Exception\Exception">
+            <type by_reference="false">\OpenShareFile\Core\Exception\Exception</type>
+          </tag>
+          <tag line="52" name="return" description="for chained method" type="\OpenShareFile\Extension\Swift\$this">
+            <type by_reference="false">\OpenShareFile\Extension\Swift\$this</type>
+          </tag>
+          <tag line="52" name="access" description="public"/>
+        </docblock>
+        <argument line="60">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Extension\Swift" line="79" package="">
+        <name>setFrom</name>
+        <type>function</type>
+        <docblock line="71">
+          <description><![CDATA[Set the sender of the mail]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="71" name="param" description="the sender of the mail" type="string|array" variable="$v">
+            <type by_reference="false">string</type>
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="71" name="throws" description="if the sender isn't a string or an array" type="\OpenShareFile\Core\Exception\Exception">
+            <type by_reference="false">\OpenShareFile\Core\Exception\Exception</type>
+          </tag>
+          <tag line="71" name="return" description="for chained method" type="\OpenShareFile\Extension\Swift\$this">
+            <type by_reference="false">\OpenShareFile\Extension\Swift\$this</type>
+          </tag>
+          <tag line="71" name="access" description="public"/>
+        </docblock>
+        <argument line="79">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Extension\Swift" line="102" package="">
+        <name>setTo</name>
+        <type>function</type>
+        <docblock line="94">
+          <description><![CDATA[Set the recipient(s) of the mail]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="94" name="param" description="the recipient(s) of the mail" type="string" variable="$v">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="94" name="throws" description="if the recipient(s) isn't a string or an array" type="\OpenShareFile\Core\Exception\Exception">
+            <type by_reference="false">\OpenShareFile\Core\Exception\Exception</type>
+          </tag>
+          <tag line="94" name="return" description="for chained method" type="\OpenShareFile\Extension\Swift\$this">
+            <type by_reference="false">\OpenShareFile\Extension\Swift\$this</type>
+          </tag>
+          <tag line="94" name="access" description="public"/>
+        </docblock>
+        <argument line="102">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Extension\Swift" line="125" package="">
+        <name>setBody</name>
+        <type>function</type>
+        <docblock line="117">
+          <description><![CDATA[Set the body of the mail]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="117" name="param" description="the body of the mail" type="string" variable="$v">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="117" name="throws" description="if the body isn't a string" type="\OpenShareFile\Core\Exception\Exception">
+            <type by_reference="false">\OpenShareFile\Core\Exception\Exception</type>
+          </tag>
+          <tag line="117" name="return" description="for chained method" type="\OpenShareFile\Extension\Swift\$this">
+            <type by_reference="false">\OpenShareFile\Extension\Swift\$this</type>
+          </tag>
+          <tag line="117" name="access" description="public"/>
+        </docblock>
+        <argument line="125">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Extension\Swift" line="142" package="">
+        <name>send</name>
+        <type>function</type>
+        <docblock line="136">
+          <description><![CDATA[Send the mail]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="136" name="return" description="true if it's ok, false else" type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+          <tag line="136" name="access" description="public"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="OpenShareFile\Extension\Swift" line="154" package="">
+        <name>getMessage</name>
+        <type>function</type>
+        <docblock line="148">
+          <description><![CDATA[Get the message object]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="148" name="return" description="the message object" type="\Swift_Message">
+            <type by_reference="false">\Swift_Message</type>
+          </tag>
+          <tag line="148" name="access" description="private"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="OpenShareFile\Extension\Swift" line="170" package="">
+        <name>configureTransport</name>
+        <type>function</type>
+        <docblock line="164">
+          <description><![CDATA[Configure the transport of the mail according to the configuration]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="164" name="throws" description="if the value of transport in configuration isn't valid" type="\OpenShareFile\Core\Exception\Exception">
+            <type by_reference="false">\OpenShareFile\Core\Exception\Exception</type>
+          </tag>
+          <tag line="164" name="access" description="protected"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="OpenShareFile\Extension\Swift" line="201" package="">
+        <name>configureTransportNull</name>
+        <type>function</type>
+        <docblock line="195">
+          <description><![CDATA[Configure the transport with \Swift_NullTransport]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="195" name="return" description="" type="\Swift_NullTransport">
+            <type by_reference="false">\Swift_NullTransport</type>
+          </tag>
+          <tag line="195" name="access" description="private"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="OpenShareFile\Extension\Swift" line="213" package="">
+        <name>configureTransportMail</name>
+        <type>function</type>
+        <docblock line="207">
+          <description><![CDATA[Configure the transport with \Swift_MailTransport]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="207" name="return" description="" type="\Swift_MailTransport">
+            <type by_reference="false">\Swift_MailTransport</type>
+          </tag>
+          <tag line="207" name="access" description="private"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="OpenShareFile\Extension\Swift" line="233" package="">
+        <name>configureTransportSmtp</name>
+        <type>function</type>
+        <docblock line="227">
+          <description><![CDATA[Configure the transport with \Swift_Transport_EsmtpTransport]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="227" name="return" description="" type="\Swift_Transport_EsmtpTransport">
+            <type by_reference="false">\Swift_Transport_EsmtpTransport</type>
+          </tag>
+          <tag line="227" name="access" description="private"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="OpenShareFile\Extension\Swift" line="268" package="">
+        <name>configureTransportSendmail</name>
+        <type>function</type>
+        <docblock line="262">
+          <description><![CDATA[Configure the transport with \Swift_SendmailTransport]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="262" name="return" description="" type="\Swift_SendmailTransport">
+            <type by_reference="false">\Swift_SendmailTransport</type>
+          </tag>
+          <tag line="262" name="access" description="private"/>
+        </docblock>
+      </method>
+    </class>
+  </file>
+  <file path="OpenShareFile/Extension/Twig/Asset.php" hash="a63effba195c18d5fa4b6aace69de310" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file OpenShareFile/Extension/Twig/Asset.php</error>
+    </parse_markers>
+    <namespace-alias name="Config">OpenShareFile\Core\Config</namespace-alias>
+    <class final="false" abstract="false" namespace="OpenShareFile\Extension\Twig" line="16" package="OpenShareFile\Extension\Twig">
+      <name>Asset</name>
+      <full_name>\OpenShareFile\Extension\Twig\Asset</full_name>
+      <extends>\Twig_Extension</extends>
+      <docblock line="8">
+        <description><![CDATA[Asset extension for twig class]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="8" name="package" description="OpenShareFile\Extension\Twig"/>
+        <tag line="8" name="version" description="1.0.0"/>
+        <tag line="8" name="license" description="http://opensource.org/licenses/MIT  MIT"/>
+        <tag line="8" name="author" description="Simon Leblanc &lt;contact@leblanc-simon.eu&gt;"/>
+      </docblock>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Extension\Twig" line="24" package="">
+        <name>getFunctions</name>
+        <type>function</type>
+        <docblock line="18">
+          <description><![CDATA[Define twig functions]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="18" name="return" description="the array with the functions define" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="18" name="access" description="public"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Extension\Twig" line="41" package="">
+        <name>getName</name>
+        <type>function</type>
+        <docblock line="35">
+          <description><![CDATA[Get the class name]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="35" name="return" description="the class name" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="35" name="access" description="public"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Extension\Twig" line="54" package="">
+        <name>assetFunction</name>
+        <type>function</type>
+        <docblock line="47">
+          <description><![CDATA[Get the asset URL]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="47" name="param" description="the path to append in the root URL" type="string" variable="$v">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="47" name="return" description="the asset URL" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="47" name="access" description="public"/>
+        </docblock>
+        <argument line="54">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Extension\Twig" line="67" package="">
+        <name>imageFunction</name>
+        <type>function</type>
+        <docblock line="60">
+          <description><![CDATA[Get the image URL]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="60" name="param" description="the path to append in the images URL" type="string" variable="$v">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="60" name="return" description="the image URL" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="60" name="access" description="public"/>
+        </docblock>
+        <argument line="67">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Extension\Twig" line="84" package="">
+        <name>stylesheetFunction</name>
+        <type>function</type>
+        <docblock line="77">
+          <description><![CDATA[Get the CSS URL]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="77" name="param" description="the path to append in the CSS URL" type="string" variable="$v">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="77" name="return" description="the CSS URL" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="77" name="access" description="public"/>
+        </docblock>
+        <argument line="84">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Extension\Twig" line="101" package="">
+        <name>javascriptFunction</name>
+        <type>function</type>
+        <docblock line="94">
+          <description><![CDATA[Get the javascript URL]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="94" name="param" description="the path to append in the javascript URL" type="string" variable="$v">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="94" name="return" description="the javascript URL" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="94" name="access" description="public"/>
+        </docblock>
+        <argument line="101">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="OpenShareFile\Extension\Twig" line="117" package="">
+        <name>getBaseUrl</name>
+        <type>function</type>
+        <docblock line="111">
+          <description><![CDATA[Get the base URL]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="111" name="return" description="the base URL" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="111" name="access" description="private"/>
+        </docblock>
+      </method>
+    </class>
+  </file>
+  <file path="OpenShareFile/Extension/Twig/Config.php" hash="b3f867fefd71bdff7076bc7270b01633" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file OpenShareFile/Extension/Twig/Config.php</error>
+    </parse_markers>
+    <namespace-alias name="CoreConfig">OpenShareFile\Core\Config</namespace-alias>
+    <class final="false" abstract="false" namespace="OpenShareFile\Extension\Twig" line="16" package="OpenShareFile\Extension\Twig">
+      <name>Config</name>
+      <full_name>\OpenShareFile\Extension\Twig\Config</full_name>
+      <extends>\Twig_Extension</extends>
+      <docblock line="8">
+        <description><![CDATA[Config extension for twig class]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="8" name="package" description="OpenShareFile\Extension\Twig"/>
+        <tag line="8" name="version" description="1.0.0"/>
+        <tag line="8" name="license" description="http://opensource.org/licenses/MIT  MIT"/>
+        <tag line="8" name="author" description="Simon Leblanc &lt;contact@leblanc-simon.eu&gt;"/>
+      </docblock>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Extension\Twig" line="24" package="">
+        <name>getFunctions</name>
+        <type>function</type>
+        <docblock line="18">
+          <description><![CDATA[Define twig functions]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="18" name="return" description="the array with the functions define" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="18" name="access" description="public"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Extension\Twig" line="38" package="">
+        <name>getName</name>
+        <type>function</type>
+        <docblock line="32">
+          <description><![CDATA[Get the class name]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="32" name="return" description="the class name" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="32" name="access" description="public"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="OpenShareFile\Extension\Twig" line="51" package="">
+        <name>getConfigFunction</name>
+        <type>function</type>
+        <docblock line="44">
+          <description><![CDATA[Get the value of configuration]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="44" name="param" description="the name of the configuration to retrieve" type="string" variable="$v">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="44" name="return" description="the value of the configuration" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="44" name="access" description="public"/>
+        </docblock>
+        <argument line="51">
+          <name>$v</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <file path="OpenShareFile/Utils/Passwd.php" hash="9501a8a6a21174120284a493e995365c" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file OpenShareFile/Utils/Passwd.php</error>
+    </parse_markers>
+    <class final="false" abstract="false" namespace="OpenShareFile\Utils" line="14" package="OpenShareFile\Utils">
+      <name>Passwd</name>
+      <full_name>\OpenShareFile\Utils\Passwd</full_name>
+      <extends/>
+      <docblock line="5">
+        <description><![CDATA[A Compatibility library with PHP 5.5's simplified password hashing API.]]></description>
+        <long-description><![CDATA[Adapt to use SHA512 for old PHP version (PHP 5.3.0 >= v <= PHP 5.3.7)]]></long-description>
+        <tag line="5" name="author" description="Anthony Ferrara &lt;ircmaxell@php.net&gt;"/>
+        <tag line="5" name="package" description="OpenShareFile\Utils"/>
+        <tag line="5" name="license" description="http://www.opensource.org/licenses/mit-license.html MIT License"/>
+        <tag line="5" name="see" description="\OpenShareFile\Utils\https://github.com/ircmaxell/password_compat/blob/master/lib/password.php" refers="\OpenShareFile\Utils\https://github.com/ircmaxell/password_compat/blob/master/lib/password.php"/>
+      </docblock>
+      <constant namespace="OpenShareFile\Utils" line="16" package="OpenShareFile\Utils">
+        <name>PASSWORD_BCRYPT</name>
+        <value><![CDATA[1]]></value>
+      </constant>
+      <constant namespace="OpenShareFile\Utils" line="17" package="OpenShareFile\Utils">
+        <name>PASSWORD_SHA512</name>
+        <value><![CDATA[2]]></value>
+      </constant>
+      <constant namespace="OpenShareFile\Utils" line="18" package="OpenShareFile\Utils">
+        <name>PASSWORD_DEFAULT</name>
+        <value><![CDATA[self::PASSWORD_BCRYPT]]></value>
+      </constant>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="OpenShareFile\Utils" line="29" package="">
+        <name>password_hash</name>
+        <type>function</type>
+        <docblock line="20">
+          <description><![CDATA[Hash the password using the specified algorithm]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="20" name="param" description="The password to hash" type="string" variable="$password">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="20" name="param" description="The algorithm to use (Defined by PASSWORD_* constants)" type="int" variable="$algo">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="20" name="param" description="The options for the algorithm to use" type="array" variable="$options">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="20" name="returns" description="string|false The hashed password, or false on error."/>
+        </docblock>
+        <argument line="29">
+          <name>$password</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="29">
+          <name>$algo</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="29">
+          <name>$options</name>
+          <default><![CDATA[array()]]></default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="OpenShareFile\Utils" line="182" package="">
+        <name>password_get_info</name>
+        <type>function</type>
+        <docblock line="166">
+          <description><![CDATA[Get information about the password hash. Returns an array of the information
+that was used to generate the password hash.]]></description>
+          <long-description><![CDATA[array(
+   'algo' => 1,
+   'algoName' => 'bcrypt',
+   'options' => array(
+       'cost' => 10,
+   ),
+)]]></long-description>
+          <tag line="166" name="param" description="The password hash to extract info from" type="string" variable="$hash">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="166" name="return" description="The array of information about the hash." type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+        <argument line="182">
+          <name>$hash</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="OpenShareFile\Utils" line="216" package="">
+        <name>password_needs_rehash</name>
+        <type>function</type>
+        <docblock line="205">
+          <description><![CDATA[Determine if the password hash needs to be rehashed according to the options provided]]></description>
+          <long-description><![CDATA[If the answer is true, after validating the password using password_verify, rehash it.]]></long-description>
+          <tag line="205" name="param" description="The hash to test" type="string" variable="$hash">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="205" name="param" description="The algorithm used for new password hashes" type="int" variable="$algo">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="205" name="param" description="The options array passed to password_hash" type="array" variable="$options">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="205" name="return" description="True if the password needs to be rehashed." type="boolean">
+            <type by_reference="false">boolean</type>
+          </tag>
+        </docblock>
+        <argument line="216">
+          <name>$hash</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="216">
+          <name>$algo</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="216">
+          <name>$options</name>
+          <default><![CDATA[array()]]></default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="OpenShareFile\Utils" line="247" package="">
+        <name>password_verify</name>
+        <type>function</type>
+        <docblock line="239">
+          <description><![CDATA[Verify a password against a hash using a timing attack resistant approach]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="239" name="param" description="The password to verify" type="string" variable="$password">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="239" name="param" description="The hash to verify against" type="string" variable="$hash">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="239" name="return" description="If the password matches the hash" type="boolean">
+            <type by_reference="false">boolean</type>
+          </tag>
+        </docblock>
+        <argument line="247">
+          <name>$password</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="247">
+          <name>$hash</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <file path="OpenShareFile/OpenShareFile.php" hash="2ec79ee7968f083605daf4f3ffae808b" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file OpenShareFile/OpenShareFile.php</error>
+    </parse_markers>
+    <namespace-alias name="Exception">OpenShareFile\Core\Exception</namespace-alias>
+    <class final="false" abstract="false" namespace="OpenShareFile" line="16" package="OpenShareFile">
+      <name>OpenShareFile</name>
+      <full_name>\OpenShareFile\OpenShareFile</full_name>
+      <extends/>
+      <docblock line="8">
+        <description><![CDATA[Application class]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="8" name="package" description="OpenShareFile"/>
+        <tag line="8" name="version" description="1.0.0"/>
+        <tag line="8" name="license" description="http://opensource.org/licenses/MIT  MIT"/>
+        <tag line="8" name="author" description="Simon Leblanc &lt;contact@leblanc-simon.eu&gt;"/>
+      </docblock>
+      <property final="false" static="true" visibility="private" line="24" package="Default">
+        <name>$app</name>
+        <default><![CDATA[null]]></default>
+        <docblock line="18">
+          <description><![CDATA[Silex Application object]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="18" name="access" description="private"/>
+          <tag line="18" name="static" description=""/>
+        </docblock>
+      </property>
+      <property final="false" static="true" visibility="private" line="32" package="Default">
+        <name>$routing</name>
+        <default><![CDATA[array()]]></default>
+        <docblock line="26">
+          <description><![CDATA[The array of the routing]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="26" name="access" description="private"/>
+          <tag line="26" name="static" description=""/>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="OpenShareFile" line="41" package="">
+        <name>run</name>
+        <type>function</type>
+        <docblock line="35">
+          <description><![CDATA[Run the application]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="35" name="access" description="public"/>
+          <tag line="35" name="static" description=""/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="private" namespace="OpenShareFile" line="93" package="">
+        <name>getRequired</name>
+        <type>function</type>
+        <docblock line="87">
+          <description><![CDATA[Load required files]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="87" name="access" description="private"/>
+          <tag line="87" name="static" description=""/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="private" namespace="OpenShareFile" line="118" package="">
+        <name>getApp</name>
+        <type>function</type>
+        <docblock line="111">
+          <description><![CDATA[Get the Silex Application]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="111" name="return" description="the Silex Application object to use" type="\Silex\Application">
+            <type by_reference="false">\Silex\Application</type>
+          </tag>
+          <tag line="111" name="access" description="private"/>
+          <tag line="111" name="static" description=""/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="private" namespace="OpenShareFile" line="136" package="">
+        <name>checkDatas</name>
+        <type>function</type>
+        <docblock line="128">
+          <description><![CDATA[Check the required data to launch the application]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="128" name="param" description="the datas to check" type="array" variable="$datas">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="128" name="throws" description="If a data is missing" type="\InvalidArgumentException">
+            <type by_reference="false">\InvalidArgumentException</type>
+          </tag>
+          <tag line="128" name="access" description="private"/>
+          <tag line="128" name="static" description=""/>
+        </docblock>
+        <argument line="136">
+          <name>$datas</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="private" namespace="OpenShareFile" line="158" package="">
+        <name>registerProviders</name>
+        <type>function</type>
+        <docblock line="152">
+          <description><![CDATA[Register somes providers]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="152" name="access" description="private"/>
+          <tag line="152" name="static" description=""/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="private" namespace="OpenShareFile" line="175" package="">
+        <name>registerUrlGenerator</name>
+        <type>function</type>
+        <docblock line="169">
+          <description><![CDATA[Register URLGenerator provider]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="169" name="access" description="private"/>
+          <tag line="169" name="static" description=""/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="private" namespace="OpenShareFile" line="187" package="">
+        <name>registerSession</name>
+        <type>function</type>
+        <docblock line="181">
+          <description><![CDATA[Register Session provider]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="181" name="access" description="private"/>
+          <tag line="181" name="static" description=""/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="private" namespace="OpenShareFile" line="199" package="">
+        <name>registerTranslation</name>
+        <type>function</type>
+        <docblock line="193">
+          <description><![CDATA[Register Translation provider]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="193" name="access" description="private"/>
+          <tag line="193" name="static" description=""/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="private" namespace="OpenShareFile" line="233" package="">
+        <name>registerTwig</name>
+        <type>function</type>
+        <docblock line="227">
+          <description><![CDATA[Register Twig provider]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="227" name="access" description="private"/>
+          <tag line="227" name="static" description=""/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="private" namespace="OpenShareFile" line="257" package="">
+        <name>registerForms</name>
+        <type>function</type>
+        <docblock line="251">
+          <description><![CDATA[Register Forms provider]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="251" name="access" description="private"/>
+          <tag line="251" name="static" description=""/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="private" namespace="OpenShareFile" line="273" package="">
+        <name>registerSwift</name>
+        <type>function</type>
+        <docblock line="267">
+          <description><![CDATA[Register SwiftMailer provider]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="267" name="access" description="private"/>
+          <tag line="267" name="static" description=""/>
+        </docblock>
+      </method>
+    </class>
+  </file>
+  <file path="OpenShareFile/Core/Config.php" hash="b9c6ae8c57520935cdfcb3d9ac91ecea" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file OpenShareFile/Core/Config.php</error>
+    </parse_markers>
+    <class final="false" abstract="false" namespace="OpenShareFile\Core" line="14" package="OpenShareFile\Core">
+      <name>Config</name>
+      <full_name>\OpenShareFile\Core\Config</full_name>
+      <extends/>
+      <docblock line="6">
+        <description><![CDATA[Config class]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="6" name="package" description="OpenShareFile\Core"/>
+        <tag line="6" name="version" description="1.0.0"/>
+        <tag line="6" name="license" description="http://opensource.org/licenses/MIT  MIT"/>
+        <tag line="6" name="author" description="Simon Leblanc &lt;contact@leblanc-simon.eu&gt;"/>
+      </docblock>
+      <property final="false" static="true" visibility="private" line="22" package="Default">
+        <name>$datas</name>
+        <default><![CDATA[array()]]></default>
+        <docblock line="16">
+          <description><![CDATA[The array with all configuration values]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="16" name="access" description="private"/>
+          <tag line="16" name="static" description=""/>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="OpenShareFile\Core" line="32" package="">
+        <name>add</name>
+        <type>function</type>
+        <docblock line="25">
+          <description><![CDATA[Add an array of configuration]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="25" name="param" description="An array of configuration values" type="array" variable="$datas">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="25" name="access" description="public"/>
+          <tag line="25" name="static" description=""/>
+        </docblock>
+        <argument line="32">
+          <name>$datas</name>
+          <default><![CDATA[]]></default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="OpenShareFile\Core" line="48" package="">
+        <name>set</name>
+        <type>function</type>
+        <docblock line="38">
+          <description><![CDATA[Set a configuration value]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="38" name="param" description="The name of the configuration" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="38" name="param" description="The value of the configuration" type="mixed" variable="$value">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="38" name="param" description="True to replace configuration if it exists, false else" type="bool" variable="$replace">
+            <type by_reference="false">bool</type>
+          </tag>
+          <tag line="38" name="return" description="True if the configuration is setted, false else" type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+          <tag line="38" name="access" description="public"/>
+          <tag line="38" name="static" description=""/>
+        </docblock>
+        <argument line="48">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="48">
+          <name>$value</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="48">
+          <name>$replace</name>
+          <default><![CDATA[true]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="OpenShareFile\Core" line="68" package="">
+        <name>get</name>
+        <type>function</type>
+        <docblock line="59">
+          <description><![CDATA[Get a configuration value]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="59" name="param" description="The name of the configuration to get" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="59" name="param" description="The default value if the configuration name doesn't exist" type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="59" name="return" description="The value of the configuration" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="59" name="access" description="public"/>
+          <tag line="59" name="static" description=""/>
+        </docblock>
+        <argument line="68">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="68">
+          <name>$default</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <file path="OpenShareFile/Core/Exception/Exception.php" hash="fb1deae5a772f22cfe6f59b6742cd0c9" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file OpenShareFile/Core/Exception/Exception.php</error>
+    </parse_markers>
+    <class final="false" abstract="false" namespace="OpenShareFile\Core\Exception" line="14" package="OpenShareFile\Core\Exception">
+      <name>Exception</name>
+      <full_name>\OpenShareFile\Core\Exception\Exception</full_name>
+      <extends>\Exception</extends>
+      <docblock line="6">
+        <description><![CDATA[OpenShareFile base exception]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="6" name="package" description="OpenShareFile\Core\Exception"/>
+        <tag line="6" name="version" description="1.0.0"/>
+        <tag line="6" name="license" description="http://opensource.org/licenses/MIT  MIT"/>
+        <tag line="6" name="author" description="Simon Leblanc &lt;contact@leblanc-simon.eu&gt;"/>
+      </docblock>
+    </class>
+  </file>
+  <file path="OpenShareFile/Core/Exception/Error404.php" hash="7155a3e38996f6e2683ade4af8befcab" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file OpenShareFile/Core/Exception/Error404.php</error>
+    </parse_markers>
+    <class final="false" abstract="false" namespace="OpenShareFile\Core\Exception" line="14" package="OpenShareFile\Core\Exception">
+      <name>Error404</name>
+      <full_name>\OpenShareFile\Core\Exception\Error404</full_name>
+      <extends>\OpenShareFile\Core\Exception\Exception</extends>
+      <docblock line="6">
+        <description><![CDATA[404 error exception]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="6" name="package" description="OpenShareFile\Core\Exception"/>
+        <tag line="6" name="version" description="1.0.0"/>
+        <tag line="6" name="license" description="http://opensource.org/licenses/MIT  MIT"/>
+        <tag line="6" name="author" description="Simon Leblanc &lt;contact@leblanc-simon.eu&gt;"/>
+      </docblock>
+    </class>
+  </file>
+  <file path="OpenShareFile/Core/Exception/Security.php" hash="5c9ef2720ffba25134b2474a00c276b6" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file OpenShareFile/Core/Exception/Security.php</error>
+    </parse_markers>
+    <class final="false" abstract="false" namespace="OpenShareFile\Core\Exception" line="14" package="OpenShareFile\Core\Exception">
+      <name>Security</name>
+      <full_name>\OpenShareFile\Core\Exception\Security</full_name>
+      <extends>\OpenShareFile\Core\Exception\Exception</extends>
+      <docblock line="6">
+        <description><![CDATA[Security exception]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="6" name="package" description="OpenShareFile\Core\Exception"/>
+        <tag line="6" name="version" description="1.0.0"/>
+        <tag line="6" name="license" description="http://opensource.org/licenses/MIT  MIT"/>
+        <tag line="6" name="author" description="Simon Leblanc &lt;contact@leblanc-simon.eu&gt;"/>
+      </docblock>
+    </class>
+  </file>
+  <file path="OpenShareFile/Core/Autoload.php" hash="7346ea20651bff7904c0057dfb4bcdfe" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file OpenShareFile/Core/Autoload.php</error>
+    </parse_markers>
+    <class final="false" abstract="false" namespace="OpenShareFile\Core" line="14" package="OpenShareFile\Core">
+      <name>Autoload</name>
+      <full_name>\OpenShareFile\Core\Autoload</full_name>
+      <extends/>
+      <docblock line="6">
+        <description><![CDATA[Autoload class]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="6" name="package" description="OpenShareFile\Core"/>
+        <tag line="6" name="version" description="1.0.0"/>
+        <tag line="6" name="license" description="http://opensource.org/licenses/MIT  MIT"/>
+        <tag line="6" name="author" description="Simon Leblanc &lt;contact@leblanc-simon.eu&gt;"/>
+      </docblock>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="OpenShareFile\Core" line="22" package="">
+        <name>register</name>
+        <type>function</type>
+        <docblock line="16">
+          <description><![CDATA[Register the autoload]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="16" name="access" description="public"/>
+          <tag line="16" name="static" description=""/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="OpenShareFile\Core" line="35" package="">
+        <name>autoloader</name>
+        <type>function</type>
+        <docblock line="28">
+          <description><![CDATA[Method allow to autoload a class]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="28" name="param" description="The name of the class to autoload" type="string" variable="$class_name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="28" name="access" description="public"/>
+          <tag line="28" name="static" description=""/>
+        </docblock>
+        <argument line="35">
+          <name>$class_name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <package name="" full_name=""/>
+  <package name="Default" full_name="Default"/>
+  <package name="OpenShareFile" full_name="OpenShareFile">
+    <package name="App" full_name="OpenShareFile\App"/>
+    <package name="Core" full_name="OpenShareFile\Core">
+      <package name="Exception" full_name="OpenShareFile\Core\Exception"/>
+    </package>
+    <package name="Extension" full_name="OpenShareFile\Extension">
+      <package name="Swift" full_name="OpenShareFile\Extension\Swift"/>
+      <package name="Twig" full_name="OpenShareFile\Extension\Twig"/>
+    </package>
+    <package name="Model" full_name="OpenShareFile\Model"/>
+    <package name="Utils" full_name="OpenShareFile\Utils"/>
+  </package>
+  <namespace name="OpenShareFile" full_name="OpenShareFile">
+    <namespace name="App" full_name="OpenShareFile\App"/>
+    <namespace name="Core" full_name="OpenShareFile\Core">
+      <namespace name="Exception" full_name="OpenShareFile\Core\Exception"/>
+    </namespace>
+    <namespace name="Extension" full_name="OpenShareFile\Extension">
+      <namespace name="Swift" full_name="OpenShareFile\Extension\Swift"/>
+      <namespace name="Twig" full_name="OpenShareFile\Extension\Twig"/>
+    </namespace>
+    <namespace name="Model" full_name="OpenShareFile\Model"/>
+    <namespace name="Utils" full_name="OpenShareFile\Utils"/>
+  </namespace>
+  <marker count="0">todo</marker>
+  <marker count="0">fixme</marker>
+  <deprecated count="0"/>
+</project>
