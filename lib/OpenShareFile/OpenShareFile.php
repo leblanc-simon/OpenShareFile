@@ -234,8 +234,7 @@ class OpenShareFile
     {
         self::getApp()->register(new \Silex\Provider\TwigServiceProvider(), array(
             'twig.path' => Core\Config::get('theme_dir').DIRECTORY_SEPARATOR.Core\Config::get('theme'),
-            //'twig.options' => array('cache' => Core\Config::get('cache_dir')),
-            'twig.options' => array('cache' => false),
+            'twig.options' => array('cache' => Core\Config::get('cache_dir')),
         ));
         
         $app = self::getApp();
