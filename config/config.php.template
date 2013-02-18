@@ -27,4 +27,27 @@
     'max_email' => 5,
     'email_from' => 'no-reply@example.com',
     'max_file'  => 10,
+    
+    'swiftmailer_transport' => 'Swift_Transport_MailTransport', // can be Swift_Transport_MailTransport, Swift_Transport_EsmtpTransport, Swift_Transport_SendmailTransport, Swift_Transport_NullTransport
+    // For Swift_Transport_MailTransport
+    'swiftmailer_options' => array(
+        
+    ),
+    // For Swift_Transport_EsmtpTransport
+    /*'swiftmailer_options' => array(
+        'host' => 'host',
+        'port' => '25',
+        'username' => 'username',
+        'password' => 'password',
+        'encryption' => null,
+        'auth_mode' => null
+    ),*/
+    // For Swift_Transport_SendmailTransport
+    /*'swiftmailer_options' => array(
+        'command' => '/usr/sbin/sendmail -bs',
+    ),*/
+    // For Swift_Transport_NullTransport
+    /*'swiftmailer_options' => array(
+        
+    ),*/
 ));
