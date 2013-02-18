@@ -142,7 +142,7 @@ class Upload extends App
     /**
      * Process the save of uploaded file
      *
-     * @param   UploadedFile    $file           the file to process
+     * @param   \Symfony\Component\HttpFoundation\File\UploadedFile    $upload_file    the file to process
      * @param   array           $data           the form datas
      * @param   string          $upload_slug    the slug of the Upload object related with File object (null for create a new Upload object)
      * @return  string                          the slug of the Upload object related with File object
@@ -150,7 +150,7 @@ class Upload extends App
      * @throws  OpenShareFile\Core\Exception\Exception  Error while get Upload object
      * @access  private
      */
-    private function processFile(UploadedFile $upload_file, array $data, $upload_slug = null)
+    private function processFile(\Symfony\Component\HttpFoundation\File\UploadedFile $upload_file, array $data, $upload_slug = null)
     {
         $file = new DBFile();
         $file->beginTransaction();
