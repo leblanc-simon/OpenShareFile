@@ -8,7 +8,7 @@
     'locale_dir' => dirname(__DIR__).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'locales',
     'theme_dir' => dirname(__DIR__).DIRECTORY_SEPARATOR.'templates',
     'data_dir' => dirname(__DIR__).DIRECTORY_SEPARATOR.'datas',
-    'cache_dir' => dirname(__DIR__).DIRECTORY_SEPARATOR.'cache',
+    'cache_dir' => dirname(__DIR__).DIRECTORY_SEPARATOR.'cache', // false to disable cache
     
     'bdd_dsn' => 'mysql:dbname=open_share_file;host:localhost',
     'bdd_user' => 'root',
