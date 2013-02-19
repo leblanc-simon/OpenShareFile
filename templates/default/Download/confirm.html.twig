@@ -14,6 +14,13 @@
     <div class="block-detail download">
         
         <div class="">
+            {% if upload.passwd != '' %}
+                {% if form.password.vars.errors|length %}
+            <div class="alert alert-error">
+                {{ form_errors(form.password) }}
+            </div>
+                {% endif %}  
+            {% endif %}  
             <form action="{{ url('download_submit') }}" method="post">
                 {% for file in files %}
                 <div class="file">
@@ -27,7 +34,6 @@
                 
                 {% if upload.passwd != '' %}
                 <div class="passwd">
-                    {{ form_errors(form.password) }}
                     {{ form_label(form.password) }}
                     {{ form_widget(form.password) }}
                 </div>

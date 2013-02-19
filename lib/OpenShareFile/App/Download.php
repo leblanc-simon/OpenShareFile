@@ -8,6 +8,8 @@ use OpenShareFile\Model\File as DBFile;
 use OpenShareFile\Model\Upload as DBUpload;
 use OpenShareFile\Utils\Passwd;
 
+use OpenShareFile\Extension\Symfony\Validator\Constraints\Password as AssertPassword;
+
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -62,9 +64,19 @@ class Download extends App
                     'data' => $upload->getSlug(),
                     'required' => true,
                 ));
+        
         // If upload is protected, get password
         if ($upload->getPasswd() !== '') {
-            $form->add('password', 'password', array('required' => true));
+            $form->add('password', 'password', array(
+                'required' => true,
+                'constraints' => array(
+                    new AssertPassword(array(
+                        'object' => $upload,
+                        'method' => 'getPasswd',
+                        'message' => $this->app['translator']->trans('Wrong password.'),
+                    )),
+                )
+            ));
         }
         
         $files = $upload->getFiles();

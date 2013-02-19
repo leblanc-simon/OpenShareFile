@@ -112,3 +112,8 @@ footer {
 .return {
     margin-top: 20px;
 }
+
+.alert-error ul {
+    list-style: none;
+    margin: 0;
+}
