@@ -62,6 +62,37 @@ class Upload extends Db
     
     
     /**
+     * Populate the object in loading a record identify by id
+     *
+     * @param   int     $id   the search id
+     * @access  public
+     */
+    public function getById($id)
+    {
+        $sql = 'SELECT * FROM upload WHERE id = :id AND is_deleted = :is_deleted';
+        
+        $stmt = $this->loadSql($sql, array(
+            ':id' => array('value' => $id, 'type' => \PDO::PARAM_INT),
+            ':is_deleted' => array('value' => false, 'type' => \PDO::PARAM_BOOL)
+        ));
+        
+        $result = $stmt->execute();
+        if ($result === true) {
+            $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+            if ($row !== false) {
+                $this->setId($row['id']);
+                $this->setSlug($row['slug']);
+                $this->setLifetime($row['lifetime']);
+                $this->setPasswd($row['passwd']);
+                $this->setCrypt($row['crypt']);
+                $this->setCreatedAt($row['created_at']);
+                $this->setIsDeleted($row['is_deleted']);
+            }
+        }
+    }
+    
+    
+    /**
      * Get all files associated with the upload
      *
      * @return  array<File>     all files associated with the upload

@@ -25,6 +25,11 @@ $routing = array(
             'method'    => 'defaultAction',
             'route'     => 'download_confirm',
         ),
+        '/download/file/{slug}' => array(
+            'class'     => 'Download',
+            'method'    => 'fileAction',
+            'route'     => 'download_file',
+        ),
     ),
     
     'POST' => array(
