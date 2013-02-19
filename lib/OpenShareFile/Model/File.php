@@ -138,6 +138,21 @@ class File extends Db
     }
     
     
+    /**
+     * Get the associated upload
+     *
+     * @return  Upload  the associated upload
+     * @access  public
+     */
+    public function getUpload()
+    {
+        $upload = new Upload();
+        $upload->getById($this->getUploadId());
+        
+        return $upload;
+    }
+    
+    
     public function getId() { return (int)$this->id; }
     public function getUploadId() { return (int)$this->upload_id; }
     public function getSlug() { return (string)$this->slug; }
