@@ -4,6 +4,8 @@ namespace OpenShareFile;
 
 use OpenShareFile\Core\Exception;
 
+use Symfony\Component\HttpFoundation\Response;
+
 
 /**
  * Application class
@@ -63,15 +65,50 @@ class OpenShareFile
                         $controler = new $class_name($app);
                         
                         return $controler->$method_name();
+                    } catch (Exception\Security $e) {
+                        if (Core\Config::get('debug', false) === true) {
+                            throw $e;
+                        }
+                        
+                        return new Response(
+                            $app['twig']->render('_exception'.DIRECTORY_SEPARATOR.'security.html.twig', array('exception' => $e)),
+                            403
+                        );
+                    } catch (Exception\Error404 $e) {
+                        if (Core\Config::get('debug', false) === true) {
+                            throw $e;
+                        }
+                        
+                        return new Response(
+                            $app['twig']->render('_exception'.DIRECTORY_SEPARATOR.'error404.html.twig', array('exception' => $e)),
+                            404
+                        );
                     } catch (Exception\Exception $e) {
                         if (Core\Config::get('debug', false) === true) {
                             throw $e;
                         }
-                        $template = '_exception'.DIRECTORY_SEPARATOR.strtolower(str_replace('OpenShareFile\\Core\\Exception', '', get_class($e))).'.html.twig';
-                        return $app['twig']->render($template, array('exception' => $e));
+                        
+                        return new Response(
+                            $app['twig']->render('_exception'.DIRECTORY_SEPARATOR.'exception.html.twig', array('exception' => $e)),
+                            500
+                        );
                     }
                 })->method($method)
                   ->bind($datas['route']);
+                  
+                
+                self::$app->error(function (\Exception $e, $code) use ($app) {
+                    $template = 'exception.html.twig';
+                    
+                    if ($code === 404) {
+                        $template = 'error404.html.twig';
+                    } elseif ($code === 403) {
+                        $template = 'security.html.twig';
+                    }
+                    
+                    
+                    return new Response($app['twig']->render('_exception'.DIRECTORY_SEPARATOR.$template, array('exception' => $e)));
+                });
             }
         }
         

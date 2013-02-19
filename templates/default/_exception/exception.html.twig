@@ -1,3 +1,9 @@
 {% extends "layout.html.twig" %}
 
 {% block title %}OpenShareFileFile - {{ "Error"|trans }}{% endblock %}
+
+{% block content %}
+<div class="alert alert-block margin-top">
+{{ "An error occured"|trans }} : {{ e.message }}
+</div>
+{% endblock %}
