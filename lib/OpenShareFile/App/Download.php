@@ -323,7 +323,7 @@ class Download extends App
             
             // Create a symbolic link to have the good name of file
             $symlink = $tmp_dir.DIRECTORY_SEPARATOR.$file->getFilename();
-            if (readlink($symlink) !== $filename && @symlink($filename, $symlink) === false) {
+            if (file_exists($symlink) === false && readlink($symlink) !== $filename && @symlink($filename, $symlink) === false) {
                 throw new Exception\Exception();
             }
         }
@@ -339,7 +339,7 @@ class Download extends App
         
         $response->sendHeaders();
         
-        $cmdline = escapeshellcmd(Config::get('zip_binary')).' -j - '.escapeshellarg($tmp_dir.DIRECTORY_SEPARATOR.'*');
+        $cmdline = escapeshellcmd(Config::get('zip_binary')).' -j - '.escapeshellarg($tmp_dir).DIRECTORY_SEPARATOR.'*';
         $handle = popen($cmdline, 'r');
         if ($handle === false) {
             throw new Exception\Exception();
