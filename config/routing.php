@@ -25,6 +25,11 @@ $routing = array(
             'method'    => 'defaultAction',
             'route'     => 'download_confirm',
         ),
+        '/download/zip/{slug}' => array(
+            'class'     => 'Download',
+            'method'    => 'zipAction',
+            'route'     => 'download_zip',
+        ),
         '/download/file/{slug}' => array(
             'class'     => 'Download',
             'method'    => 'fileAction',
