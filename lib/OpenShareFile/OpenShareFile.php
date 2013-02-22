@@ -97,18 +97,20 @@ class OpenShareFile
                   ->bind($datas['route']);
                   
                 
-                self::$app->error(function (\Exception $e, $code) use ($app) {
-                    $template = 'exception.html.twig';
-                    
-                    if ($code === 404) {
-                        $template = 'error404.html.twig';
-                    } elseif ($code === 403) {
-                        $template = 'security.html.twig';
-                    }
-                    
-                    
-                    return new Response($app['twig']->render('_exception'.DIRECTORY_SEPARATOR.$template, array('exception' => $e)));
-                });
+                if (Core\Config::get('debug', false) === false) {
+                    self::$app->error(function (\Exception $e, $code) use ($app) {
+                        $template = 'exception.html.twig';
+                        
+                        if ($code === 404) {
+                            $template = 'error404.html.twig';
+                        } elseif ($code === 403) {
+                            $template = 'security.html.twig';
+                        }
+                        
+                        
+                        return new Response($app['twig']->render('_exception'.DIRECTORY_SEPARATOR.$template, array('exception' => $e)));
+                    });
+                }
             }
         }
         

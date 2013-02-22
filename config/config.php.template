@@ -24,6 +24,12 @@
     'default_lifetime' => 7,
     'allow_crypt' => true,
     
+    'allow_zip' => true,
+    'zip_binary' => '/usr/bin/zip',
+    
+    'directory_mode' => 0755,
+    'file_mode' => 0644,
+    
     'max_email' => 5,
     'email_from' => 'no-reply@example.com',
     'max_file'  => 10,

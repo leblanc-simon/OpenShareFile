@@ -29,6 +29,15 @@
                     </button>
                 </div>
                 {% endfor %}
+                
+                {% if get_config('allow_zip') %}
+                <div class="zip">
+                    <button type="submit" class="btn" name="form[zip]" value="1">
+                        {{ "Download all files in a ZIP file"|trans }}
+                    </button>
+                </div>
+                {% endif %}  
+                
                 {{ form_widget(form.slug) }}
                 {{ form_widget(form._token) }}
                 

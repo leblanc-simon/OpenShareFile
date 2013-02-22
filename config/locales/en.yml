@@ -49,6 +49,7 @@ size_tbyte: TB
 # Download
 Download: Download
 Wrong password.: Wrong password.
+Download all files in a ZIP file: Download all files in a ZIP file
 
 # Modal
 Close: Close
