@@ -230,7 +230,7 @@ class Download extends App
         fseek($handle, $begin);
         
         $remaining_size = $end - $begin + 1;
-        $length_to_send = $remaining_size < 8192 ? $remaining_size : 8192; // send by 8KB
+        $length_to_send = $remaining_size < 8192 ? $remaining_size : 8192; // send by 8KB : 8192 is the size of the default buffer on many popular operating systems
         
         while (false !== $datas = fread($handle, $length_to_send)) {
             echo $datas;
