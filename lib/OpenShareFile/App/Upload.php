@@ -192,9 +192,12 @@ class Upload extends App
             
             // Save file in file system
             $save_dir = Config::get('data_dir').pathinfo($file->getFile(), PATHINFO_DIRNAME);
-            mkdir($save_dir, Config::get('dir_right', 0755), true);
+            if (@mkdir($save_dir, Config::get('directory_mode', 0755), true) === false) {
+                throw new Exception\Exception();
+            }
             
             $upload_file->move($save_dir, pathinfo($file->getFile(), PATHINFO_BASENAME));
+            @chmod(Config::get('data_dir').$file->getFile(), Config::get('file_mode', 0644));
             
             $file->commit();
             
