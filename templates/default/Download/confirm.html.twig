@@ -30,7 +30,7 @@
                 </div>
                 {% endfor %}
                 
-                {% if get_config('allow_zip') %}
+                {% if get_config('allow_zip') and not upload.crypt and (files | length > 1) %}
                 <div class="zip">
                     <button type="submit" class="btn" name="form[zip]" value="1">
                         {{ "Download all files in a ZIP file"|trans }}

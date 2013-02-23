@@ -7,6 +7,7 @@ use OpenShareFile\Core\Exception;
 use OpenShareFile\Model\File as DBFile;
 use OpenShareFile\Model\Upload as DBUpload;
 use OpenShareFile\Utils\Passwd;
+use OpenShareFile\Utils\Gpg;
 
 use OpenShareFile\Extension\Symfony\Validator\Constraints\Password as AssertPassword;
 
@@ -84,7 +85,8 @@ class Download extends App
             $form->add('file_'.$file->getSlug(), 'hidden', array('required' => false));
         }
         
-        if (Config::get('allow_zip') === true) {
+        // Allowed ZIP download only if configuration is OK and files are not crypted
+        if (Config::get('allow_zip') === true && $upload->getCrypt() === false) {
             $form->add('zip', 'hidden', array('required' => false));
         }
         
@@ -124,6 +126,11 @@ class Download extends App
                 
                 // Save this allowed upload
                 $this->app['session']->set('allowed_upload', array_merge(array($upload->getSlug()), $this->app['session']->get('allowed_upload', array())));
+                
+                // Save password if upload is crypted
+                if ($upload->getCrypt() === true) {
+                    $this->app['session']->set('upload_'.$upload->getSlug(), $data['password']);
+                }
                 
                 // Redirect in the download file action or zip action
                 if ($file_slug !== null) {
@@ -167,10 +174,119 @@ class Download extends App
         }
         
         $filename = Config::get('data_dir').$file->getFile();
+        if ($upload->getCrypt() === true) {
+            $filename .= '.gpg';
+        }
+        
         if (file_exists($filename) === false) {
             throw new Exception\Error404();
         }
         
+        if ($upload->getCrypt() === true) {
+            $this->downloadEncryptFile($upload, $file, $filename);
+        } else {
+            $this->downloadFile($upload, $file, $filename);
+        }
+    }
+    
+    
+    /**
+     * Download a zip file with all files action
+     * ZIP file doesn't support HTTP_RANGE !
+     *
+     * @return  Response
+     * @throws  OpenShareFile\Core\Exception\Error404  Error while retrieving Upload object
+     * @throws  OpenShareFile\Core\Exception\Security  Password for download are wrong
+     * @throws  OpenShareFile\Core\Exception\Exception Error while processing zip file to download
+     * @access  public
+     * @see     http://stackoverflow.com/questions/4357073/on-the-fly-zipping-streaming-of-large-files-in-php-or-otherwise
+     */
+    public function zipAction()
+    {
+        // Check if zip is allowed
+        if (Config::get('allow_zip') === false) {
+            throw new Exception\Security();
+        }
+        
+        $slug = $this->app['request']->get('slug');
+        
+        if (empty($slug) === true) {
+            throw new Exception\Error404();
+        }
+        
+        // Get associated upload to slug
+        $upload = new DBUpload($slug);
+        if ($upload->getId() === 0) {
+            throw new Exception\Error404();
+        }
+        
+        // Check if the upload is deleted
+        if ($upload->getIsDeleted() === true) {
+            throw new Exception\Error404();
+        } 
+        
+        if ($upload->getPasswd() !== '' && in_array($upload->getSlug(), $this->app['session']->get('allowed_upload', array())) === false) {
+            throw new Exception\Security();
+        }
+        
+        if ($upload->getCrypt() === true) {
+            throw new Exception\Exception('crypt upload can\'t be downloaded with ZIP');
+        }
+        
+        // Create tmp folder : this folder will be deleted when upload will be expirated
+        $tmp_dir = Config::get('data_dir').DIRECTORY_SEPARATOR.'tmp_zip'.DIRECTORY_SEPARATOR.$upload->getSlug();
+        if (is_dir($tmp_dir) === false && @mkdir($tmp_dir, Config::get('directory_mode', 0755), true) === false) {
+            throw new Exception\Exception();
+        }
+        
+        // Get files
+        $files = $upload->getFiles();
+        $files_to_zip = array();
+        foreach ($files as $file) {
+            $filename = Config::get('data_dir').$file->getFile();
+            
+            if (file_exists($filename) === false) {
+                throw new Exception\Exception();
+            }
+            
+            // Create a symbolic link to have the good name of file
+            $symlink = $tmp_dir.DIRECTORY_SEPARATOR.$file->getFilename();
+            if (file_exists($symlink) === false && readlink($symlink) !== $filename && @symlink($filename, $symlink) === false) {
+                throw new Exception\Exception();
+            }
+        }
+        
+        $response = new Response();
+        
+        $response->headers->set('Content-Type', 'application/force-download', true);
+        $response->headers->set('Content-disposition', 'attachment; filename="'.$upload->getSlug().'.zip"', true);
+        $response->headers->set('Content-Transfer-Encoding', 'application/octet-stream', true);
+        $response->headers->set('Pragma', 'no-cache', true);
+        $response->headers->set('Cache-Control', 'must-revalidate, post-check=0, pre-check=0, public', true);
+        $response->headers->set('Expires', '0', true);
+        
+        $response->sendHeaders();
+        
+        $cmdline = escapeshellcmd(Config::get('zip_binary')).' -j - '.escapeshellarg($tmp_dir).DIRECTORY_SEPARATOR.'*';
+        $handle = popen($cmdline, 'r');
+        if ($handle === false) {
+            throw new Exception\Exception();
+        }
+        
+        $buffer_size = 8192; // send by 8KB : 8192 is the size of the default buffer on many popular operating systems
+        while (feof($handle) === false) {
+            echo fread($handle, $buffer_size);
+            ob_flush();
+            flush();
+        }
+        
+        pclose($handle);
+        die();
+    }
+    
+    
+    private function downloadFile(DBUpload $upload, DBFile $file, $filename)
+    {
         // send file to client
         $handle = fopen($filename, 'rb');
         if ($handle === false) {
@@ -266,72 +382,17 @@ class Download extends App
     }
     
     
-    /**
-     * Download a zip file with all files action
-     * ZIP file doesn't support HTTP_RANGE !
-     *
-     * @return  Response
-     * @throws  OpenShareFile\Core\Exception\Error404  Error while retrieving Upload object
-     * @throws  OpenShareFile\Core\Exception\Security  Password for download are wrong
-     * @throws  OpenShareFile\Core\Exception\Exception Error while processing zip file to download
-     * @access  public
-     * @see     http://stackoverflow.com/questions/4357073/on-the-fly-zipping-streaming-of-large-files-in-php-or-otherwise
-     */
-    public function zipAction()
+    private function downloadEncryptFile(DBUpload $upload, DBFile $file, $filename)
     {
-        // Check if zip is allowed
-        if (Config::get('allow_zip') === false) {
+        $password = $this->app['session']->get('upload_'.$upload->getSlug(), null);
+        if ($password === null) {
             throw new Exception\Security();
-        }
-        
-        $slug = $this->app['request']->get('slug');
-        
-        if (empty($slug) === true) {
-            throw new Exception\Error404();
-        }
-        
-        // Get associated upload to slug
-        $upload = new DBUpload($slug);
-        if ($upload->getId() === 0) {
-            throw new Exception\Error404();
-        }
-        
-        // Check if the upload is deleted
-        if ($upload->getIsDeleted() === true) {
-            throw new Exception\Error404();
-        } 
-        
-        if ($upload->getPasswd() !== '' && in_array($upload->getSlug(), $this->app['session']->get('allowed_upload', array())) === false) {
-            throw new Exception\Security();
-        }
-        
-        // Create tmp folder : this folder will be deleted when upload will be expirated
-        $tmp_dir = Config::get('data_dir').DIRECTORY_SEPARATOR.'tmp_zip'.DIRECTORY_SEPARATOR.$upload->getSlug();
-        if (is_dir($tmp_dir) === false && @mkdir($tmp_dir, Config::get('directory_mode', 0755), true) === false) {
-            throw new Exception\Exception();
-        }
-        
-        // Get files
-        $files = $upload->getFiles();
-        $files_to_zip = array();
-        foreach ($files as $file) {
-            $filename = Config::get('data_dir').$file->getFile();
-            
-            if (file_exists($filename) === false) {
-                throw new Exception\Exception();
-            }
-            
-            // Create a symbolic link to have the good name of file
-            $symlink = $tmp_dir.DIRECTORY_SEPARATOR.$file->getFilename();
-            if (file_exists($symlink) === false && readlink($symlink) !== $filename && @symlink($filename, $symlink) === false) {
-                throw new Exception\Exception();
-            }
         }
         
         $response = new Response();
         
         $response->headers->set('Content-Type', 'application/force-download', true);
-        $response->headers->set('Content-disposition', 'attachment; filename="'.$upload->getSlug().'.zip"', true);
+        $response->headers->set('Content-disposition', 'attachment; filename="'.str_replace('"', '', $file->getFilename()).'"', true);
         $response->headers->set('Content-Transfer-Encoding', 'application/octet-stream', true);
         $response->headers->set('Pragma', 'no-cache', true);
         $response->headers->set('Cache-Control', 'must-revalidate, post-check=0, pre-check=0, public', true);
@@ -339,20 +400,8 @@ class Download extends App
         
         $response->sendHeaders();
         
-        $cmdline = escapeshellcmd(Config::get('zip_binary')).' -j - '.escapeshellarg($tmp_dir).DIRECTORY_SEPARATOR.'*';
-        $handle = popen($cmdline, 'r');
-        if ($handle === false) {
-            throw new Exception\Exception();
-        }
+        Gpg::decrypt($filename, $password);
         
-        $buffer_size = 8192; // send by 8KB : 8192 is the size of the default buffer on many popular operating systems
-        while (feof($handle) === false) {
-            echo fread($handle, $buffer_size);
-            ob_flush();
-            flush();
-        }
-        
-        pclose($handle);
         die();
     }
 }

@@ -22,7 +22,9 @@
     'form_secret' => '4fcdd251d714569982c2fe41ac2620d3',
     
     'default_lifetime' => 7,
+    
     'allow_crypt' => true,
+    'crypt_binary' => '/usr/bin/gpg',
     
     'allow_zip' => true,
     'zip_binary' => '/usr/bin/zip',
