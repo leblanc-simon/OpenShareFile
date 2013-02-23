@@ -85,7 +85,8 @@ class Download extends App
             $form->add('file_'.$file->getSlug(), 'hidden', array('required' => false));
         }
         
-        if (Config::get('allow_zip') === true) {
+        // Allowed ZIP download only if configuration is OK and files are not crypted
+        if (Config::get('allow_zip') === true && $upload->getCrypt() === false) {
             $form->add('zip', 'hidden', array('required' => false));
         }
         
@@ -226,6 +227,10 @@ class Download extends App
         
         if ($upload->getPasswd() !== '' && in_array($upload->getSlug(), $this->app['session']->get('allowed_upload', array())) === false) {
             throw new Exception\Security();
+        }
+        
+        if ($upload->getCrypt() === true) {
+            throw new Exception\Exception('crypt upload can\'t be downloaded with ZIP');
         }
         
         // Create tmp folder : this folder will be deleted when upload will be expirated
