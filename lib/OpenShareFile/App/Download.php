@@ -285,6 +285,14 @@ class Download extends App
     }
     
     
+    /**
+     * Download a file
+     *
+     * @param   \OpenShareFile\Model\Upload     $upload     the Upload object
+     * @param   \OpenShareFile\Model\File       $file       the File object (the file to download)
+     * @param   string                          $filename   the path of the file to download
+     * @access  private
+     */
     private function downloadFile(DBUpload $upload, DBFile $file, $filename)
     {
         // send file to client
@@ -382,6 +390,14 @@ class Download extends App
     }
     
     
+    /**
+     * Download an encrypted file
+     *
+     * @param   \OpenShareFile\Model\Upload     $upload     the Upload object
+     * @param   \OpenShareFile\Model\File       $file       the File object (the file to download)
+     * @param   string                          $filename   the path of the file to download
+     * @access  private
+     */
     private function downloadEncryptFile(DBUpload $upload, DBFile $file, $filename)
     {
         $password = $this->app['session']->get('upload_'.$upload->getSlug(), null);
