@@ -8,6 +8,7 @@ use OpenShareFile\Extension\Swift;
 use OpenShareFile\Model\File as DBFile;
 use OpenShareFile\Model\Upload as DBUpload;
 use OpenShareFile\Utils\Passwd;
+use OpenShareFile\Utils\Gpg;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -198,6 +199,22 @@ class Upload extends App
             
             $upload_file->move($save_dir, pathinfo($file->getFile(), PATHINFO_BASENAME));
             @chmod(Config::get('data_dir').$file->getFile(), Config::get('file_mode', 0644));
+            
+            if ($upload->getCrypt() === true) {
+                $original_file = Config::get('data_dir').$file->getFile();
+                $encrypt_file = $original_file.'.gpg';
+                
+                // crypt original file
+                if (Gpg::encrypt($original_file, $data['password'], $encrypt_file) === false) {
+                    throw new Exception\Exception();
+                }
+                
+                // delete original file
+                @unlink($original_file);
+                
+                // apply the mode in the new file
+                @chmod($encrypt_file, Config::get('file_mode', 0644));
+            }
             
             $file->commit();
             
