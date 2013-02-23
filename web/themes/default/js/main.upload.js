@@ -74,10 +74,12 @@ $(document).ready(function(){
         if (this.checked == true) {
             $('.password').fadeIn();
             $('.password input').focus();
+            $('.password input').attr('required', 'required');
         } else {
             $('.password input').html('');
             $('.password').fadeOut();
             $('#form_crypt')[0].checked = false;
+            $('.password input').removeAttr('required');
         }
     });
     

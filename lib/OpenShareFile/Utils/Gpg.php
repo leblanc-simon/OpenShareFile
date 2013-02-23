@@ -109,23 +109,43 @@ class Gpg
             throw new Exception\Exception();
         }
         
-        $cmdline  = 'echo '.escapeshellarg($password);
-        $cmdline .= ' | ';
-        $cmdline .= escapeshellcmd(Config::get('crypt_binary')).' --batch --no-tty --passphrase-fd 0 -o - ';
-        $cmdline .= escapeshellarg($file).' 2> /dev/null';
+        $cmdline  = escapeshellcmd(Config::get('crypt_binary'));
+        $cmdline .= ' --batch --no-tty --passphrase-fd 0 -o -';
+        $cmdline .= ' '.escapeshellarg($file);
         
-        $handle = popen($cmdline, 'r');
-        if ($handle === false) {
-            throw new Exception\Exception();
+        $handle = proc_open($cmdline,
+                            array(
+                                0 => array('pipe', 'r'),
+                                1 => array('pipe', 'w'),
+                                2 => array('pipe', 'w'),
+                            ),
+                            $pipes,
+                            pathinfo($file, PATHINFO_DIRNAME)
+        );
+        
+        if (is_resource($handle) === true) {
+            if (fwrite($pipes[0], $password) === false) {
+                throw new Exception\Exception('Unable to write in STDIN');
+            }
+            
+            if (fclose($pipes[0]) === false) {
+                throw new Exception\Exception('Unable to close STDIN');
+            }
+            
+            $buffer_size = 8192; // send by 8KB : 8192 is the size of the default buffer on many popular operating systems
+            while (feof($pipes[1]) === false) {
+                echo fread($pipes[1], $buffer_size);
+                ob_flush();
+                flush();
+            }
+            fclose($pipes[1]);
+            
+            $stderr = stream_get_contents($pipes[2]);
+            fclose($pipes[2]);
+            
+            if (proc_close($handle) != 0) {
+                throw new Exception\Exception($stderr);
+            }
         }
-        
-        $buffer_size = 8192; // send by 8KB : 8192 is the size of the default buffer on many popular operating systems
-        while (feof($handle) === false) {
-            echo fread($handle, $buffer_size);
-            ob_flush();
-            flush();
-        }
-        
-        pclose($handle);
     }
 }
