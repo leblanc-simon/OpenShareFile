@@ -121,3 +121,23 @@ footer {
 .margin-top {
     margin-top: 1em;
 }
+
+.vendors {
+    margin-top: 0.5em;
+}
+
+.vendors li {
+    margin-bottom: 0.3em;
+}
+
+.vendors .name {
+    font-weight: 700;
+}
+
+.vendors .license {
+    font-size: 0.8em;
+}
+
+.vendors .link {
+    display: block;
+}

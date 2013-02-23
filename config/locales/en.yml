@@ -60,3 +60,18 @@ An error occured: An error occured
 # Error page
 Page not found: Page not found
 You are not allowed to access this page: You are not allowed to access this page
+
+# About
+About: About
+about_description: |
+    <p>OpenShareFile is an opensource program which allow to upload and share big files</p>
+    <p>This program is distributed under opensource license  <a href="http://opensource.org/licenses/MIT">
+    MIT</a></p>
+    <p>Authors :
+        <ul>
+            <li><b>Main developper: </b> Simon Leblanc &lt;contact@leblanc-simon.eu&gt;</li>
+            <li><b>Design ideas: </b> </li>
+        </ul>
+    </p>
+Third-party software: Third-party software
+"OpenShareFile use this third-party software:": "OpenShareFile use this third-party software:"

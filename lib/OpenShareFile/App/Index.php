@@ -22,4 +22,16 @@ class Index extends App
     {
         return $this->render('default.html.twig');
     }
+    
+    
+    /**
+     * About action
+     *
+     * @return  Response
+     * @access  public
+     */
+    public function aboutAction()
+    {
+        return $this->render('about.html.twig');
+    }
 }

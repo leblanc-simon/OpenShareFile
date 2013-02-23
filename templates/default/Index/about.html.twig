@@ -1,0 +1,73 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}OpenShareFileFile - {{ "About"|trans }}{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ css('mime-sprite.min.css') }}" rel="stylesheet">
+    <style>
+        .about-main:after {
+            content: "{{ "About"|trans|e('css') }}";
+        }
+        .about-vendor:after {
+            content: "{{ "Third-party software"|trans|e('css') }}";
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="block-detail about-main">
+    {% autoescape false %}
+        {{ "about_description"|trans }}
+    {% endautoescape %}
+    </div>
+    <div class="block-detail about-vendor">
+        {{ "OpenShareFile use this third-party software:"|trans }}
+        <ul class="vendors">
+            <li>
+                <span class="name">Silex</span>
+                <span class="license">(MIT)</span>
+                <span class="link"><a href="http://silex.sensiolabs.org/">http://silex.sensiolabs.org/</a></span>
+            </li>
+            <li>
+                <span class="name">Twig</span>
+                <span class="license">(BSD)</span>
+                <span class="link"><a href="http://twig.sensiolabs.org/">http://twig.sensiolabs.org/</a></span>
+            </li>
+            <li>
+                <span class="name">Symfony Components</span>
+                <span class="license">(MIT)</span>
+                <span class="link"><a href="http://symfony.com/components">http://symfony.com/components</a></span>
+            </li>
+            <li>
+                <span class="name">Swiftmailer</span>
+                <span class="license">(GNU/LGPL v3)</span>
+                <span class="link"><a href="http://swiftmailer.org/">http://swiftmailer.org/</a></span>
+            </li>
+            <li>
+                <span class="name">password_compat</span>
+                <span class="license">(MIT)</span>
+                <span class="link"><a href="https://github.com/ircmaxell/password_compat">https://github.com/ircmaxell/password_compat</a></span>
+            </li>
+            <li>
+                <span class="name">Twitter Bootstrap</span>
+                <span class="license">(Apache License v2.0)</span>
+                <span class="link"><a href="http://twitter.github.com/bootstrap/">http://twitter.github.com/bootstrap/</a></span>
+            </li>
+            <li>
+                <span class="name">jQuery</span>
+                <span class="license">(MIT)</span>
+                <span class="link"><a href="http://jquery.org/">http://jquery.org/</a></span>
+            </li>
+            <li>
+                <span class="name">jQuery File Upload</span>
+                <span class="license">(MIT)</span>
+                <span class="link"><a href="http://blueimp.github.com/jQuery-File-Upload/">http://blueimp.github.com/jQuery-File-Upload/</a></span>
+            </li>
+            <li>
+                <span class="name">Mimetype icons</span>
+                <span class="license">(Public Domain)</span>
+                <span class="link"><a href="https://bitbucket.org/harobed/mimetype-icons-css-sprite">https://bitbucket.org/harobed/mimetype-icons-css-sprite</a></span>
+            </li>
+        </ul>
+    </div>
+{% endblock %}

@@ -8,6 +8,12 @@ $routing = array(
             'route'     => 'homepage',
         ),
         
+        '/about' => array(
+            'class'     => 'Index',
+            'method'    => 'aboutAction',
+            'route'     => 'about',
+        ),
+        
         '/upload' => array(
             'class'     => 'Upload',
             'method'    => 'formAction',
