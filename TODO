@@ -1,7 +1,5 @@
 - Amélioration de l'interface de téléchargement
-- Page About
 - Page d'accueil à revoir
-- Chiffrement des données
 - Test avec une base de données SQLite
 - Reprise de l'upload (chunked)
 - Gestion des utilisateurs ???
