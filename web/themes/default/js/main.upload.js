@@ -88,12 +88,18 @@ $(document).ready(function(){
         if (this.checked == true) {
             $('.emails').fadeIn();
             $('.emails input')[0].focus();
+            $('#form_email_0').attr('required', 'required');
+            $('#form_email_subject').attr('required', 'required');
+            $('#form_email_message').attr('required', 'required');
         } else {
             $('.emails').fadeOut();
+            $('#form_email_0').removeAttr('required');
+            $('#form_email_subject').removeAttr('required');
+            $('#form_email_message').removeAttr('required');
         }
     });
     
-    // Show emails field when send is checked
+    // Show password field when crypt is checked
     $('#form_crypt').change(function(){
         var is_protect = $('#form_protect')[0].checked;
         if (is_protect == false) {
