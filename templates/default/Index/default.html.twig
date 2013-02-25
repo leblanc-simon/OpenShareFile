@@ -3,5 +3,17 @@
 {% block title %}OpenShareFileFile{% endblock %}
 
 {% block content %}
-{{ "homepage_description"|trans }}
+    <div class="block-detail homepage-main">
+        <div class="description">
+        {% autoescape false %}
+            {{ "homepage_description"|trans }}
+        {% endautoescape %}
+        </div>
+        <div class="goto-upload">
+            <a href="{{ url('upload_form') }}" class="btn btn-large btn-success">
+                <i class="icon-upload icon-white"></i>
+                {{ "Upload files"|trans }}
+            </a>
+        </div>
+    </div>
 {% endblock %}

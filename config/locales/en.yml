@@ -4,7 +4,14 @@ Upload file: Upload file
 Download file: Download file
 
 # Homepage
-homepage_description: OpenShareFileFile is an application to allow you share file
+homepage_description: |
+    <p>OpenShareFileFile is an application to allow you share file.</p>
+    <ol>
+        <li>Select file(s)</li>
+        <li>Upload it</li>
+        <li>Share with your friends by sending them the link</li>
+    </ol>
+Upload files: Upload files
 
 # Upload
 Add a file: Add a file

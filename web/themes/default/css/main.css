@@ -122,6 +122,15 @@ footer {
     margin-top: 1em;
 }
 
+.homepage-main {
+    padding-top: 14px;
+}
+
+.goto-upload {
+    margin-top:2em;
+    text-align: center;
+}
+
 .vendors {
     margin-top: 0.5em;
 }

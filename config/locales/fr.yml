@@ -4,7 +4,14 @@ Upload file: Envoyer un fichier
 Download file: Télécharger un fichier
 
 # Homepage
-homepage_description: OpenShareFileFile est une application qui vous permet de partager des fichiers
+homepage_description: |
+    <p>OpenShareFileFile est une application qui vous permet de partager des fichiers.</p>
+    <ol>
+        <li>Sélectionnez des fichiers</li>
+        <li>Téléchargez-les</li>
+        <li>Partagez avec vos amis en leur envoyant le lien</li>
+    </ol>
+Upload files: Envoyer des fichiers
 
 # Upload
 Add a file: Ajouter un fichier
