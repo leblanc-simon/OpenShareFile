@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of the OpenShareFile package.
+ *
+ * (c) Simon Leblanc <contact@leblanc-simon.eu>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace OpenShareFile\Task;
 
@@ -37,7 +45,7 @@ class Clean extends Command
      * Execute task
      *
      * @param   \Symfony\Component\Console\Input\InputInterface     $input  The input arguments class
-     * @param   \Symfony\Component\Console\Output\OutputInterface   $ouput  the ouput class
+     * @param   \Symfony\Component\Console\Output\OutputInterface   $output The ouput class
      * @return  void
      * @access  protected
      */

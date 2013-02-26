@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
 <meta charset="utf-8">
-<title>phpDocumentor » OpenShareFile\App</title>
+<title>phpDocumentor » \OpenShareFile\Utils\Clean</title>
 <meta name="author" content="Mike van Riel">
 <meta name="description" content="">
 <link href="../css/template.css" rel="stylesheet" media="all">
@@ -51,55 +51,106 @@
                         </div></noscript>
 <div class="row">
 <div class="span4">
-<div class="btn-group view pull-right" data-toggle="buttons-radio">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
 <button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
 </div>
 <ul class="side-nav nav nav-list">
 <li class="nav-header">
-<i class="icon-map-marker"></i> Namespaces</li>
-<li>
-<a href="../namespaces/OpenShareFile.App.html" title="App"><i class="icon-th"></i>App</a><ul class="nav nav-list nav-namespaces"></ul>
-</li>
+<i class="icon-custom icon-method"></i> Methods</li>
+<li class="method public "><a href="#run" title="run :: Process the cleaning"><span class="description">Process the cleaning</span><pre>run()</pre></a></li>
+<li class="nav-header private">» Private</li>
+<li class="method private "><a href="#writeOutput" title="writeOutput :: Write in the standard ouput if available"><span class="description">Write in the standard ouput if available</span><pre>writeOutput()</pre></a></li>
 </ul>
 </div>
-<div class="span8 namespace-contents">
-<ul class="breadcrumb">
+<div class="span8">
+<a name="%5COpenShareFile%5CUtils%5CClean" id="\OpenShareFile\Utils\Clean"></a><ul class="breadcrumb">
 <li>
-<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
 </li>
 <li><a href="../namespaces/OpenShareFile.html">OpenShareFile</a></li>
-<span class="divider">\</span><li class="active"><a href="../namespaces/OpenShareFile.App.html">App</a></li>
+<span class="divider">\</span><li><a href="../namespaces/OpenShareFile.Utils.html">Utils</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/OpenShareFile.Utils.Clean.html">Clean</a>
+</li>
 </ul>
-<div class="namespace-indent">
+<div href="../classes/OpenShareFile.Utils.Clean.html" class="element class">
+<p class="short_description">Clean process class</p>
+<div class="details">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>package</th>
+<td><a href="../packages/OpenShareFile.Utils.html">OpenShareFile\Utils</a></td>
+</tr>
+<tr>
+<th>version</th>
+<td>1.0.0</td>
+</tr>
+<tr>
+<th>license</th>
+<td><a href="http://opensource.org/licenses/MIT">MIT</a></td>
+</tr>
+<tr>
+<th>author</th>
+<td><a href="mailto:contact@leblanc-simon.eu">Simon Leblanc</a></td>
+</tr>
+</table>
 <h3>
-<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
-<a name="App" id="App"></a><div class="element ajax clickable class" href="../classes/OpenShareFile.App.App.html">
-<h1>App<a href="../classes/OpenShareFile.App.App.html">¶</a>
-</h1>
-<p class="short_description">Base controler class</p>
-<div class="details collapse"></div>
-<a href="../classes/OpenShareFile.App.App.html" class="more">« More »</a>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a name="run" id="run"></a><div class="element clickable method public run" data-toggle="collapse" data-target=".run .collapse">
+<h2>Process the cleaning</h2>
+<pre>run(OutputInterface $output) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>access</th>
+<td>public</td>
+</tr>
+<tr>
+<th>static</th>
+<td></td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$output</h4>
+<code>\Symfony\Component\Console\Output\OutputInterface</code><p>the output command class (use for log)</p>
 </div>
-<a name="Download" id="Download"></a><div class="element ajax clickable class" href="../classes/OpenShareFile.App.Download.html">
-<h1>Download<a href="../classes/OpenShareFile.App.Download.html">¶</a>
-</h1>
-<p class="short_description">Download controler</p>
-<div class="details collapse"></div>
-<a href="../classes/OpenShareFile.App.Download.html" class="more">« More »</a>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/OpenShareFile.Core.Exception.Exception.html">\OpenShareFile\Core\Exception\Exception</a></code></th>
+<td>if process throw exception (PDO exception)</td>
+</tr></table>
+</div></div>
 </div>
-<a name="Index" id="Index"></a><div class="element ajax clickable class" href="../classes/OpenShareFile.App.Index.html">
-<h1>Index<a href="../classes/OpenShareFile.App.Index.html">¶</a>
-</h1>
-<p class="short_description">Index controler</p>
-<div class="details collapse"></div>
-<a href="../classes/OpenShareFile.App.Index.html" class="more">« More »</a>
+<a name="writeOutput" id="writeOutput"></a><div class="element clickable method private writeOutput" data-toggle="collapse" data-target=".writeOutput .collapse">
+<h2>Write in the standard ouput if available</h2>
+<pre>writeOutput(string $text, OutputInterface $output) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>access</th>
+<td>private</td>
+</tr>
+<tr>
+<th>static</th>
+<td></td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$text</h4>
+<code>string</code><p>the string to output</p></div>
+<div class="subelement argument">
+<h4>$output</h4>
+<code>\Symfony\Component\Console\Output\OutputInterface</code><p>the output command class (use for log)</p>
 </div>
-<a name="Upload" id="Upload"></a><div class="element ajax clickable class" href="../classes/OpenShareFile.App.Upload.html">
-<h1>Upload<a href="../classes/OpenShareFile.App.Upload.html">¶</a>
-</h1>
-<p class="short_description">Upload controler</p>
-<div class="details collapse"></div>
-<a href="../classes/OpenShareFile.App.Upload.html" class="more">« More »</a>
+</div></div>
+</div>
 </div>
 </div>
 </div>
@@ -107,7 +158,7 @@
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a3</a> and<br>
-            generated on 2013-02-26T04:02:33+01:00.<br></footer></div>
+            generated on 2013-02-26T04:02:34+01:00.<br></footer></div>
 </div>
 </body>
 </html>

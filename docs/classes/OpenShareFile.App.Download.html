@@ -33,7 +33,7 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">67</span></a></li>
+                <span class="label label-info">16</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
@@ -58,14 +58,19 @@
 <li class="nav-header">
 <i class="icon-custom icon-method"></i> Methods</li>
 <li class="method public inherited"><a href="#__construct" title="__construct :: Controler construtor"><span class="description">Controler construtor</span><pre>__construct()</pre></a></li>
-<li class="method public "><a href="#defaultAction" title="defaultAction :: Download file action"><span class="description">Download file action</span><pre>defaultAction()</pre></a></li>
+<li class="method public "><a href="#defaultAction" title="defaultAction :: Download file form action"><span class="description">Download file form action</span><pre>defaultAction()</pre></a></li>
+<li class="method public "><a href="#fileAction" title="fileAction :: Download file action"><span class="description">Download file action</span><pre>fileAction()</pre></a></li>
+<li class="method public "><a href="#zipAction" title="zipAction :: Download a zip file with all files action
+ZIP file doesn't support HTTP_RANGE !"><span class="description">Download a zip file with all files action
+ZIP file doesn't support HTTP_RANGE !</span><pre>zipAction()</pre></a></li>
 <li class="nav-header protected">» Protected</li>
 <li class="method protected inherited"><a href="#render" title="render :: Render the twig template for the action"><span class="description">Render the twig template for the action</span><pre>render()</pre></a></li>
 <li class="nav-header private">» Private</li>
+<li class="method private "><a href="#downloadEncryptFile" title="downloadEncryptFile :: Download an encrypted file"><span class="description">Download an encrypted file</span><pre>downloadEncryptFile()</pre></a></li>
+<li class="method private "><a href="#downloadFile" title="downloadFile :: Download a file"><span class="description">Download a file</span><pre>downloadFile()</pre></a></li>
 <li class="method private inherited"><a href="#getClassname" title="getClassname :: Get the class name without namespace"><span class="description">Get the class name without namespace</span><pre>getClassname()</pre></a></li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties</li>
-<li class="property public inherited"><a href="#%24content_file" title="$content_file :: "><span class="description">$content_file</span><pre>$content_file</pre></a></li>
 <li class="property public inherited"><a href="#%24page_title" title="$page_title :: The title markup of the page"><span class="description">The title markup of the page</span><pre>$page_title</pre></a></li>
 <li class="property public inherited"><a href="#%24theme_path" title="$theme_path :: The path where is the template file (twig file)"><span class="description">The path where is the template file (twig file)</span><pre>$theme_path</pre></a></li>
 <li class="property public inherited"><a href="#%24theme_url" title="$theme_url :: The public URL's theme to use (JS, CSS, image, ...)"><span class="description">The public URL's theme to use (JS, CSS, image, ...)</span><pre>$theme_url</pre></a></li>
@@ -131,7 +136,7 @@
 </div></div>
 </div>
 <a name="defaultAction" id="defaultAction"></a><div class="element clickable method public defaultAction" data-toggle="collapse" data-target=".defaultAction .collapse">
-<h2>Download file action</h2>
+<h2>Download file form action</h2>
 <pre>defaultAction() : \Symfony\Component\HttpFoundation\Response</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
@@ -150,9 +155,76 @@
 <th><code><a href="../classes/OpenShareFile.Core.Exception.Security.html">\OpenShareFile\Core\Exception\Security</a></code></th>
 <td>Password for download are wrong</td>
 </tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code>\Symfony\Component\HttpFoundation\Response</code></div>
+</div></div>
+</div>
+<a name="fileAction" id="fileAction"></a><div class="element clickable method public fileAction" data-toggle="collapse" data-target=".fileAction .collapse">
+<h2>Download file action</h2>
+<pre>fileAction() : \Symfony\Component\HttpFoundation\Response</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>access</th>
+<td>public</td>
+</tr>
+<tr>
+<th>see</th>
+<td>\OpenShareFile\App\http://programmation-web.net/2012/04/reprendre-le-telechargement-dun-fichier-en-php/</td>
+</tr>
+</table>
+<h3>Exceptions</h3>
+<table class="table table-bordered">
+<tr>
+<th><code><a href="../classes/OpenShareFile.Core.Exception.Error404.html">\OpenShareFile\Core\Exception\Error404</a></code></th>
+<td>Error while retrieving Upload object</td>
+</tr>
+<tr>
+<th><code><a href="../classes/OpenShareFile.Core.Exception.Security.html">\OpenShareFile\Core\Exception\Security</a></code></th>
+<td>Password for download are wrong</td>
+</tr>
 <tr>
 <th><code><a href="../classes/OpenShareFile.Core.Exception.Exception.html">\OpenShareFile\Core\Exception\Exception</a></code></th>
 <td>Error while reading file to download</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code>\Symfony\Component\HttpFoundation\Response</code></div>
+</div></div>
+</div>
+<a name="zipAction" id="zipAction"></a><div class="element clickable method public zipAction" data-toggle="collapse" data-target=".zipAction .collapse">
+<h2>Download a zip file with all files action
+ZIP file doesn't support HTTP_RANGE !</h2>
+<pre>zipAction() : \Symfony\Component\HttpFoundation\Response</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>access</th>
+<td>public</td>
+</tr>
+<tr>
+<th>see</th>
+<td>\OpenShareFile\App\http://stackoverflow.com/questions/4357073/on-the-fly-zipping-streaming-of-large-files-in-php-or-otherwise</td>
+</tr>
+</table>
+<h3>Exceptions</h3>
+<table class="table table-bordered">
+<tr>
+<th><code><a href="../classes/OpenShareFile.Core.Exception.Error404.html">\OpenShareFile\Core\Exception\Error404</a></code></th>
+<td>Error while retrieving Upload object</td>
+</tr>
+<tr>
+<th><code><a href="../classes/OpenShareFile.Core.Exception.Security.html">\OpenShareFile\Core\Exception\Security</a></code></th>
+<td>Password for download are wrong</td>
+</tr>
+<tr>
+<th><code><a href="../classes/OpenShareFile.Core.Exception.Exception.html">\OpenShareFile\Core\Exception\Exception</a></code></th>
+<td>Error while processing zip file to download</td>
 </tr>
 </table>
 <h3>Returns</h3>
@@ -187,6 +259,52 @@
 <code>\OpenShareFile\App\Response</code>the response to send to the client</div>
 </div></div>
 </div>
+<a name="downloadEncryptFile" id="downloadEncryptFile"></a><div class="element clickable method private downloadEncryptFile" data-toggle="collapse" data-target=".downloadEncryptFile .collapse">
+<h2>Download an encrypted file</h2>
+<pre>downloadEncryptFile(DBUpload $upload, DBFile $file, string $filename) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>private</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$upload</h4>
+<code><a href="../classes/OpenShareFile.Model.Upload.html">\OpenShareFile\Model\Upload</a></code><p>the Upload object</p></div>
+<div class="subelement argument">
+<h4>$file</h4>
+<code><a href="../classes/OpenShareFile.Model.File.html">\OpenShareFile\Model\File</a></code><p>the File object (the file to download)</p>
+</div>
+<div class="subelement argument">
+<h4>$filename</h4>
+<code>string</code><p>the path of the file to download</p></div>
+</div></div>
+</div>
+<a name="downloadFile" id="downloadFile"></a><div class="element clickable method private downloadFile" data-toggle="collapse" data-target=".downloadFile .collapse">
+<h2>Download a file</h2>
+<pre>downloadFile(DBUpload $upload, DBFile $file, string $filename) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>private</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$upload</h4>
+<code><a href="../classes/OpenShareFile.Model.Upload.html">\OpenShareFile\Model\Upload</a></code><p>the Upload object</p></div>
+<div class="subelement argument">
+<h4>$file</h4>
+<code><a href="../classes/OpenShareFile.Model.File.html">\OpenShareFile\Model\File</a></code><p>the File object (the file to download)</p>
+</div>
+<div class="subelement argument">
+<h4>$filename</h4>
+<code>string</code><p>the path of the file to download</p></div>
+</div></div>
+</div>
 <a name="getClassname" id="getClassname"></a><div class="element clickable method private getClassname" data-toggle="collapse" data-target=".getClassname .collapse">
 <h2>Get the class name without namespace</h2>
 <pre>getClassname() : string</pre>
@@ -210,18 +328,6 @@
 </div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
-<a name="%24content_file" id="$content_file"> </a><div class="element clickable property public $content_file" data-toggle="collapse" data-target=".$content_file .collapse">
-<h2>$content_file</h2>
-<pre>$content_file </pre>
-<div class="labels"><span class="label">Inherited</span></div>
-<div class="row collapse"><div class="detail-description">
-<p class="long_description"></p>
-<table class="table table-bordered"><tr>
-<th>inherited_from</th>
-<td>\OpenShareFile\App\App::$$content_file</td>
-</tr></table>
-</div></div>
-</div>
 <a name="%24page_title" id="$page_title"> </a><div class="element clickable property public $page_title" data-toggle="collapse" data-target=".$page_title .collapse">
 <h2>The title markup of the page</h2>
 <pre>$page_title </pre>
@@ -301,7 +407,7 @@
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a3</a> and<br>
-            generated on 2013-02-18T23:48:27+01:00.<br></footer></div>
+            generated on 2013-02-26T04:02:34+01:00.<br></footer></div>
 </div>
 </body>
 </html>

@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of the OpenShareFile package.
+ *
+ * (c) Simon Leblanc <contact@leblanc-simon.eu>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace OpenShareFile\Model;
 
@@ -14,14 +22,62 @@ namespace OpenShareFile\Model;
  */
 class Upload extends Db
 {
+    /**
+     * Id of the upload
+     *
+     * @access  private
+     */
     private $id = 0;
+    
+    /**
+     * Slug of the upload
+     *
+     * @access  private
+     */
     private $slug = null;
+    
+    /**
+     * Lifetime of the upload before deleting
+     *
+     * @access  private
+     */
     private $lifetime = 0;
+    
+    /**
+     * Password of the upload
+     *
+     * @access  private
+     */
     private $passwd = null;
+    
+    /**
+     * Indicate if the upload is encrypted or not
+     *
+     * @access  private
+     */
     private $crypt = false;
+    
+    /**
+     * Created date of the upload
+     *
+     * @access  private
+     */
     private $created_at = '0000-00-00 00:00:00';
+    
+    /**
+     * Indicate if the upload is deleted or not
+     *
+     * @access  private
+     */
     private $is_deleted = false;
     
+    
+    /**
+     * Constructor
+     *
+     * @param   string  $slug   the slug of the upload to load
+     * @access  public
+     */
     public function __construct($slug = null)
     {
         if ($slug !== null) {
@@ -231,11 +287,57 @@ class Upload extends Db
     }
     
     
+    /**
+     * Get the id of the upload
+     *
+     * @return  int     the id of the upload
+     * @access  public
+     */
     public function getId() { return (int)$this->id; }
+    
+    
+    /**
+     * Get the slug of the upload
+     *
+     * @return  string  the slug of the upload
+     * @access  public
+     */
     public function getSlug() { return (string)$this->slug; }
+    
+    
+    /**
+     * Get the lifetime of the upload
+     *
+     * @return  int     the lifetime (in days) of the upload
+     * @access  public
+     */
     public function getLifetime() { return (int)$this->lifetime; }
+    
+    
+    /**
+     * Get the password of the upload
+     *
+     * @return  string     the password of the upload
+     * @access  public
+     */
     public function getPasswd() { return (string)$this->passwd; }
+    
+    
+    /**
+     * Get if the upload is encrypted or not
+     *
+     * @return  bool     true if the upload is encrypted, false else
+     * @access  public
+     */
     public function getCrypt() { return (bool)$this->crypt; }
+    
+    
+    /**
+     * Get the created date of the upload
+     *
+     * @return  string  the created date of the upload
+     * @access  public
+     */
     public function getCreatedAt()
     {
         if ($this->created_at === '0000-00-00 00:00:00') {
@@ -244,8 +346,25 @@ class Upload extends Db
         
         return (string)$this->created_at;
     }
+    
+    
+    /**
+     * Return if the upload is deleted or not
+     *
+     * @return  bool      true if the upload is deleted, false else
+     * @access  public
+     */
     public function getIsDeleted() { return (bool)$this->is_deleted; }
     
+    
+    
+    /**
+     * Set the id of the upload
+     *
+     * @param   int     $v  the id of the upload
+     * @throws  \InvalidArgumentException   if the type of param isn't valid
+     * @access  public
+     */
     public function setId($v)
     {
         if (is_numeric($v) === false) {
@@ -255,6 +374,14 @@ class Upload extends Db
         $this->id = (int)$v;
     }
     
+    
+    /**
+     * Set the slug of the upload
+     *
+     * @param   string     $v  the slug of the upload
+     * @throws  \InvalidArgumentException   if the type of param isn't valid
+     * @access  public
+     */
     public function setSlug($v)
     {
         if (is_string($v) === false || empty($v) === true) {
@@ -264,6 +391,14 @@ class Upload extends Db
         $this->slug = (string)$v;
     }
     
+    
+    /**
+     * Set the lifetime of the upload
+     *
+     * @param   int     $v  the lifetime (in days) of the upload
+     * @throws  \InvalidArgumentException   if the type of param isn't valid
+     * @access  public
+     */
     public function setLifetime($v)
     {
         if (is_numeric($v) === false) {
@@ -273,6 +408,14 @@ class Upload extends Db
         $this->lifetime = (int)$v;
     }
     
+    
+    /**
+     * Set the password of the upload
+     *
+     * @param   string     $v  the password of the upload
+     * @throws  \InvalidArgumentException   if the type of param isn't valid
+     * @access  public
+     */
     public function setPasswd($v)
     {
         if (empty($v) === false && is_string($v) === false) {
@@ -282,6 +425,14 @@ class Upload extends Db
         $this->passwd = (string)$v;
     }
     
+    
+    /**
+     * Set if the upload is encrypted or not
+     *
+     * @param   bool     $v  true if the upload is encrypted, false else
+     * @throws  \InvalidArgumentException   if the type of param isn't valid
+     * @access  public
+     */
     public function setCrypt($v)
     {
         if (is_bool($v) === false && in_array($v, array('1', 1, '0', 0), true) === false) {
@@ -295,6 +446,14 @@ class Upload extends Db
         $this->crypt = $v;
     }
     
+    
+    /**
+     * Set the created date of the upload
+     *
+     * @param   string|\DateTime     $v  the created date of the upload
+     * @throws  \InvalidArgumentException   if the type of param isn't valid
+     * @access  public
+     */
     public function setCreatedAt($v)
     {
         if (is_string($v) === true && !preg_match('/^[0-9]{4}-(0[0-9]|1[0-2])-([0-2][0-9]|3[01]) [012][0-9]:[0-5][0-9]:[0-5][0-9]$/', $v)) {
@@ -310,6 +469,14 @@ class Upload extends Db
         $this->created_at = $v;
     }
     
+    
+    /**
+     * Set if the upload is deleted or not
+     *
+     * @param   bool     $v  true if the upload is deleted, false else
+     * @throws  \InvalidArgumentException   if the type of param isn't valid
+     * @access  public
+     */
     public function setIsDeleted($v)
     {
         if (is_bool($v) === false && in_array($v, array('1', 1, '0', 0), true) === false) {

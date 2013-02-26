@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of the OpenShareFile package.
+ *
+ * (c) Simon Leblanc <contact@leblanc-simon.eu>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace OpenShareFile\Model;
 
@@ -14,15 +22,69 @@ namespace OpenShareFile\Model;
  */
 class File extends Db
 {
+    /**
+     * Id of the file
+     *
+     * @access  private
+     */
     private $id = 0;
+    
+    /**
+     * Id of the related upload
+     *
+     * @access  private
+     */
     private $upload_id = 0;
+    
+    /**
+     * Slug of the file
+     *
+     * @access  private
+     */
     private $slug = null;
+    
+    /**
+     * Relative path (related to data_dir) where is stored the file
+     *
+     * @access  private
+     */
     private $file = null;
+    
+    /**
+     * Real filename of the file
+     *
+     * @access  private
+     */
     private $filename = null;
+    
+    /**
+     * Filesize of the file
+     *
+     * @access  private
+     */
     private $filesize = 0;
+    
+    /**
+     * Created date of the file
+     *
+     * @access  private
+     */
     private $created_at = '0000-00-00 00:00:00';
+    
+    /**
+     * Indicate if the file is deleted or not
+     *
+     * @access  private
+     */
     private $is_deleted = false;
     
+    
+    /**
+     * Constructor
+     *
+     * @param   string  $slug   the slug of the file to load
+     * @access  public
+     */
     public function __construct($slug = null)
     {
         if ($slug !== null) {
@@ -178,12 +240,66 @@ class File extends Db
     }
     
     
+    /**
+     * Return the id of the file
+     *
+     * @return  int     the id of the file
+     * @access  public
+     */
     public function getId() { return (int)$this->id; }
+    
+    
+    /**
+     * Return the id of the upload associated to the file
+     *
+     * @return  int     the id of the upload associated to the file
+     * @access  public
+     */
     public function getUploadId() { return (int)$this->upload_id; }
+    
+    
+    /**
+     * Return the slug of the file
+     *
+     * @return  string      the slug of the file
+     * @access  public
+     */
     public function getSlug() { return (string)$this->slug; }
+    
+    
+    /**
+     * Return the path of the file
+     *
+     * @return  string      the path of the file
+     * @access  public
+     */
     public function getFile() { return (string)$this->file; }
+    
+    
+    /**
+     * Return the real filename of the file
+     *
+     * @return  string      the real filename of the file
+     * @access  public
+     */
     public function getFilename() { return (string)$this->filename; }
+    
+    
+    /**
+     * Return the filesize of the file
+     *
+     * @return  int      the filesize of the file
+     * @access  public
+     */
     public function getFilesize() { return (int)$this->filesize; }
+    
+    
+    /**
+     * Return the created date of the file
+     *
+     * @return  string      the created date of the file
+     * @access  public
+     */
     public function getCreatedAt()
     {
         if ($this->created_at === '0000-00-00 00:00:00') {
@@ -192,8 +308,24 @@ class File extends Db
         
         return (string)$this->created_at;
     }
+    
+    
+    /**
+     * Return if the file is deleted or not
+     *
+     * @return  bool      true if the file is deleted, false else
+     * @access  public
+     */
     public function getIsDeleted() { return (bool)$this->is_deleted; }
     
+    
+    /**
+     * Set the id of the file
+     *
+     * @param   int     $v  the id of the file
+     * @throws  \InvalidArgumentException   if the type of param isn't valid
+     * @access  public
+     */
     public function setId($v)
     {
         if (is_numeric($v) === false) {
@@ -203,6 +335,14 @@ class File extends Db
         $this->id = (int)$v;
     }
     
+    
+    /**
+     * Set the id of the upload associated to the file
+     *
+     * @param   int     $v  the id of the upload
+     * @throws  \InvalidArgumentException   if the type of param isn't valid
+     * @access  public
+     */
     public function setUploadId($v)
     {
         if (is_numeric($v) === false) {
@@ -212,6 +352,14 @@ class File extends Db
         $this->upload_id = (int)$v;
     }
     
+    
+    /**
+     * Set the slug of the file
+     *
+     * @param   string     $v  the slug of the file
+     * @throws  \InvalidArgumentException   if the type of param isn't valid
+     * @access  public
+     */
     public function setSlug($v)
     {
         if (is_string($v) === false || empty($v) === true) {
@@ -221,6 +369,14 @@ class File extends Db
         $this->slug = (string)$v;
     }
     
+    
+    /**
+     * Set the path of the file
+     *
+     * @param   string     $v  the path of the file
+     * @throws  \InvalidArgumentException   if the type of param isn't valid
+     * @access  public
+     */
     public function setFile($v)
     {
         if (is_string($v) === false || empty($v) === true) {
@@ -230,6 +386,14 @@ class File extends Db
         $this->file = (string)$v;
     }
     
+    
+    /**
+     * Set the real filename of the file
+     *
+     * @param   string     $v  the real filename of the file
+     * @throws  \InvalidArgumentException   if the type of param isn't valid
+     * @access  public
+     */
     public function setFilename($v)
     {
         if (is_string($v) === false || empty($v) === true) {
@@ -239,6 +403,14 @@ class File extends Db
         $this->filename = (string)$v;
     }
     
+    
+    /**
+     * Set the filesize of the file
+     *
+     * @param   int     $v  the filesize of the file
+     * @throws  \InvalidArgumentException   if the type of param isn't valid
+     * @access  public
+     */
     public function setFilesize($v)
     {
         if (is_numeric($v) === false) {
@@ -248,6 +420,14 @@ class File extends Db
         $this->filesize = (int)$v;
     }
     
+    
+    /**
+     * Set the created date of the file
+     *
+     * @param   string|\DateTime     $v  the created date of the file
+     * @throws  \InvalidArgumentException   if the type of param isn't valid
+     * @access  public
+     */
     public function setCreatedAt($v)
     {
         if (is_string($v) === true && !preg_match('/^[0-9]{4}-(0[0-9]|1[0-2])-([0-2][0-9]|3[01]) [012][0-9]:[0-5][0-9]:[0-5][0-9]$/', $v)) {
@@ -263,6 +443,14 @@ class File extends Db
         $this->created_at = $v;
     }
     
+    
+    /**
+     * Set if the file is deleted or not
+     *
+     * @param   bool     $v  true if the file is deleted, false else
+     * @throws  \InvalidArgumentException   if the type of param isn't valid
+     * @access  public
+     */
     public function setIsDeleted($v)
     {
         if (is_bool($v) === false && in_array($v, array('1', 1, '0', 0), true) === false) {
