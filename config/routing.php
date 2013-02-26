@@ -14,6 +14,12 @@ $routing = array(
             'route'     => 'about',
         ),
         
+        '/language/{locale}' => array(
+            'class'     => 'Index',
+            'method'    => 'languageAction',
+            'route'     => 'language',
+        ),
+        
         '/upload' => array(
             'class'     => 'Upload',
             'method'    => 'formAction',

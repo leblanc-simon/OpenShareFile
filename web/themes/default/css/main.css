@@ -122,6 +122,12 @@ footer {
     margin-top: 1em;
 }
 
+.navbar-inverse .language li.selected > a {
+    cursor: default;
+    font-weight: bold;
+    color: #fff;
+}
+
 .homepage-main {
     padding-top: 14px;
 }

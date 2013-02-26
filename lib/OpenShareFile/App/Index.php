@@ -2,6 +2,8 @@
 
 namespace OpenShareFile\App;
 
+use OpenShareFile\Core\Exception;
+
 /**
  * Index controler
  *
@@ -33,5 +35,27 @@ class Index extends App
     public function aboutAction()
     {
         return $this->render('about.html.twig');
+    }
+    
+    
+    /**
+     * Change language action
+     *
+     * @throws \OpenShareFile\Core\Exception\Exception  if wanted locale is not in available locales
+     * @return  Response
+     * @access  public
+     */
+    public function languageAction()
+    {
+        $locale = $this->app['request']->get('locale');
+        
+        if (in_array($locale, $this->app['translator']->available_locales) === false) {
+            throw new Exception\Exception('locale is not available');
+        }
+        
+        $this->app['session']->set('locale', $locale);
+        
+        // Return to the referer if exist, else in the homepage
+        return $this->app->redirect($this->app['request']->headers->get('referer', $this->app['url_generator']->generate('homepage')));
     }
 }

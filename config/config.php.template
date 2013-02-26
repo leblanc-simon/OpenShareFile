@@ -15,8 +15,6 @@
     'bdd_pass' => '',
     'bdd_options' => array(\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''),
     
-    'language' => 'fr',
-    
     'theme' => 'default',
     
     'form_secret' => '4fcdd251d714569982c2fe41ac2620d3',

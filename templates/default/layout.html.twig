@@ -17,6 +17,11 @@
                         <li><a href="{{ url('upload_form') }}">{{ "Upload file"|trans }}</a></li>
                         <li><a href="{{ url('about') }}">{{ "About"|trans }}</a></li>
                     </ul>
+                    <ul class="nav pull-right language">
+                        {% for locale in app.translator.available_locales %}
+                        <li{% if locale == app.translator.locale %} class="selected"{% endif %}><a href="{{ url('language', { 'locale': locale }) }}">{{ locale }}</a></li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
         </nav>

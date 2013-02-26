@@ -238,7 +238,6 @@ class OpenShareFile
     static private function registerTranslation()
     {
         self::getApp()->register(new \Silex\Provider\TranslationServiceProvider(), array(
-            'locale' => Core\Config::get('language'),
             'locale_fallback' => 'en',
         ));
         
@@ -253,10 +252,16 @@ class OpenShareFile
                                 ->name('*.yml')
                                 ->depth(0)
                                 ->in(Core\Config::get('locale_dir'));
-        
+            
+            $locales = array();
             foreach ($iterator as $file) {
                 $translator->addResource('yaml', $file->getRealpath(), $file->getBasename('.yml'));
+                $locales[] = $file->getBasename('.yml');
             }
+            
+            $locale = $app['session']->get('locale', $app['request']->getPreferredLanguage($locales));
+            $translator->setLocale($locale);
+            $translator->available_locales = $locales;
         
             return $translator;
         }));
