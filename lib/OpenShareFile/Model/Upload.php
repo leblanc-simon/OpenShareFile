@@ -49,13 +49,7 @@ class Upload extends Db
         if ($result === true) {
             $row = $stmt->fetch(\PDO::FETCH_ASSOC);
             if ($row !== false) {
-                $this->setId($row['id']);
-                $this->setSlug($row['slug']);
-                $this->setLifetime($row['lifetime']);
-                $this->setPasswd($row['passwd']);
-                $this->setCrypt($row['crypt']);
-                $this->setCreatedAt($row['created_at']);
-                $this->setIsDeleted($row['is_deleted']);
+                $this->populate($row);
             }
         }
     }
@@ -80,15 +74,30 @@ class Upload extends Db
         if ($result === true) {
             $row = $stmt->fetch(\PDO::FETCH_ASSOC);
             if ($row !== false) {
-                $this->setId($row['id']);
-                $this->setSlug($row['slug']);
-                $this->setLifetime($row['lifetime']);
-                $this->setPasswd($row['passwd']);
-                $this->setCrypt($row['crypt']);
-                $this->setCreatedAt($row['created_at']);
-                $this->setIsDeleted($row['is_deleted']);
+                $this->populate($row);
             }
         }
+    }
+    
+    
+    /**
+     * Populate the object the an array
+     *
+     * @param   array   $row    the array to use for populate object
+     * @return  $this   for chained method
+     * @access  public
+     */
+    public function populate(array $row)
+    {
+        $this->setId($row['id']);
+        $this->setSlug($row['slug']);
+        $this->setLifetime($row['lifetime']);
+        $this->setPasswd($row['passwd']);
+        $this->setCrypt($row['crypt']);
+        $this->setCreatedAt($row['created_at']);
+        $this->setIsDeleted($row['is_deleted']);
+        
+        return $this;
     }
     
     
@@ -123,6 +132,41 @@ class Upload extends Db
     
     
     /**
+     * Get the expirated uploads
+     *
+     * @return  \PDOStatement   the statement to parse expirated upload
+     * @access  public
+     * @static
+     */
+    static public function getExpirated()
+    {
+        $upload = new Upload();
+        $sql = 'SELECT * FROM upload WHERE ';
+        
+        $connector = self::getConn()->getAttribute(\PDO::ATTR_DRIVER_NAME);
+        
+        if ($connector === 'sqlite' || $connector === 'sqlite2') {
+            $sql .= ' (julianday(Date(\'now\')) - julianday(created_at)) > lifetime';
+        } else {
+            $sql .= ' (TO_DAYS(NOW()) - TO_DAYS(created_at)) > lifetime';
+        }
+        
+        $sql .= ' AND is_deleted = :is_deleted';
+        
+        $stmt = $upload->loadSql($sql, array(
+            ':is_deleted' => array('value' => false, 'type' => \PDO::PARAM_BOOL),
+        ));
+        
+        $result = $stmt->execute();
+        if ($result === true) {
+            return $stmt;
+        }
+        
+        return false;
+    }
+    
+    
+    /**
      * Save the object in the database
      * 
      * @return  $this   for chained method
@@ -143,6 +187,31 @@ class Upload extends Db
         ))->execute();
         
         $this->setId($this->lastInsertId());
+        
+        return $this;
+    }
+    
+    
+    /**
+     * Mark the upload as deleted
+     *
+     * @throws  \Exception      if id = 0, we don't update the upload
+     * @return  $this           for chained method
+     * @access  public
+     */
+    public function markAsDeleted()
+    {
+        if ($this->getId() === 0) {
+            throw new \Exception('Impossible to mark as deleted an upload with id = 0');
+        }
+        
+        $sql = 'UPDATE upload SET is_deleted = :is_deleted WHERE id = :id';
+        $result = $this->loadSql($sql, array(
+            ':id'           => array('value' => $this->getId(), 'type' => \PDO::PARAM_INT),
+            ':is_deleted'   => array('value' => true, 'type' => \PDO::PARAM_BOOL),
+        ))->execute();
+        
+        $this->setIsDeleted(true);
         
         return $this;
     }

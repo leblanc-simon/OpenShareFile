@@ -26,6 +26,7 @@
         "symfony/locale": "2.1.*",
         "symfony/twig-bridge": "2.1.*",
         "symfony/finder": "2.1.*",
+        "symfony/console": "2.1.*",
         
         "swiftmailer/swiftmailer": ">=4.1.2,<4.2-dev"
     },

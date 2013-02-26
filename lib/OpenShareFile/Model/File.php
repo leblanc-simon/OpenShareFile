@@ -106,6 +106,31 @@ class File extends Db
     
     
     /**
+     * Mark the file as deleted
+     *
+     * @throws  \Exception      if id = 0, we don't update the file
+     * @return  $this           for chained method
+     * @access  public
+     */
+    public function markAsDeleted()
+    {
+        if ($this->getId() === 0) {
+            throw new \Exception('Impossible to mark as deleted a file with id = 0');
+        }
+        
+        $sql = 'UPDATE file SET is_deleted = :is_deleted WHERE id = :id';
+        $result = $this->loadSql($sql, array(
+            ':id'           => array('value' => $this->getId(), 'type' => \PDO::PARAM_INT),
+            ':is_deleted'   => array('value' => true, 'type' => \PDO::PARAM_BOOL),
+        ))->execute();
+        
+        $this->setIsDeleted(true);
+        
+        return $this;
+    }
+    
+    
+    /**
      * Generate a uniq slug
      *
      * @return  string  the slug generated
