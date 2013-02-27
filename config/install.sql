@@ -20,6 +20,7 @@ CREATE TABLE `file` (
 
 CREATE TABLE `upload` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    `member_id` INT UNSIGNED NULL DEFAULT NULL ,
     `slug` VARCHAR( 255 ) NOT NULL ,
     `lifetime` INT UNSIGNED NOT NULL ,
     `passwd` VARCHAR( 255 ) NOT NULL ,
@@ -32,5 +33,18 @@ CREATE TABLE `upload` (
     KEY `slug_not_deleted` (
         `slug`,
         `is_deleted`
+    )
+) ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_bin;
+
+
+CREATE TABLE `member` (
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    `email` VARCHAR( 255 ) NOT NULL ,
+    `passwd` VARCHAR( 255 ) NOT NULL ,
+    `name` VARCHAR( 255 ) NOT NULL ,
+    `prefs` TEXT NULL,
+    `created_at` DATETIME NOT NULL ,
+    UNIQUE (
+        `email`
     )
 ) ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_bin;
