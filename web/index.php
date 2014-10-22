@@ -1,5 +1,6 @@
 <?php
 
-require_once dirname(__DIR__).DIRECTORY_SEPARATOR.'lib'.DIRECTORY_SEPARATOR.'OpenShareFile'.DIRECTORY_SEPARATOR.'OpenShareFile.php';
+require_once dirname(__DIR__).'/vendor/autoload.php';
+require_once dirname(__DIR__).'/app/config/config.php';
 
-OpenShareFile\OpenShareFile::run();
+\OpenShareFile\OpenShareFile::run();

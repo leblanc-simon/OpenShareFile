@@ -12,6 +12,12 @@
             "role": "Developer"
         }
     ],
+
+    "autoload": {
+        "psr-4": {
+            "OpenShareFile\\": "src"
+        }
+    },
     
     "require": {
         "silex/silex": "~1.2",

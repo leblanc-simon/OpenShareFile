@@ -139,18 +139,8 @@ class OpenShareFile
      */
     static private function getRequired()
     {
-        // OpenShareFile autoload
-        require_once __DIR__.DIRECTORY_SEPARATOR.'Core'.DIRECTORY_SEPARATOR.'Autoload.php';
-        Core\Autoload::register();
-        
-        // vendor autoload
-        require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
-        
-        // configuration
-        require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php';
-        
         // routing
-        require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'routing.php';
+        require_once dirname(__DIR__).'/app/config/routing.php';
         self::$routing = $routing;
     }
     
