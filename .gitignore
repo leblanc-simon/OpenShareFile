@@ -1,6 +1,4 @@
 cache/*
 datas/*
 vendor/*
-config/config.php
-composer.lock
-OpenShare.komodoproject
+app/config/config.php
