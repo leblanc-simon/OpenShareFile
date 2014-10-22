@@ -14,7 +14,6 @@ use OpenShareFile\Core\Config;
 use OpenShareFile\Core\Exception;
 use OpenShareFile\Model\File as DBFile;
 use OpenShareFile\Model\Upload as DBUpload;
-use OpenShareFile\Utils\Passwd;
 use OpenShareFile\Utils\Gpg;
 
 use OpenShareFile\Extension\Symfony\Validator\Constraints\Password as AssertPassword;
@@ -111,7 +110,7 @@ class Download extends App
                     throw new Exception\Error404();
                 }
                 
-                if ($upload->getPasswd() !== '' && Passwd::password_verify($data['password'], $upload->getPasswd()) === false) {
+                if ($upload->getPasswd() !== '' && password_verify($data['password'], $upload->getPasswd()) === false) {
                     throw new Exception\Security();
                 }
                 
