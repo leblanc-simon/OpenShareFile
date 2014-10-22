@@ -15,7 +15,6 @@ use OpenShareFile\Core\Exception;
 use OpenShareFile\Extension\Swift;
 use OpenShareFile\Model\File as DBFile;
 use OpenShareFile\Model\Upload as DBUpload;
-use OpenShareFile\Utils\Passwd;
 use OpenShareFile\Utils\Gpg;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -174,7 +173,7 @@ class Upload extends App
                 if (isset($data['protect']) === true && $data['protect'] === true
                     && isset($data['password']) === true && empty($data['password']) === false
                 ) {
-                    $upload->setPasswd(Passwd::password_hash($data['password'], Passwd::PASSWORD_DEFAULT));
+                    $upload->setPasswd(password_hash($data['password'], PASSWORD_BCRYPT));
                     
                     // Crypt is allow only if password isn't empty
                     if (Config::get('allow_crypt', false) === true && isset($data['crypt']) === true && $data['crypt'] === true) {
