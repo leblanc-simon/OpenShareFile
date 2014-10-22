@@ -2,4 +2,3 @@ cache/*
 datas/*
 vendor/*
 app/config/config.php
-composer.lock
