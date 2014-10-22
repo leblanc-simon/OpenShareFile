@@ -1,5 +1,5 @@
 {
-    "name": "opensharefile/opensharefile",
+    "name": "leblanc-simon/opensharefile",
     "description": "Share file via a website (like demo.ovh.net or dl.free.fr)",
     "version": "1.0.0-dev",
     "homepage": "http://opensharefile.leblanc-simon.fr/",
@@ -12,6 +12,8 @@
             "role": "Developer"
         }
     ],
+
+    "type": "application",
 
     "autoload": {
         "psr-4": {
