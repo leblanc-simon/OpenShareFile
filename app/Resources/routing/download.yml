@@ -15,6 +15,6 @@ download_file:
 
 download_submit:
     class: Download
-    action: defaut
+    action: default
     url: /download
     method: POST
