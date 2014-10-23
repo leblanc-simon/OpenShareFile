@@ -19,6 +19,7 @@ use OpenShareFile\Utils\Gpg;
 use OpenShareFile\Extension\Symfony\Validator\Constraints\Password as AssertPassword;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
  * Download controler
@@ -190,9 +191,9 @@ class Download extends App
         }
         
         if ($upload->getCrypt() === true) {
-            $this->downloadEncryptFile($upload, $file, $filename);
+            return $this->downloadEncryptFile($upload, $file, $filename);
         } else {
-            $this->downloadFile($upload, $file, $filename);
+            return $this->downloadFile($file, $filename);
         }
     }
     
@@ -201,7 +202,7 @@ class Download extends App
      * Download a zip file with all files action
      * ZIP file doesn't support HTTP_RANGE !
      *
-     * @return  Response
+     * @return  \Symfony\Component\HttpFoundation\StreamedResponse
      * @throws  OpenShareFile\Core\Exception\Error404  Error while retrieving Upload object
      * @throws  OpenShareFile\Core\Exception\Security  Password for download are wrong
      * @throws  OpenShareFile\Core\Exception\Exception Error while processing zip file to download
@@ -248,7 +249,6 @@ class Download extends App
         
         // Get files
         $files = $upload->getFiles();
-        $files_to_zip = array();
         foreach ($files as $file) {
             $filename = Config::get('data_dir').$file->getFile();
             
@@ -262,33 +262,32 @@ class Download extends App
                 throw new Exception\Exception();
             }
         }
-        
-        $response = new Response();
-        
-        $response->headers->set('Content-Type', 'application/force-download', true);
-        $response->headers->set('Content-disposition', 'attachment; filename="'.$upload->getSlug().'.zip"', true);
-        $response->headers->set('Content-Transfer-Encoding', 'application/octet-stream', true);
-        $response->headers->set('Pragma', 'no-cache', true);
-        $response->headers->set('Cache-Control', 'must-revalidate, post-check=0, pre-check=0, public', true);
-        $response->headers->set('Expires', '0', true);
-        
-        $response->sendHeaders();
-        
+
         $cmdline = escapeshellcmd(Config::get('zip_binary')).' -j - '.escapeshellarg($tmp_dir).DIRECTORY_SEPARATOR.'*';
         $handle = popen($cmdline, 'r');
         if ($handle === false) {
             throw new Exception\Exception();
         }
-        
-        $buffer_size = 8192; // send by 8KB : 8192 is the size of the default buffer on many popular operating systems
-        while (feof($handle) === false) {
-            echo fread($handle, $buffer_size);
-            ob_flush();
-            flush();
-        }
-        
-        pclose($handle);
-        die();
+
+        $stream = function () use ($handle) {
+            $buffer_size = 8192; // send by 8KB : 8192 is the size of the default buffer on many popular operating systems
+            while (feof($handle) === false) {
+                echo fread($handle, $buffer_size);
+                ob_flush();
+                flush();
+            }
+
+            pclose($handle);
+        };
+
+        return $this->app->stream($stream, 200, [
+            'Content-Type' => 'application/force-download',
+            'Content-disposition' => 'attachment; filename="'.$upload->getSlug().'.zip"',
+            'Content-Transfer-Encoding' => 'application/octet-stream',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0, public',
+            'Expires' => '0'
+        ]);
     }
     
     
@@ -300,100 +299,11 @@ class Download extends App
      * @param   string                          $filename   the path of the file to download
      * @access  private
      */
-    private function downloadFile(DBUpload $upload, DBFile $file, $filename)
+    private function downloadFile(DBFile $file, $filename)
     {
-        // send file to client
-        $handle = fopen($filename, 'rb');
-        if ($handle === false) {
-            throw new Exception\Exception();
-        }
-        
-        if (ini_get("zlib.output_compression")) {
-            ini_set("zlib.output_compression", "Off");
-        }
-        
-        $filesize = $file->getFilesize();
-        
-        $response = new Response();
-        
-        $response->headers->set('Content-Type', 'application/force-download', true);
-        $response->headers->set('Content-disposition', 'attachment; filename="'.str_replace('"', '', $file->getFilename()).'"', true);
-        $response->headers->set('Content-Transfer-Encoding', 'application/octet-stream', true);
-        $response->headers->set('Pragma', 'no-cache', true);
-        $response->headers->set('Cache-Control', 'must-revalidate, post-check=0, pre-check=0, public', true);
-        $response->headers->set('Expires', '0', true);
-        
-        // Recovery download : define accept-range
-        $response->headers->set('Accept-Ranges', 'bytes', true);
-        
-        // by default: start begin, stop to end :-)
-        $begin  = 0;
-        $end    = $filesize - 1;
-        
-        if ($this->app['request']->server->get('HTTP_RANGE', null) !== null) {
-            // Check the format of HTTP_RANGE
-            if (!preg_match('~bytes=([0-9]+)?-([0-9]+)?(/[0-9]+)?~i', $this->app['request']->server->get('HTTP_RANGE'), $matches)) {
-                $response->setStatusCode(416); // Requested Range Not Satisfiable
-                $response->send();
-                die();
-            }
-            
-            $begin  = empty($matches[1]) === false ? (int)$matches[1] : null;
-            $end    = empty($matches[2]) === false ? (int)$matches[2] : $end;
-            
-            // Check the value of begin and end
-            if ((!$begin && !$end)
-                ||
-                ($end !== null && $end >= $filesize)
-                ||
-                ($end && $begin && $end < $begin)
-            ) {
-                $response->setStatusCode(416); // Requested Range Not Satisfiable
-                $response->send();
-                die();
-            }
-            
-            if ($begin === null) {
-                $begin = $filesize - $end;
-                $end -= 1;
-            }
-            
-            // Indicate the send of partial content
-            $response->setStatusCode(206); // Partial Content
-            
-            // Indicate the range of data send
-            $response->headers->set('Content-Range', $begin.'-'.$end.'/'.$filesize, true);
-        }
-        
-        
-        $response->headers->set('Content-Length', $end - $begin + 1, true);
-        
-        $response->sendHeaders();
-        
-        // start read to the begin of send
-        fseek($handle, $begin);
-        
-        $remaining_size = $end - $begin + 1;
-        $length_to_send = $remaining_size < 8192 ? $remaining_size : 8192; // send by 8KB : 8192 is the size of the default buffer on many popular operating systems
-        
-        while (false !== $datas = fread($handle, $length_to_send)) {
-            echo $datas;
-            ob_flush();
-            flush();
-            
-            $remaining_size -= $length_to_send;
-            
-            if ($remaining_size <= 0) {
-                break;
-            }
-            
-            if ($remaining_size < $length_to_send) {
-                $length_to_send = $remaining_size;
-            }
-        }
-        
-        fclose($handle);
-        die();
+        return $this->app
+            ->sendFile($filename)
+            ->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $file->getFilename());
     }
     
     
@@ -403,7 +313,9 @@ class Download extends App
      * @param   \OpenShareFile\Model\Upload     $upload     the Upload object
      * @param   \OpenShareFile\Model\File       $file       the File object (the file to download)
      * @param   string                          $filename   the path of the file to download
+     * @return  \Symfony\Component\HttpFoundation\StreamedResponse
      * @access  private
+     * @throws  Exception\Security
      */
     private function downloadEncryptFile(DBUpload $upload, DBFile $file, $filename)
     {
@@ -411,20 +323,18 @@ class Download extends App
         if ($password === null) {
             throw new Exception\Security();
         }
-        
-        $response = new Response();
-        
-        $response->headers->set('Content-Type', 'application/force-download', true);
-        $response->headers->set('Content-disposition', 'attachment; filename="'.str_replace('"', '', $file->getFilename()).'"', true);
-        $response->headers->set('Content-Transfer-Encoding', 'application/octet-stream', true);
-        $response->headers->set('Pragma', 'no-cache', true);
-        $response->headers->set('Cache-Control', 'must-revalidate, post-check=0, pre-check=0, public', true);
-        $response->headers->set('Expires', '0', true);
-        
-        $response->sendHeaders();
-        
-        Gpg::decrypt($filename, $password);
-        
-        die();
+
+        $stream = function () use ($filename, $password) {
+            Gpg::decrypt($filename, $password);
+        };
+
+        return $this->app->stream($stream, 200, [
+            'Content-Type' => 'application/force-download',
+            'Content-disposition' => 'attachment; filename="'.str_replace('"', '', $file->getFilename()).'"',
+            'Content-Transfer-Encoding' => 'application/octet-stream',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0, public',
+            'Expires' => '0'
+        ]);
     }
 }

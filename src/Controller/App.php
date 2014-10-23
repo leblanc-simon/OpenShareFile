@@ -10,8 +10,6 @@
 
 namespace OpenShareFile\Controller;
 
-use OpenShareFile\Core\Config as Config;
-
 /**
  * Base controler class
  *

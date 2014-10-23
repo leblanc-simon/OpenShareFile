@@ -50,7 +50,6 @@ class OpenShareFile
         
         // get app
         self::getApp();
-        $app = self::$app;
         
         // configure routing
         self::loadRouting();
@@ -222,7 +221,7 @@ class OpenShareFile
         
         $app = self::getApp();
         
-        $app['twig'] = $app->share($app->extend('twig', function($twig, $app) {
+        $app['twig'] = $app->share($app->extend('twig', function(\Twig_Environment $twig) {
                 $twig->addExtension(new Extension\Twig\Asset());
                 $twig->addExtension(new Extension\Twig\Config());
                 return $twig;

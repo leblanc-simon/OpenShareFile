@@ -233,7 +233,7 @@ class Upload extends Db
         $sql  = 'INSERT INTO upload (slug, lifetime, passwd, crypt, created_at, is_deleted) VALUES ';
         $sql .= '(:slug, :lifetime, :passwd, :crypt, :created_at, :is_deleted)';
         
-        $result = $this->loadSql($sql, array(
+        $this->loadSql($sql, array(
             ':slug' => array('value' => $this->generateSlug(), 'type' => \PDO::PARAM_STR),
             ':lifetime' => array('value' => $this->getLifetime(), 'type' => \PDO::PARAM_INT),
             ':passwd' => array('value' => $this->getPasswd(), 'type' => \PDO::PARAM_STR),
@@ -262,7 +262,7 @@ class Upload extends Db
         }
         
         $sql = 'UPDATE upload SET is_deleted = :is_deleted WHERE id = :id';
-        $result = $this->loadSql($sql, array(
+        $this->loadSql($sql, array(
             ':id'           => array('value' => $this->getId(), 'type' => \PDO::PARAM_INT),
             ':is_deleted'   => array('value' => true, 'type' => \PDO::PARAM_BOOL),
         ))->execute();

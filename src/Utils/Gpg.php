@@ -81,8 +81,7 @@ class Gpg
             if (fclose($pipes[0]) === false) {
                 throw new Exception\Exception('Unable to close STDIN');
             }
-            
-            $stdout = stream_get_contents($pipes[1]);
+
             fclose($pipes[1]);
             
             $stderr = stream_get_contents($pipes[2]);

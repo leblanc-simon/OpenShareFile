@@ -151,7 +151,7 @@ class File extends Db
         $sql  = 'INSERT INTO file (upload_id, slug, file, filename, filesize, created_at, is_deleted) VALUES ';
         $sql .= '(:upload_id, :slug, :file, :filename, :filesize, :created_at, :is_deleted)';
         
-        $result = $this->loadSql($sql, array(
+        $this->loadSql($sql, array(
             ':upload_id'    => array('value' => $this->getUploadId(), 'type' => \PDO::PARAM_INT),
             ':slug'         => array('value' => $this->generateSlug(), 'type' => \PDO::PARAM_STR),
             ':file'         => array('value' => $this->generateFile(), 'type' => \PDO::PARAM_STR),
@@ -181,7 +181,7 @@ class File extends Db
         }
         
         $sql = 'UPDATE file SET is_deleted = :is_deleted WHERE id = :id';
-        $result = $this->loadSql($sql, array(
+        $this->loadSql($sql, array(
             ':id'           => array('value' => $this->getId(), 'type' => \PDO::PARAM_INT),
             ':is_deleted'   => array('value' => true, 'type' => \PDO::PARAM_BOOL),
         ))->execute();
