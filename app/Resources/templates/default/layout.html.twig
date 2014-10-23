@@ -4,6 +4,8 @@
         <meta charset="utf-8">
         <title>{% block title %}{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/png" href="{{ img('favicon.png') }}" />
+        <!--[if lte IE 9]><link rel="shortcut icon" type="image/x-icon" href="{{ img('favicon.ico') }}" /><![endif]-->
         <link href="{{ css('bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ css('main.css') }}" rel="stylesheet">
         {% block stylesheets %}{% endblock %}
