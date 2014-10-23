@@ -134,7 +134,7 @@ class File extends Db
         $this->setFilename($row['filename']);
         $this->setFilesize($row['filesize']);
         $this->setCreatedAt($row['created_at']);
-        $this->setIsDeleted($row['is_deleted']);
+        $this->setDeleted($row['is_deleted']);
         
         return $this;
     }
@@ -158,7 +158,7 @@ class File extends Db
             ':filename'     => array('value' => $this->getFilename(), 'type' => \PDO::PARAM_STR),
             ':filesize'     => array('value' => $this->getFilesize(), 'type' => \PDO::PARAM_INT),
             ':created_at'   => array('value' => $this->getCreatedAt(), 'type' => \PDO::PARAM_STR),
-            ':is_deleted'   => array('value' => $this->getIsDeleted(), 'type' => \PDO::PARAM_BOOL),
+            ':is_deleted'   => array('value' => $this->isDeleted(), 'type' => \PDO::PARAM_BOOL),
         ))->execute();
         
         $this->setId($this->lastInsertId());
@@ -186,7 +186,7 @@ class File extends Db
             ':is_deleted'   => array('value' => true, 'type' => \PDO::PARAM_BOOL),
         ))->execute();
         
-        $this->setIsDeleted(true);
+        $this->setDeleted(true);
         
         return $this;
     }
@@ -316,7 +316,7 @@ class File extends Db
      * @return  bool      true if the file is deleted, false else
      * @access  public
      */
-    public function getIsDeleted() { return (bool)$this->is_deleted; }
+    public function isDeleted() { return (bool)$this->is_deleted; }
     
     
     /**
@@ -451,7 +451,7 @@ class File extends Db
      * @throws  \InvalidArgumentException   if the type of param isn't valid
      * @access  public
      */
-    public function setIsDeleted($v)
+    public function setDeleted($v)
     {
         if (is_bool($v) === false && in_array($v, array('1', 1, '0', 0), true) === false) {
             throw new \InvalidArgumentException('is_deleted must be a boolean');

@@ -151,7 +151,7 @@ class Upload extends Db
         $this->setPasswd($row['passwd']);
         $this->setCrypt($row['crypt']);
         $this->setCreatedAt($row['created_at']);
-        $this->setIsDeleted($row['is_deleted']);
+        $this->setDeleted($row['is_deleted']);
         
         return $this;
     }
@@ -239,7 +239,7 @@ class Upload extends Db
             ':passwd' => array('value' => $this->getPasswd(), 'type' => \PDO::PARAM_STR),
             ':crypt' => array('value' => $this->getCrypt(), 'type' => \PDO::PARAM_BOOL),
             ':created_at' => array('value' => $this->getCreatedAt(), 'type' => \PDO::PARAM_STR),
-            ':is_deleted' => array('value' => $this->getIsDeleted(), 'type' => \PDO::PARAM_BOOL),
+            ':is_deleted' => array('value' => $this->isDeleted(), 'type' => \PDO::PARAM_BOOL),
         ))->execute();
         
         $this->setId($this->lastInsertId());
@@ -267,7 +267,7 @@ class Upload extends Db
             ':is_deleted'   => array('value' => true, 'type' => \PDO::PARAM_BOOL),
         ))->execute();
         
-        $this->setIsDeleted(true);
+        $this->setDeleted(true);
         
         return $this;
     }
@@ -354,7 +354,7 @@ class Upload extends Db
      * @return  bool      true if the upload is deleted, false else
      * @access  public
      */
-    public function getIsDeleted() { return (bool)$this->is_deleted; }
+    public function isDeleted() { return (bool)$this->is_deleted; }
     
     
     
@@ -477,7 +477,7 @@ class Upload extends Db
      * @throws  \InvalidArgumentException   if the type of param isn't valid
      * @access  public
      */
-    public function setIsDeleted($v)
+    public function setDeleted($v)
     {
         if (is_bool($v) === false && in_array($v, array('1', 1, '0', 0), true) === false) {
             throw new \InvalidArgumentException('is_deleted must be a boolean');
