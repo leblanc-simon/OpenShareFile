@@ -11,7 +11,6 @@
 namespace OpenShareFile\Utils;
 
 use OpenShareFile\Model\Upload as DBUpload;
-use OpenShareFile\Model\File as DBFile;
 use OpenShareFile\Core\Exception;
 use OpenShareFile\Core\Config;
 
