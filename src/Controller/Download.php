@@ -62,7 +62,7 @@ class Download extends App
         }
         
         // Check if the upload is deleted
-        if ($upload->getIsDeleted() === true) {
+        if ($upload->isDeleted() === true) {
             throw new Exception\Error404();
         }
         
@@ -107,7 +107,7 @@ class Download extends App
             if ($form->isValid()) {
                 $data = $form->getData();
                 
-                if ($upload->getIsDeleted() === true) {
+                if ($upload->isDeleted() === true) {
                     throw new Exception\Error404();
                 }
                 
@@ -168,12 +168,12 @@ class Download extends App
         $file_slug = $this->app['request']->get('slug');
         
         $file = new DBFile($file_slug);
-        if ($file->getId() === 0 || $file->getIsDeleted() === true) {
+        if ($file->getId() === 0 || $file->isDeleted() === true) {
             throw new Exception\Error404();
         }
         
         $upload = $file->getUpload();
-        if ($upload->getId() === 0 || $upload->getIsDeleted() === true) {
+        if ($upload->getId() === 0 || $upload->isDeleted() === true) {
             throw new Exception\Error404();
         }
         
@@ -229,7 +229,7 @@ class Download extends App
         }
         
         // Check if the upload is deleted
-        if ($upload->getIsDeleted() === true) {
+        if ($upload->isDeleted() === true) {
             throw new Exception\Error404();
         } 
         
