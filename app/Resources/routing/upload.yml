@@ -1,0 +1,21 @@
+upload_form:
+    class: Upload
+    action: form
+    url: /upload
+
+upload_success:
+    class: Upload
+    action: success
+    url: /upload-success
+
+upload_submit:
+    class: Upload
+    action: form
+    url: /upload
+    method: POST
+
+upload_info:
+    class: Upload
+    action: info
+    url: /upload-info
+    method: POST

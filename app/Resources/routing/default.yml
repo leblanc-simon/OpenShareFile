@@ -1,0 +1,14 @@
+homepage:
+    class: Index
+    action: default
+    url: /
+
+about:
+    class: Index
+    action: about
+    url: /about
+
+language:
+    class: Index
+    action: language
+    url: /language/{locale}

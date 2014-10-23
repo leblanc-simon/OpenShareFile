@@ -1,0 +1,20 @@
+download_confirm:
+    class: Download
+    action: default
+    url: /download/{slug}
+
+download_zip:
+    class: Download
+    action: zip
+    url: /download/zip/{slug}
+
+download_file:
+    class: Download
+    action: file
+    url: /download/file/{slug}
+
+download_submit:
+    class: Download
+    action: defaut
+    url: /download
+    method: POST

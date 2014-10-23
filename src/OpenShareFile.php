@@ -11,7 +11,9 @@
 namespace OpenShareFile;
 
 use OpenShareFile\Core\Exception;
+use OpenShareFile\Core\Routing;
 
+use Silex\Application;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -28,18 +30,11 @@ class OpenShareFile
     /**
      * Silex Application object
      *
+     * @var     Application
      * @access  private
      * @static
      */
     static private $app = null;
-    
-    /**
-     * The array of the routing
-     *
-     * @access  private
-     * @static
-     */
-    static private $routing = array();
     
     
     /**
@@ -50,9 +45,6 @@ class OpenShareFile
      */
     static public function run()
     {
-        // get required files
-        self::getRequired();
-        
         // register providers
         self::registerProviders();
         
@@ -61,66 +53,7 @@ class OpenShareFile
         $app = self::$app;
         
         // configure routing
-        foreach (self::$routing as $method => $params) {
-            foreach ($params as $url => $datas) {
-                self::checkDatas($datas);
-                
-                self::$app->match($url, function() use ($app, $datas) {
-                    try {
-                        $class_name     = __NAMESPACE__.'\\App\\'.$datas['class'];
-                        $method_name    = $datas['method'];
-                        
-                        $controler = new $class_name($app);
-                        
-                        return $controler->$method_name();
-                    } catch (Exception\Security $e) {
-                        if (Core\Config::get('debug', false) === true) {
-                            throw $e;
-                        }
-                        
-                        return new Response(
-                            $app['twig']->render('_exception'.DIRECTORY_SEPARATOR.'security.html.twig', array('exception' => $e)),
-                            403
-                        );
-                    } catch (Exception\Error404 $e) {
-                        if (Core\Config::get('debug', false) === true) {
-                            throw $e;
-                        }
-                        
-                        return new Response(
-                            $app['twig']->render('_exception'.DIRECTORY_SEPARATOR.'error404.html.twig', array('exception' => $e)),
-                            404
-                        );
-                    } catch (Exception\Exception $e) {
-                        if (Core\Config::get('debug', false) === true) {
-                            throw $e;
-                        }
-                        
-                        return new Response(
-                            $app['twig']->render('_exception'.DIRECTORY_SEPARATOR.'exception.html.twig', array('exception' => $e)),
-                            500
-                        );
-                    }
-                })->method($method)
-                  ->bind($datas['route']);
-                  
-                
-                if (Core\Config::get('debug', false) === false) {
-                    self::$app->error(function (\Exception $e, $code) use ($app) {
-                        $template = 'exception.html.twig';
-                        
-                        if ($code === 404) {
-                            $template = 'error404.html.twig';
-                        } elseif ($code === 403) {
-                            $template = 'security.html.twig';
-                        }
-                        
-                        
-                        return new Response($app['twig']->render('_exception'.DIRECTORY_SEPARATOR.$template, array('exception' => $e)));
-                    });
-                }
-            }
-        }
+        self::loadRouting();
         
         // Options
         if (Core\Config::get('debug', false) === true) {
@@ -128,20 +61,6 @@ class OpenShareFile
         }
         
         self::$app->run();
-    }
-    
-    
-    /**
-     * Load required files
-     *
-     * @access  private
-     * @static
-     */
-    static private function getRequired()
-    {
-        // routing
-        require_once dirname(__DIR__).'/app/config/routing.php';
-        self::$routing = $routing;
     }
     
     
@@ -155,34 +74,56 @@ class OpenShareFile
     static private function getApp()
     {
         if (self::$app === null) {
-            self::$app = new \Silex\Application();
+            self::$app = new Application();
         }
         
         return self::$app;
     }
-    
-    
+
+
     /**
-     * Check the required data to launch the application
-     *
-     * @param   array   $datas  the datas to check
-     * @throws  \InvalidArgumentException   If a data is missing
-     * @access  private
-     * @static
+     * Load routing
      */
-    static private function checkDatas($datas)
+    static private function loadRouting()
     {
-        if (isset($datas['class']) === false) {
-            throw new \InvalidArgumentException('class must be defined');
+        $routing = new Routing(self::$app);
+        $routing->load();
+
+        self::handleErrors();
+    }
+
+
+    /**
+     * Setting the error handler
+     */
+    static private function handleErrors()
+    {
+        if (Core\Config::get('debug', false) === true) {
+            return;
         }
-        
-        if (isset($datas['method']) === false) {
-            throw new \InvalidArgumentException('method must be defined');
-        }
-        
-        if (isset($datas['route']) === false) {
-            throw new \InvalidArgumentException('route must be defined');
-        }
+
+        $app = self::$app;
+
+        $app->error(function (Exception\Security $e) use ($app) {
+            return new Response(
+                $app['twig']->render('_exception/security.html.twig', array('exception' => $e)),
+                403
+            );
+        });
+
+        $app->error(function (Exception\Error404 $e) use ($app) {
+            return new Response(
+                $app['twig']->render('_exception/error404.html.twig', array('exception' => $e)),
+                404
+            );
+        });
+
+        $app->error(function (\Exception $e) use ($app) {
+            return new Response(
+                $app['twig']->render('_exception/exception.html.twig', array('exception' => $e)),
+                500
+            );
+        });
     }
     
     

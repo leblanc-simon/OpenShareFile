@@ -7,6 +7,9 @@
     'config_dir' => __DIR__,
     'locale_dir' => dirname(__DIR__).'/Resources/locales',
     'theme_dir' => dirname(__DIR__).'/Resources/templates',
+    'routing_dirs' => [
+        dirname(__DIR__).'/Resources/routing',
+    ],
     'data_dir' => dirname(dirname(__DIR__)).'/datas',
     'cache_dir' => dirname(dirname(__DIR__)).'/cache', // false to disable cache
     

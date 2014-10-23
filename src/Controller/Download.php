@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace OpenShareFile\App;
+namespace OpenShareFile\Controller;
 
 use OpenShareFile\Core\Config;
 use OpenShareFile\Core\Exception;
@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Download controler
  *
- * @package     OpenShareFile\App
+ * @package     OpenShareFile\Controller
  * @version     1.0.0
  * @license     http://opensource.org/licenses/MIT  MIT
  * @author      Simon Leblanc <contact@leblanc-simon.eu>
