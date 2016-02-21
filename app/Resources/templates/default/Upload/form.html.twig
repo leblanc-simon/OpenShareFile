@@ -113,6 +113,8 @@
             '{{ "size_gbyte"|trans|escape('js') }}',
             '{{ "size_tbyte"|trans|escape('js') }}'
         ];
+
+        var exit_message = '{{ "You have an upload in progress. Do you want exit ?"|trans|escape('js') }}';
     </script>
     <script src="{{ js('jquery.file.upload/vendor/jquery.ui.widget.js') }}"></script>
     <script src="{{ js('jquery.file.upload/jquery.iframe-transport.js') }}"></script>

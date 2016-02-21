@@ -53,6 +53,8 @@ size_mbyte: MB
 size_gbyte: GB
 size_tbyte: TB
 
+"You have an upload in progress. Do you want exit ?": You have an upload in progress. Do you want exit ?
+
 # Download
 Download: Download
 Wrong password.: Wrong password.

@@ -60,6 +60,8 @@ function showInfo(title, message)
     $('#modal-info').modal();
 }
 
+var upload_in_progress = false;
+
 $(document).ready(function(){
     // Disable default drag&drop's browser
     $(document).bind('drop dragover', function (e) {
@@ -149,6 +151,12 @@ $(document).ready(function(){
             
             return true;
         },
+        start: function () {
+            upload_in_progress = true;
+        },
+        stop: function () {
+            upload_in_progress = false;
+        },
         progress: function(e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
             
@@ -167,6 +175,9 @@ $(document).ready(function(){
             console.log('fail');
             console.log(data);
             showInfo('', data.result.message);
+        },
+        always: function () {
+            upload_in_progress = false;
         }
     });
     
@@ -196,5 +207,13 @@ $(document).ready(function(){
         }
         
         return false;
+    });
+
+    $(window).bind('beforeunload', function () {
+        if (true === upload_in_progress) {
+            return exit_message;
+        }
+
+        return;
     });
 });

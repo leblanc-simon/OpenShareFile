@@ -53,6 +53,8 @@ size_mbyte: Mo
 size_gbyte: Go
 size_tbyte: To
 
+"You have an upload in progress. Do you want exit ?": Vous avez des fichiers en cours d'envoi. Souhaitez-vous réellement quitter la page ?
+
 # Download
 Download: Téléchargement
 Wrong password.: Mot de passe erroné.
