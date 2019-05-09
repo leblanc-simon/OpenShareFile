@@ -1,3 +1,6 @@
+**This repository is archived. Let's go to [Mozilla Send](https://github.com/mozilla/send) if you want a good Upload Website**
+
+
 OpenShareFile
 =============
 
